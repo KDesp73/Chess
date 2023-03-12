@@ -6,8 +6,8 @@ using namespace std;
 
 void printBoard(char board[][8]){
 	cout << "   ABCDEFGH" << endl << endl;
-	for(int i=0; i < sizeof(board); i++){
-		cout << 8 - i << "  ";
+	for(int i=sizeof(board)-1; i >= 0 ; i--){
+		cout << i+1 << "  ";
 		for(int j=0; j < sizeof(board[i]); j++){
 			cout << board[i][j];
 		}
@@ -19,34 +19,28 @@ void printBoard(char board[][8]){
 int* translateMove(string move){
 	string letters = "abcdefgh";
 	
-	int x = letters.find(move.at(0));
-	int y = move.at(1) - 48 - 1;
+	int x = move.at(1) - 48 - 1;
+	int y = letters.find(move.at(0));
+	
 	
 	if((move.length() < 0 || move.length() > 2) || ((x < 0 || x > 7) && (y < 0 || y > 7))) {
 		cout << "Invalid move";
 		return NULL;
 	}
 	
-	static int coords[] = {x, y};
+	int* coords = new int[2];
 	
-	return fixCoords(coords);
-}
-
-int* fixCoords(int* coords){
-	int temp = *coords;
-	temp = 7 - temp;
-	
-	*coords = temp;
+	coords[0] = x;
+	coords[1] = y;
 	
 	return coords;
 }
 
 void makeMove(string from, string to, char board[][8]){
-	int* fromCoords = translateMove(from);
-	int* toCoords = translateMove(to);
-	
-	printCoords(fromCoords);
-	printCoords(toCoords);
+	int* fromCoords = new int[2];
+	fromCoords = translateMove(from);
+	int* toCoords = new int[2];
+	toCoords = translateMove(to);
 	
 	if(fromCoords == NULL || toCoords == NULL) return;
 	
@@ -54,44 +48,51 @@ void makeMove(string from, string to, char board[][8]){
 	
 	cout << "Piece to move: |" << piece << "|" << endl;
 	
+	board[*fromCoords][*(fromCoords+1)] = ' ';
+	board[*toCoords][*(toCoords+1)] = piece;
 	
-	
+	delete[] fromCoords;
+	delete[] toCoords;
 }
 
 
 char pieceToMove(string move, char board[][8]){
 	int* coords = translateMove(move);
 	
-	return pieceFromCoords(*coords, *(coords+1), board);
+	return pieceToMove(coords, board);
 }
 
-char pieceFromCoords(int x, int y, char board[][8]){
-	return board[y][x];
+char pieceToMove(int* coords, char board[][8]){
+	return board[*coords][*(coords+1)];
 }
 
 void printCoords(int* coords){
 	cout << "(" << *coords << ", " << *(coords+1) << ")" << endl;
 }
 
+void printCoords(string move){
+	int* coords = translateMove(move);
+	
+	cout << move << " is "<< "(" << *coords << ", " << *(coords+1) << ")" << endl;
+}
+
 int main(int argc, char** argv) {
 	char board[][8] = {
-	{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
-	{'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
 	{'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-	{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	{'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+	{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
 	};
 	
 	printBoard(board);
 	
-	cout << "Piece: " << pieceFromCoords(4, 6, board) << endl;
-	cout << "Piece: " << pieceToMove("e2", board);
+	makeMove("e2", "e4", board);
 	
-	
-	//printCoords(translateMove("e4"));
+	printBoard(board);
 	
 	
 	return 0;
