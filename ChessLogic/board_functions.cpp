@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 #include "declarations.h"
-#include "Pieces/piece_declarations.h"
+#include "piece_declarations.h"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ void printBoard(char board[][8]){
 
 void scanBoard(Piece whitePieces[], Piece blackPieces[], char board[][8]){
 	for(int i=0; i < sizeof(whitePieces); i++){
-		string square = whitePieces[i]; 
+		//string square = whitePieces[i]; 
 	}	
 }
 
@@ -84,5 +84,5 @@ void printCoords(int* coords){
 void printCoords(string square){
 	int* coords = translateSquare(square);
 	
-	cout << move << " is " << "(" << *coords << ", " << *(coords+1) << ")" << endl;
+	cout << square << " is " << "(" << *coords << ", " << *(coords+1) << ")" << endl;
 }
