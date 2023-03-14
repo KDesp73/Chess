@@ -25,6 +25,8 @@ void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]){
 		int* coords = translateSquare(square);
 		
 		board[*coords][*(coords+1)] = whitePieces[i].boardChar;
+	
+		delete[] coords;
 	}
 	
 	for(int i=0; i < 16; i++){
@@ -33,6 +35,8 @@ void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]){
 		int* coords = translateSquare(square);
 		
 		board[*coords][*(coords+1)] = blackPieces[i].boardChar;
+	
+		delete[] coords;
 	}	
 }
 
@@ -77,7 +81,7 @@ void makeMove(string from, string to, char board[][8]){
 	
 	char piece = pieceToMove(from, board);
 	
-	cout << "Piece to move: |" << piece << "|" << endl;
+	//cout << "Piece to move: |" << piece << "|" << endl;
 	
 	board[*fromCoords][*(fromCoords+1)] = ' ';
 	board[*toCoords][*(toCoords+1)] = piece;

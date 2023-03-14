@@ -32,7 +32,11 @@ int main(int argc, char** argv) {
 	WhitePieces wp;
 	BlackPieces bp;
 	
-	scanBoard(wp.whitePieces, bp.blackPieces, emptyBoard);
+	scanBoard(wp.pieces, bp.pieces, emptyBoard);
+	
+	printBoard(emptyBoard);
+	
+	wp.pieces[3].move("a4", emptyBoard);
 	
 	printBoard(emptyBoard);
 	

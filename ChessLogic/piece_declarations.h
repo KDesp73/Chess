@@ -97,54 +97,56 @@ class King: public Piece {
 		}
 };
 
-class WhitePieces{
+class Pieces{	
 	public:
-		Piece* whitePieces = new Piece[16];
-		
-		WhitePieces(){
-			whitePieces[0] = Rook("a1", "white");
-			whitePieces[1] = Knight("b1", "white");
-			whitePieces[2] = Bishop("c1", "white");
-			whitePieces[3] = Queen("d1", "white");
-			whitePieces[4] = King("e1", "white");
-			whitePieces[5] = Bishop("f1", "white");
-			whitePieces[6] = Knight("g1", "white");
-			whitePieces[7] = Rook("h1", "white");
-			whitePieces[8] = Pawn("a2", "white");
-			whitePieces[9] = Pawn("b2", "white");
-			whitePieces[10] = Pawn("c2", "white");
-			whitePieces[11] = Pawn("d2", "white");
-			whitePieces[12] = Pawn("e2", "white");
-			whitePieces[13] = Pawn("f2", "white");
-			whitePieces[14] = Pawn("g2", "white");
-			whitePieces[15] = Pawn("h2", "white");
+		Piece* pieces = new Piece[16];
+		Pieces(){	
 		}
 		
 		void printPieces();
+		int pieceToInt(char piece);
 };
 
-class BlackPieces{
+class WhitePieces: public Pieces{
 	public:
-		Piece* blackPieces = new Piece[16];
-		
-		BlackPieces(){
-			blackPieces[0] = Rook("a8", "black");
-			blackPieces[1] = Knight("b8", "black");
-			blackPieces[2] = Bishop("c8", "black");
-			blackPieces[3] = Queen("d8", "black");
-			blackPieces[4] = King("e8", "black");
-			blackPieces[5] = Bishop("f8", "black");
-			blackPieces[6] = Knight("g8", "black");
-			blackPieces[7] = Rook("h8", "black");
-			blackPieces[8] = Pawn("a7", "black");
-			blackPieces[9] = Pawn("b7", "black");
-			blackPieces[10] = Pawn("c7", "black");
-			blackPieces[11] = Pawn("d7", "black");
-			blackPieces[12] = Pawn("e7", "black");
-			blackPieces[13] = Pawn("f7", "black");
-			blackPieces[14] = Pawn("g7", "black");
-			blackPieces[15] = Pawn("h7", "black");
+		WhitePieces() : Pieces(){
+			pieces[0] = Rook("a1", "white");
+			pieces[1] = Knight("b1", "white");
+			pieces[2] = Bishop("c1", "white");
+			pieces[3] = Queen("d1", "white");
+			pieces[4] = King("e1", "white");
+			pieces[5] = Bishop("f1", "white");
+			pieces[6] = Knight("g1", "white");
+			pieces[7] = Rook("h1", "white");
+			pieces[8] = Pawn("a2", "white");
+			pieces[9] = Pawn("b2", "white");
+			pieces[10] = Pawn("c2", "white");
+			pieces[11] = Pawn("d2", "white");
+			pieces[12] = Pawn("e2", "white");
+			pieces[13] = Pawn("f2", "white");
+			pieces[14] = Pawn("g2", "white");
+			pieces[15] = Pawn("h2", "white");
 		}
-		
-		void printPieces();
+};
+
+class BlackPieces: public Pieces{
+	public:
+		BlackPieces() : Pieces(){
+			pieces[0] = Rook("a8", "black");
+			pieces[1] = Knight("b8", "black");
+			pieces[2] = Bishop("c8", "black");
+			pieces[3] = Queen("d8", "black");
+			pieces[4] = King("e8", "black");
+			pieces[5] = Bishop("f8", "black");
+			pieces[6] = Knight("g8", "black");
+			pieces[7] = Rook("h8", "black");
+			pieces[8] = Pawn("a7", "black");
+			pieces[9] = Pawn("b7", "black");
+			pieces[10] = Pawn("c7", "black");
+			pieces[11] = Pawn("d7", "black");
+			pieces[12] = Pawn("e7", "black");
+			pieces[13] = Pawn("f7", "black");
+			pieces[14] = Pawn("g7", "black");
+			pieces[15] = Pawn("h7", "black");
+		}
 };
