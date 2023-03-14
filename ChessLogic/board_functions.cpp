@@ -7,6 +7,7 @@
 using namespace std;
 
 void printBoard(char board[][8]){
+	cout << "-------------------------------------------------" << endl << endl;
 	cout << "   ABCDEFGH" << endl << endl;
 	for(int i=sizeof(board)-1; i >= 0 ; i--){
 		cout << i+1 << "  ";
@@ -16,6 +17,7 @@ void printBoard(char board[][8]){
 		cout << endl;
 	}
 	cout << endl << "   ABCDEFGH" << endl << endl;
+	
 }
 
 void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]){
@@ -101,4 +103,17 @@ void printCoords(string square){
 	int* coords = translateSquare(square);
 	
 	cout << square << " is " << "(" << *coords << ", " << *(coords+1) << ")" << endl;
+}
+
+void emptyBoard(char board[][8]){
+	/*board = {
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	};*/
 }

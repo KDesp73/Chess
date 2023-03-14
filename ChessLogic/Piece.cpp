@@ -4,6 +4,8 @@
 
 void Piece::move(string to, char board[][8]){
 	makeMove(currentSquare, to, board);
+	
+	currentSquare = to;
 }
 
 void Piece::printPiece(){

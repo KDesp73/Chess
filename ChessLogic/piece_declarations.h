@@ -23,6 +23,7 @@ class Piece {
 		}
 		void move(string to, char board[][8]);
 		void printPiece();
+		bool isValidMove(string to, char board[][8]);
 };
 
 class Pawn: public Piece {
@@ -34,6 +35,8 @@ class Pawn: public Piece {
 				this->boardChar = 'p';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 
@@ -47,6 +50,8 @@ class Rook: public Piece {
 				this->boardChar = 'r';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 class Knight: public Piece {
@@ -59,6 +64,8 @@ class Knight: public Piece {
 				this->boardChar = 'n';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 class Bishop: public Piece {
@@ -71,6 +78,8 @@ class Bishop: public Piece {
 				this->boardChar = 'b';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 class Queen: public Piece {
@@ -83,6 +92,8 @@ class Queen: public Piece {
 				this->boardChar = 'q';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 class King: public Piece {
@@ -95,6 +106,8 @@ class King: public Piece {
 				this->boardChar = 'k';
 			}
 		}
+		void move(string to, char board[][8]);
+		bool isValidMove(string to, char board[][8]);
 };
 
 class Pieces{	
@@ -105,6 +118,7 @@ class Pieces{
 		
 		void printPieces();
 		int pieceToInt(char piece);
+		Piece* pieceInSquare(string square, char board[][8]);
 };
 
 class WhitePieces: public Pieces{

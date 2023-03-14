@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+//board_functions.cpp
 void printBoard(char board[][8]);
 
 int* translateSquare(string move);
@@ -23,3 +23,11 @@ void printCoords(int* coords);
 void printCoords(string move);
 
 void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]);
+
+void emptyBoard(char board[][8]);
+
+
+//game_logic.cpp
+void start();
+void promt(Pieces p, char board[][8]);
+

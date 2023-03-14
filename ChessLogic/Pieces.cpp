@@ -6,3 +6,10 @@ void Pieces::printPieces(){
 	}
 	cout << endl;
 }
+
+Piece* Pieces::pieceInSquare(string square, char board[][8]){
+	for(int i=0; i < 16; i++){
+		if(pieces[i].currentSquare == square) return &pieces[i];
+	}
+	return NULL;
+}
