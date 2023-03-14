@@ -30,10 +30,12 @@ int main(int argc, char** argv) {
 	};
 	
 	WhitePieces wp;
+	BlackPieces bp;
 	
-	wp.printPieces();
+	scanBoard(wp.whitePieces, bp.blackPieces, emptyBoard);
 	
-
+	printBoard(emptyBoard);
+	
 			
 	
 	

@@ -18,9 +18,21 @@ void printBoard(char board[][8]){
 	cout << endl << "   ABCDEFGH" << endl << endl;
 }
 
-void scanBoard(Piece whitePieces[], Piece blackPieces[], char board[][8]){
-	for(int i=0; i < sizeof(whitePieces); i++){
-		//string square = whitePieces[i]; 
+void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]){
+	for(int i=0; i < 16; i++){
+		string square = whitePieces[i].currentSquare;
+		
+		int* coords = translateSquare(square);
+		
+		board[*coords][*(coords+1)] = whitePieces[i].boardChar;
+	}
+	
+	for(int i=0; i < 16; i++){
+		string square = blackPieces[i].currentSquare;
+		
+		int* coords = translateSquare(square);
+		
+		board[*coords][*(coords+1)] = blackPieces[i].boardChar;
 	}	
 }
 
