@@ -1,4 +1,4 @@
-
+#include <cstdlib>
 #include "declarations.h"
 
 void Pawn::move(string to, char board[][8]){
@@ -8,7 +8,6 @@ void Pawn::move(string to, char board[][8]){
 }
 
 bool Pawn::isValidMove(string to, char board[][8]){
-	cout << "isValidMove"<<endl;
 	char file = currentSquare.at(0);
 	int rank = currentSquare.at(1) - 48;
 	
@@ -24,6 +23,12 @@ bool Pawn::isValidMove(string to, char board[][8]){
 	if(rank >= toRank) return false;
 	if(file != toFile) return false; 
 	if(board[*toCoords][*(toCoords+1)] != ' ') return false;
+	if(rank == 2 || rank == 7){
+		if(abs(rank-toRank) > 2) return false;
+		else if(abs(rank-toRank) == 2) && (board[fi!!!le][toRank-1] != ' ') return false;
+	} else {
+		if(abs(rank-toRank) > 1) return false;
+	}
 	
 	
 	return true;
