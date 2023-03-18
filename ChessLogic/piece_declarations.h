@@ -113,6 +113,8 @@ class King: public Piece {
 class Pieces{	
 	public:
 		Piece* pieces = new Piece[16];
+		string color;
+		
 		Pieces(){	
 		}
 		
@@ -124,6 +126,8 @@ class Pieces{
 class WhitePieces: public Pieces{
 	public:
 		WhitePieces() : Pieces(){
+			this->color = "white";
+			
 			pieces[0] = Rook("a1", "white");
 			pieces[1] = Knight("b1", "white");
 			pieces[2] = Bishop("c1", "white");
@@ -146,6 +150,8 @@ class WhitePieces: public Pieces{
 class BlackPieces: public Pieces{
 	public:
 		BlackPieces() : Pieces(){
+			this->color = "black";
+			
 			pieces[0] = Rook("a8", "black");
 			pieces[1] = Knight("b8", "black");
 			pieces[2] = Bishop("c8", "black");

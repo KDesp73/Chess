@@ -54,5 +54,17 @@ void promt(Pieces p, char board[][8]){
 	
 	Piece pieceToMove = (*p.pieceInSquare(from, board));
 	
+	if(&pieceToMove == NULL) {
+		cout << "Nothing in " << from << " square" << endl;
+		return;
+	} 
+	if(pieceToMove.color != p.color) {
+		cout << "You cannot move the enemy pieces" << endl;
+		return;
+	}
+	
 	pieceToMove.move(to, board);
+	
+	
+	
 }
