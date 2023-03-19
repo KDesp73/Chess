@@ -8,6 +8,7 @@ class Piece {
 		string currentSquare;
 		string color;
 		char boardChar;
+		int value;
 		
 		Piece(){
 		}
@@ -29,6 +30,7 @@ class Piece {
 class Pawn: public Piece {
 	public:
 		Pawn(string currentSquare, string color) : Piece(currentSquare, color){
+			value = 1;
 			if(color == "white"){
 				this->boardChar = 'P';
 			} else {
@@ -43,7 +45,7 @@ class Pawn: public Piece {
 class Rook: public Piece {
 	public:
 		Rook(string currentSquare, string color) : Piece(currentSquare, color){
-			
+			value = 5;
 			if(color == "white"){
 				this->boardChar = 'R';
 			} else {
@@ -57,7 +59,7 @@ class Rook: public Piece {
 class Knight: public Piece {
 	public:
 		Knight(string currentSquare, string color) : Piece(currentSquare, color){
-			
+			value = 3;
 			if(color == "white"){
 				this->boardChar = 'N';
 			} else {
@@ -71,7 +73,7 @@ class Knight: public Piece {
 class Bishop: public Piece {
 	public:
 		Bishop(string currentSquare, string color) : Piece(currentSquare, color){
-			
+			value = 3;
 			if(color == "white"){
 				this->boardChar = 'B';
 			} else {
@@ -85,7 +87,7 @@ class Bishop: public Piece {
 class Queen: public Piece {
 	public:
 		Queen(string currentSquare, string color) : Piece(currentSquare, color){
-			
+			value = 9;
 			if(color == "white"){
 				this->boardChar = 'Q';
 			} else {
@@ -99,7 +101,7 @@ class Queen: public Piece {
 class King: public Piece {
 	public:
 		King(string currentSquare, string color) : Piece(currentSquare, color){
-			
+			value = 10000;
 			if(color == "white"){
 				this->boardChar = 'K';
 			} else {
