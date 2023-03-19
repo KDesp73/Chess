@@ -25,7 +25,7 @@ bool Pawn::isValidMove(string to, char board[][8]){
 	if(board[*toCoords][*(toCoords+1)] != ' ') return false;
 	if(rank == 2 || rank == 7){
 		if(abs(rank-toRank) > 2) return false;
-		else if(abs(rank-toRank) == 2) && (board[fi!!!le][toRank-1] != ' ') return false;
+		else if((abs(rank-toRank) == 2) && (board[*toCoords-1][*(toCoords+1)] != ' ')) return false;
 	} else {
 		if(abs(rank-toRank) > 1) return false;
 	}
