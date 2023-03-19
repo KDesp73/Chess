@@ -50,7 +50,7 @@ int* translateSquare(string square){
 	
 	
 	if((square.length() < 0 || square.length() > 2) || ((x < 0 || x > 7) && (y < 0 || y > 7))) {
-		cout << "Invalid move";
+		cout << "Invalid square";
 		return NULL;
 	}
 	

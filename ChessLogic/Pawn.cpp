@@ -20,6 +20,7 @@ bool Pawn::isValidMove(string to, char board[][8]){
 	
 	int* toCoords = translateSquare(to);
 	
+	if(currentSquare == to) return false;
 	if(rank >= toRank) return false;
 	if(file != toFile) return false; 
 	if(board[*toCoords][*(toCoords+1)] != ' ') return false;
