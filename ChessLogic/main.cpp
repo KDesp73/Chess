@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv) {
 	//start();
-	
+	 
 	char emptyBoard[][8] = {
 		{'R', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
 	
-	Rook* r = new Rook("a1", "white");
+	Rook* r = new Rook("a8", "white");
 	cout << "Is valid? > " << r->isValidMove("a6", emptyBoard) << endl;
 	
 	return 0;

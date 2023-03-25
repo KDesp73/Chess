@@ -10,8 +10,12 @@ class Piece {
 		char boardChar;
 		int value;
 		
+		virtual ~Piece(){
+		}
+		
 		Piece(){
 		}
+		
 		
 		Piece(string currentSquare, string color){
 			if(color != "white" && color != "black"){
@@ -22,14 +26,16 @@ class Piece {
 			this->currentSquare = currentSquare;
 			this->color = color;
 		}
-		void move(string to, char board[][8]);
-		void printPiece();
-		bool isValidMove(string to, char board[][8]);
+		virtual void move(string to, char board[][8]);
+		virtual void printPiece();
+		virtual bool isValidMove(string to, char board[][8]){
+		}
 };
 
 class Pawn: public Piece {
 	public:
-		Pawn(string currentSquare, string color) : Piece(currentSquare, color){
+		Pawn(string currentSquare, string color) {
+			//Piece::Piece(currentSquare, color);
 			value = 1;
 			if(color == "white"){
 				this->boardChar = 'P';
@@ -37,14 +43,15 @@ class Pawn: public Piece {
 				this->boardChar = 'p';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
 
 
 class Rook: public Piece {
 	public:
-		Rook(string currentSquare, string color) : Piece(currentSquare, color){
+		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
+			
 			value = 5;
 			if(color == "white"){
 				this->boardChar = 'R';
@@ -52,8 +59,8 @@ class Rook: public Piece {
 				this->boardChar = 'r';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
 
 class Knight: public Piece {
@@ -66,8 +73,8 @@ class Knight: public Piece {
 				this->boardChar = 'n';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		virtual void move(string to, char board[][8]);
+		virtual bool isValidMove(string to, char board[][8]);
 };
 
 class Bishop: public Piece {
@@ -80,8 +87,8 @@ class Bishop: public Piece {
 				this->boardChar = 'b';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		virtual void move(string to, char board[][8]);
+		virtual bool isValidMove(string to, char board[][8]);
 };
 
 class Queen: public Piece {
@@ -94,8 +101,8 @@ class Queen: public Piece {
 				this->boardChar = 'q';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		virtual void move(string to, char board[][8]);
+		virtual bool isValidMove(string to, char board[][8]);
 };
 
 class King: public Piece {
@@ -108,21 +115,21 @@ class King: public Piece {
 				this->boardChar = 'k';
 			}
 		}
-		void move(string to, char board[][8]);
-		bool isValidMove(string to, char board[][8]);
+		virtual void move(string to, char board[][8]);
+		virtual bool isValidMove(string to, char board[][8]);
 };
 
 class Pieces{	
 	public:
-		Piece* pieces = new Piece[16];
+		Piece* pieces [16];
 		string color;
 		
 		Pieces(){	
 		}
 		
 		void printPieces();
-		int pieceToInt(char piece);
-		Piece* pieceInSquare(string square, char board[][8]);
+		virtual int pieceToInt(char piece);
+		virtual Piece* pieceInSquare(string square, char board[][8]);
 };
 
 class WhitePieces: public Pieces{
@@ -130,22 +137,22 @@ class WhitePieces: public Pieces{
 		WhitePieces() : Pieces(){
 			this->color = "white";
 			
-			pieces[0] = Rook("a1", "white");
-			pieces[1] = Knight("b1", "white");
-			pieces[2] = Bishop("c1", "white");
-			pieces[3] = Queen("d1", "white");
-			pieces[4] = King("e1", "white");
-			pieces[5] = Bishop("f1", "white");
-			pieces[6] = Knight("g1", "white");
-			pieces[7] = Rook("h1", "white");
-			pieces[8] = Pawn("a2", "white");
-			pieces[9] = Pawn("b2", "white");
-			pieces[10] = Pawn("c2", "white");
-			pieces[11] = Pawn("d2", "white");
-			pieces[12] = Pawn("e2", "white");
-			pieces[13] = Pawn("f2", "white");
-			pieces[14] = Pawn("g2", "white");
-			pieces[15] = Pawn("h2", "white");
+			pieces[0] = new Rook("a1", "white");
+			pieces[1] = new Knight("b1", "white");
+			pieces[2] = new Bishop("c1", "white");
+			pieces[3] = new Queen("d1", "white");
+			pieces[4] = new King("e1", "white");
+			pieces[5] = new Bishop("f1", "white");
+			pieces[6] = new Knight("g1", "white");
+			pieces[7] = new Rook("h1", "white");
+			pieces[8] = new Pawn("a2", "white");
+			pieces[9] = new Pawn("b2", "white");
+			pieces[10] = new Pawn("c2", "white");
+			pieces[11] = new Pawn("d2", "white");
+			pieces[12] = new Pawn("e2", "white");
+			pieces[13] = new Pawn("f2", "white");
+			pieces[14] = new Pawn("g2", "white");
+			pieces[15] = new Pawn("h2", "white");
 		}
 };
 
@@ -154,21 +161,21 @@ class BlackPieces: public Pieces{
 		BlackPieces() : Pieces(){
 			this->color = "black";
 			
-			pieces[0] = Rook("a8", "black");
-			pieces[1] = Knight("b8", "black");
-			pieces[2] = Bishop("c8", "black");
-			pieces[3] = Queen("d8", "black");
-			pieces[4] = King("e8", "black");
-			pieces[5] = Bishop("f8", "black");
-			pieces[6] = Knight("g8", "black");
-			pieces[7] = Rook("h8", "black");
-			pieces[8] = Pawn("a7", "black");
-			pieces[9] = Pawn("b7", "black");
-			pieces[10] = Pawn("c7", "black");
-			pieces[11] = Pawn("d7", "black");
-			pieces[12] = Pawn("e7", "black");
-			pieces[13] = Pawn("f7", "black");
-			pieces[14] = Pawn("g7", "black");
-			pieces[15] = Pawn("h7", "black");
+			pieces[0] = new Rook("a8", "black");
+			pieces[1] = new Knight("b8", "black");
+			pieces[2] = new Bishop("c8", "black");
+			pieces[3] = new Queen("d8", "black");
+			pieces[4] = new King("e8", "black");
+			pieces[5] = new Bishop("f8", "black");
+			pieces[6] = new Knight("g8", "black");
+			pieces[7] = new Rook("h8", "black");
+			pieces[8] = new Pawn("a7", "black");
+			pieces[9] = new Pawn("b7", "black");
+			pieces[10] = new Pawn("c7", "black");
+			pieces[11] = new Pawn("d7", "black");
+			pieces[12] = new Pawn("e7", "black");
+			pieces[13] = new Pawn("f7", "black");
+			pieces[14] = new Pawn("g7", "black");
+			pieces[15] = new Pawn("h7", "black");
 		}
 };

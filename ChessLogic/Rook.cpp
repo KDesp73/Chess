@@ -7,9 +7,10 @@ void Rook::move(string to, char board[][8]){
 	if(!isValidMove(to, board)) return;
 	
 	Piece::move(to, board);
+
 }
 
-bool Rook::isValidMove(string to, char board[][8]){
+bool Rook::isValidMove(string to, char board[][8]) {
 	char file = currentSquare.at(0);
 	int rank = currentSquare.at(1) - 48;
 	
