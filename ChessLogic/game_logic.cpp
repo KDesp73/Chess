@@ -1,7 +1,7 @@
 #include <iostream>
 
 
-#include "declarations.h"
+#include "board_declarations.h"
 #include "piece_declarations.h"
 
 
@@ -33,14 +33,15 @@ void start(){
 	
 	
 	printBoard(empty_board);
-	scanBoard(wp->pieces, bp->pieces, empty_board);
+	//scanBoard(wp->pieces, bp->pieces, empty_board);
 	printBoard(empty_board);
 	
 	promt(wp, empty_board);
 	
 	printBoard(empty_board);
 	
-	emptyBoard(&(empty_board));
+
+	emptyBoard( empty_board );
 	
 	scanBoard(wp->pieces, bp->pieces, empty_board);
 	printBoard(empty_board);

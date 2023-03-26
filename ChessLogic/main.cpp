@@ -1,14 +1,15 @@
 #include <iostream>
 #include <string>
 
-#include "declarations.h"
+#include "board_declarations.h"
 #include "piece_declarations.h"
+#include "notation.h"
 
 
 
 int main(int argc, char** argv) {
-	start();
-	 
+	//start();
+	 /*
 	char emptyBoard[][8] = {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -19,8 +20,29 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
+	*/
 	
 	
+	while(true){
+		char emptyBoard[][8] = {
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+			{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		};
+		
+		string fen;
+		cout << "Enter fen: ";
+		cin >> fen;
+		
+		importFEN(fen, emptyBoard);
+		
+		printBoard(emptyBoard);
+	}
 	
 	return 0;
 }
