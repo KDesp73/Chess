@@ -73,8 +73,8 @@ class Knight: public Piece {
 				this->boardChar = 'n';
 			}
 		}
-		virtual void move(string to, char board[][8]);
-		virtual bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
 
 class Bishop: public Piece {
@@ -87,8 +87,8 @@ class Bishop: public Piece {
 				this->boardChar = 'b';
 			}
 		}
-		virtual void move(string to, char board[][8]);
-		virtual bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
 
 class Queen: public Piece {
@@ -101,8 +101,8 @@ class Queen: public Piece {
 				this->boardChar = 'q';
 			}
 		}
-		virtual void move(string to, char board[][8]);
-		virtual bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
 
 class King: public Piece {
@@ -115,67 +115,72 @@ class King: public Piece {
 				this->boardChar = 'k';
 			}
 		}
-		virtual void move(string to, char board[][8]);
-		virtual bool isValidMove(string to, char board[][8]);
+		void move(string to, char board[][8]) override;
+		bool isValidMove(string to, char board[][8]) override;
 };
+
+/*==========================={ Pieces }===========================*/
 
 class Pieces{	
 	public:
-		Piece* pieces [16];
+		Piece* pieces[16];
 		string color;
+		
+		virtual ~Pieces(){
+		}
 		
 		Pieces(){	
 		}
 		
 		void printPieces();
-		virtual int pieceToInt(char piece);
-		virtual Piece* pieceInSquare(string square, char board[][8]);
+		int pieceToInt(char piece){}
+		Piece* pieceInSquare(string square, char board[][8]);
 };
 
 class WhitePieces: public Pieces{
 	public:
-		WhitePieces() : Pieces(){
+		WhitePieces(){
 			this->color = "white";
 			
-			pieces[0] = new Rook("a1", "white");
-			pieces[1] = new Knight("b1", "white");
-			pieces[2] = new Bishop("c1", "white");
-			pieces[3] = new Queen("d1", "white");
-			pieces[4] = new King("e1", "white");
-			pieces[5] = new Bishop("f1", "white");
-			pieces[6] = new Knight("g1", "white");
-			pieces[7] = new Rook("h1", "white");
-			pieces[8] = new Pawn("a2", "white");
-			pieces[9] = new Pawn("b2", "white");
-			pieces[10] = new Pawn("c2", "white");
-			pieces[11] = new Pawn("d2", "white");
-			pieces[12] = new Pawn("e2", "white");
-			pieces[13] = new Pawn("f2", "white");
-			pieces[14] = new Pawn("g2", "white");
-			pieces[15] = new Pawn("h2", "white");
+			pieces[0] = new Rook("a1", color);
+			pieces[1] = new Knight("b1", color);
+			pieces[2] = new Bishop("c1", color);
+			pieces[3] = new Queen("d1", color);
+			pieces[4] = new King("e1", color);
+			pieces[5] = new Bishop("f1", color);
+			pieces[6] = new Knight("g1", color);
+			pieces[7] = new Rook("h1", color);
+			pieces[8] = new Pawn("a2", color);
+			pieces[9] = new Pawn("b2", color);
+			pieces[10] = new Pawn("c2", color);
+			pieces[11] = new Pawn("d2", color);
+			pieces[12] = new Pawn("e2", color);
+			pieces[13] = new Pawn("f2", color);
+			pieces[14] = new Pawn("g2", color);
+			pieces[15] = new Pawn("h2", color);
 		}
 };
 
 class BlackPieces: public Pieces{
 	public:
-		BlackPieces() : Pieces(){
+		BlackPieces(){
 			this->color = "black";
 			
-			pieces[0] = new Rook("a8", "black");
-			pieces[1] = new Knight("b8", "black");
-			pieces[2] = new Bishop("c8", "black");
-			pieces[3] = new Queen("d8", "black");
-			pieces[4] = new King("e8", "black");
-			pieces[5] = new Bishop("f8", "black");
-			pieces[6] = new Knight("g8", "black");
-			pieces[7] = new Rook("h8", "black");
-			pieces[8] = new Pawn("a7", "black");
-			pieces[9] = new Pawn("b7", "black");
-			pieces[10] = new Pawn("c7", "black");
-			pieces[11] = new Pawn("d7", "black");
-			pieces[12] = new Pawn("e7", "black");
-			pieces[13] = new Pawn("f7", "black");
-			pieces[14] = new Pawn("g7", "black");
-			pieces[15] = new Pawn("h7", "black");
+			pieces[0] = new Rook("a8", color);
+			pieces[1] = new Knight("b8", color);
+			pieces[2] = new Bishop("c8", color);
+			pieces[3] = new Queen("d8", color);
+			pieces[4] = new King("e8", color);
+			pieces[5] = new Bishop("f8", color);
+			pieces[6] = new Knight("g8", color);
+			pieces[7] = new Rook("h8", color);
+			pieces[8] = new Pawn("a7", color);
+			pieces[9] = new Pawn("b7", color);
+			pieces[10] = new Pawn("c7", color);
+			pieces[11] = new Pawn("d7", color);
+			pieces[12] = new Pawn("e7", color);
+			pieces[13] = new Pawn("f7", color);
+			pieces[14] = new Pawn("g7", color);
+			pieces[15] = new Pawn("h7", color);
 		}
 };

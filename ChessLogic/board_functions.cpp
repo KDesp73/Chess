@@ -20,26 +20,20 @@ void printBoard(char board[][8]){
 	
 }
 
-void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]){
+void scanBoard(Piece* whitePieces[16], Piece* blackPieces[16], char board[][8]){
 	for(int i=0; i < 16; i++){
-		string square = whitePieces[i].currentSquare;
+		string white_square = whitePieces[i]->currentSquare;
+		string black_square = blackPieces[i]->currentSquare;
 		
-		int* coords = translateSquare(square);
+		int* white_coords = translateSquare(white_square);
+		int* black_coords = translateSquare(black_square);
 		
-		board[*coords][*(coords+1)] = whitePieces[i].boardChar;
+		board[*white_coords][*(white_coords+1)] = whitePieces[i]->boardChar;
+		board[*black_coords][*(black_coords+1)] = blackPieces[i]->boardChar;
 	
-		delete[] coords;
+		delete[] white_coords;
+		delete[] black_coords;
 	}
-	
-	for(int i=0; i < 16; i++){
-		string square = blackPieces[i].currentSquare;
-		
-		int* coords = translateSquare(square);
-		
-		board[*coords][*(coords+1)] = blackPieces[i].boardChar;
-	
-		delete[] coords;
-	}	
 }
 
 int* translateSquare(string square){
@@ -105,15 +99,12 @@ void printCoords(string square){
 	cout << square << " is " << "(" << *coords << ", " << *(coords+1) << ")" << endl;
 }
 
-void emptyBoard(char board[][8]){
-	/*board = {
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-	};*/
+void emptyBoard(char* board[][8]){
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 8; j++){
+			*(board[i][j])= ' ';
+		}
+	}	
 }
+
+

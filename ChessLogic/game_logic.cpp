@@ -2,6 +2,8 @@
 
 
 #include "declarations.h"
+#include "piece_declarations.h"
+
 
 void start(){
 	char board[][8] = {
@@ -12,10 +14,10 @@ void start(){
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-		{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
+		{'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}
 	};
 
-	char emptyBoard[][8] = {
+	char empty_board[][8] = {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -23,28 +25,30 @@ void start(){
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
 	};
 	
-	WhitePieces wp;
-	BlackPieces bp;
+	Pieces* wp = new WhitePieces();
+	Pieces* bp = new BlackPieces();
 	
-	scanBoard(wp.pieces, bp.pieces, emptyBoard);
-	printBoard(emptyBoard);
 	
-	promt(wp, emptyBoard);
+	printBoard(empty_board);
+	scanBoard(wp->pieces, bp->pieces, empty_board);
+	printBoard(empty_board);
 	
-	printBoard(emptyBoard);
+	promt(wp, empty_board);
 	
-	//emptyBoard(emptyBoard);
+	printBoard(empty_board);
 	
-	//scanBoard(wp.pieces, bp.pieces, emptyBoard);
-	//printBoard(emptyBoard);
+	emptyBoard(&(empty_board));
+	
+	scanBoard(wp->pieces, bp->pieces, empty_board);
+	printBoard(empty_board);
 	
 	
 }
 
-void promt(Pieces p, char board[][8]){
+void promt(Pieces* p, char board[][8]){
 	string from, to;
 	cout << "From: ";
 	cin >> from;
@@ -52,19 +56,16 @@ void promt(Pieces p, char board[][8]){
 	cin >> to;
 	cout << endl;
 	
-	Piece pieceToMove = (*p.pieceInSquare(from, board));
+	Piece pieceToMove = *(p->pieceInSquare(from, board));
 	
 	if(&pieceToMove == NULL) {
 		cout << "Nothing in " << from << " square" << endl;
 		return;
 	} 
-	if(pieceToMove.color != p.color) {
+	if(pieceToMove.color != p->color) {
 		cout << "You cannot move the enemy pieces" << endl;
 		return;
 	}
 	
 	pieceToMove.move(to, board);
-	
-	
-	
 }

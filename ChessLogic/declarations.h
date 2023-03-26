@@ -22,13 +22,13 @@ void printCoords(int* coords);
 
 void printCoords(string move);
 
-void scanBoard(Piece* whitePieces, Piece* blackPieces, char board[][8]);
+void scanBoard(Piece* whitePieces[16], Piece* blackPieces[16], char board[][8]);
 
-void emptyBoard(char board[][8]);
+void emptyBoard(char* board[][8]);
 
 
 //game_logic.cpp
 void start();
 
-void promt(Pieces p, char board[][8]);
+void promt(Pieces* p, char board[][8]);
 

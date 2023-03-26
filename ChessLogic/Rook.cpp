@@ -23,9 +23,9 @@ bool Rook::isValidMove(string to, char board[][8]) {
 	
 	int* toCoords = translateSquare(to);
 	
-	if((file != toFile) && (rank != toRank)) return false;
-	if(currentSquare == to) return false;
-	if(board[*toCoords][*(toCoords+1)] != ' ') return false;
+	if((file != toFile) && (rank != toRank)) return false; // No diagonal movement
+	if(currentSquare == to) return false; // No move to currentSquare
+	//if(board[*toCoords][*(toCoords+1)] != ' ') return false; //
 	
 	if(file == toFile){
 		for(int i=1; i < abs(file-toFile); i++){
