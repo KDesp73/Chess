@@ -62,4 +62,21 @@ void addSpaces(int row, int starting, int numberOfSpaces, char board[][8]){
 	}
 }
 
+string exportFEN(char board[][8]){
+	string fen = "";
+
+	for(int i=0; i < 8; i++){
+		
+		if(i != 0) fen += '/';
+		
+		for(int j=0; j < 8; j++){
+			fen += board[7-i][j];
+		}
+		cout << fen << endl;
+	}
+	
+	cout << fen << endl;
+	return fen;
+}
+
  
