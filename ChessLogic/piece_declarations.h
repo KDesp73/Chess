@@ -133,7 +133,7 @@ class Pieces{
 		}
 		
 		void printPieces();
-		int pieceToInt(char piece){}
+		//int pieceToInt(char piece){} // no clue why i put that here
 		Piece* pieceInSquare(string square, char board[][8]);
 };
 
@@ -142,6 +142,7 @@ class WhitePieces: public Pieces{
 		WhitePieces(){
 			this->color = "white";
 			
+			/*
 			pieces[0] = new Rook("a1", color);
 			pieces[1] = new Knight("b1", color);
 			pieces[2] = new Bishop("c1", color);
@@ -158,6 +159,7 @@ class WhitePieces: public Pieces{
 			pieces[13] = new Pawn("f2", color);
 			pieces[14] = new Pawn("g2", color);
 			pieces[15] = new Pawn("h2", color);
+			*/
 		}
 };
 
@@ -166,6 +168,7 @@ class BlackPieces: public Pieces{
 		BlackPieces(){
 			this->color = "black";
 			
+			/*
 			pieces[0] = new Rook("a8", color);
 			pieces[1] = new Knight("b8", color);
 			pieces[2] = new Bishop("c8", color);
@@ -182,5 +185,6 @@ class BlackPieces: public Pieces{
 			pieces[13] = new Pawn("f7", color);
 			pieces[14] = new Pawn("g7", color);
 			pieces[15] = new Pawn("h7", color);
+			*/
 		}
 };
