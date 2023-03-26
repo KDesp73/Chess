@@ -1,4 +1,4 @@
-#include "declarations.h"
+#include "board_declarations.h"
 #include "piece_declarations.h"
 
 

@@ -1,12 +1,14 @@
 #include <iostream>
 #include <bits/stdc++.h>
 
-#include "declarations.h"
+#include "board_declarations.h"
 #include "piece_declarations.h"
 
 using namespace std;
 
 void printBoard(char board[][8]){
+	if(sizeof(board) == 0) return;
+	
 	cout << "-------------------------------------------------" << endl << endl;
 	cout << "   ABCDEFGH" << endl << endl;
 	for(int i=sizeof(board)-1; i >= 0 ; i--){
@@ -21,12 +23,15 @@ void printBoard(char board[][8]){
 }
 
 void scanBoard(Piece* whitePieces[16], Piece* blackPieces[16], char board[][8]){
+	string white_square, black_square;
+	int *white_coords, *black_coords;
+	
 	for(int i=0; i < 16; i++){
-		string white_square = whitePieces[i]->currentSquare;
-		string black_square = blackPieces[i]->currentSquare;
+		white_square = (*(whitePieces+i))->currentSquare;
+		black_square = (*(blackPieces+i))->currentSquare;
 		
-		int* white_coords = translateSquare(white_square);
-		int* black_coords = translateSquare(black_square);
+		white_coords = translateSquare(white_square);
+		black_coords = translateSquare(black_square);
 		
 		board[*white_coords][*(white_coords+1)] = whitePieces[i]->boardChar;
 		board[*black_coords][*(black_coords+1)] = blackPieces[i]->boardChar;
@@ -99,12 +104,19 @@ void printCoords(string square){
 	cout << square << " is " << "(" << *coords << ", " << *(coords+1) << ")" << endl;
 }
 
-void emptyBoard(char* board[][8]){
+/*void emptyBoard(char (*board)[8]){
 	for(int i = 0; i < 8; i++) {
 		for(int j = 0; j < 8; j++){
-			*(board[i][j])= ' ';
+			*( *(board + i) + j) = ' ';
+		}
+	}	
+}*/
+
+void emptyBoard(char board[][8]){
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 8; j++){
+			board[i][j] = ' ';
 		}
 	}	
 }
-
 
