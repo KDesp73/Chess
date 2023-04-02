@@ -29,6 +29,7 @@ class Piece {
 		virtual void move(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){
+			return false;
 		}
 };
 

@@ -1,8 +1,8 @@
 #include <iostream>
 
 
-#include "board_declarations.h"
-#include "piece_declarations.h"
+#include "./board_declarations.h"
+#include "../Pieces/piece_declarations.h" 
 
 
 void start(){

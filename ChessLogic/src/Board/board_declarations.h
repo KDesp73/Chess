@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "piece_declarations.h" 
+#include "../Pieces/piece_declarations.h" 
 
 
 using namespace std;

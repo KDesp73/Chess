@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "board_declarations.h"
-#include "piece_declarations.h"
-#include "notation.h"
+#include "Board/board_declarations.h"
+#include "Board/notation.h"
+#include "Pieces/piece_declarations.h"
 
 void test_importFEN(){
 	while(true){
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 	};
 
 	
-	exportFEN(emptyBoard);
+	test_importFEN();
 	
 	
 	return 0;

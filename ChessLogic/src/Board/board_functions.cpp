@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 #include "board_declarations.h"
-#include "piece_declarations.h"
+#include "../Pieces/piece_declarations.h" 
 
 using namespace std;
 
