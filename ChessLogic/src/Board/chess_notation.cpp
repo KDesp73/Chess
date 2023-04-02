@@ -10,6 +10,8 @@ void addSpaces(int row, int starting, int numberOfSpaces, char board[][8]); // n
 
 string addSpaces(int index, int num, string fen); 
 
+string replaceSpaces(string fen);
+
 /*================{ /Utils }================*/
 
 
@@ -42,6 +44,25 @@ void importFEN(string fen, char board[][8]){
 	}
 }
 
+string exportFEN(char board[][8]){
+	string temp_fen = "";
+
+	for(int i=0; i < 8; i++){
+		
+		if(i != 0) temp_fen += '/';
+		
+		for(int j=0; j < 8; j++){
+			temp_fen += board[7-i][j];
+		}
+	}
+	
+	string fen = replaceSpaces(temp_fen);
+
+	return fen;
+}
+
+
+
 string addSpaces(int index, int num, string fen){
 	fen[index] = ' ';
 	
@@ -56,27 +77,28 @@ string addSpaces(int index, int num, string fen){
 	return firstHalf + spaces + secondHalf;
 }
 
+//Not used
 void addSpaces(int row, int starting, int numberOfSpaces, char board[][8]){
 	for(int i=starting; i< starting + numberOfSpaces; i++){
 		board[row][i] = ' ';
 	}
 }
 
-string exportFEN(char board[][8]){
-	string fen = "";
 
-	for(int i=0; i < 8; i++){
-		
-		if(i != 0) fen += '/';
-		
-		for(int j=0; j < 8; j++){
-			fen += board[7-i][j];
+string replaceSpaces(string fen){
+	for(int i = 0; i < fen.length(); i++){
+		if(fen[i] == ' '){
+			
+			int count = 0;
+			do{
+				count++;
+			}
+			while (fen[i+count] == ' ');
+			
+			fen.replace(i, count, to_string(count));
+
+			i++;
 		}
-		cout << fen << endl;
 	}
-	
-	cout << fen << endl;
 	return fen;
 }
-
- 

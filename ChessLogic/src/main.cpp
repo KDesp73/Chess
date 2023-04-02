@@ -28,6 +28,27 @@ void test_importFEN(){
 	}
 }
 
+void test_exportFEN(){
+	char emptyBoard[][8] = {
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+	};
+
+	string fen = "4k2r/6r1/8/8/8/8/3R4/R3K3";
+
+	importFEN(fen, emptyBoard);
+
+	printBoard(emptyBoard);
+
+	cout << "Original: " << fen << endl << "Exported: " << exportFEN(emptyBoard) << endl;
+}
+
 int main(int argc, char** argv) {
 	//start();
 
@@ -42,9 +63,5 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
 
-	
-	test_importFEN();
-	
-	
 	return 0;
 }
