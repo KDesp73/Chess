@@ -14,7 +14,7 @@ set(SOURCES
     src/Board/game_logic.cpp
     src/Board/notation.h
 
-    src/Pieces/piece_beclarations.h
+    src/Pieces/piece_declarations.h
     src/Pieces/Piece.cpp
     src/Pieces/Bishop.cpp
     src/Pieces/King.cpp

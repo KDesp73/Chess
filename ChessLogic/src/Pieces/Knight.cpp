@@ -1,5 +1,5 @@
 #include "piece_declarations.h"
-#include "board_declarations.h"
+#include "../Board/board_declarations.h"
 
 
 

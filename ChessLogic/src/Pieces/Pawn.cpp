@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "board_declarations.h"
+#include "../Board/board_declarations.h"
 
 void Pawn::move(string to, char board[][8]){
 	if(!isValidMove(to, board)) return;
