@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Piece {
@@ -124,7 +125,8 @@ class King: public Piece {
 
 class Pieces{	
 	public:
-		Piece* pieces[16];
+		vector<Piece*> pieces;
+		int material;
 		string color;
 		
 		virtual ~Pieces(){
@@ -134,58 +136,28 @@ class Pieces{
 		}
 		
 		void printPieces();
-		//int pieceToInt(char piece){} // no clue why i put that here
 		Piece* pieceInSquare(string square, char board[][8]);
+		int calculateMaterial();
+		virtual void loadPieces(char board[][8]) = 0;
+
 };
 
-class WhitePieces: public Pieces{
+class WhitePieces : public Pieces{
 	public:
+		~WhitePieces(){}
 		WhitePieces(){
-			this->color = "white";
-			
-			/*
-			pieces[0] = new Rook("a1", color);
-			pieces[1] = new Knight("b1", color);
-			pieces[2] = new Bishop("c1", color);
-			pieces[3] = new Queen("d1", color);
-			pieces[4] = new King("e1", color);
-			pieces[5] = new Bishop("f1", color);
-			pieces[6] = new Knight("g1", color);
-			pieces[7] = new Rook("h1", color);
-			pieces[8] = new Pawn("a2", color);
-			pieces[9] = new Pawn("b2", color);
-			pieces[10] = new Pawn("c2", color);
-			pieces[11] = new Pawn("d2", color);
-			pieces[12] = new Pawn("e2", color);
-			pieces[13] = new Pawn("f2", color);
-			pieces[14] = new Pawn("g2", color);
-			pieces[15] = new Pawn("h2", color);
-			*/
+			color = "white";
 		}
+
+		void loadPieces(char board[][8]) override;
 };
 
-class BlackPieces: public Pieces{
+class BlackPieces : public Pieces{
 	public:
+		~BlackPieces(){}
 		BlackPieces(){
-			this->color = "black";
-			
-			/*
-			pieces[0] = new Rook("a8", color);
-			pieces[1] = new Knight("b8", color);
-			pieces[2] = new Bishop("c8", color);
-			pieces[3] = new Queen("d8", color);
-			pieces[4] = new King("e8", color);
-			pieces[5] = new Bishop("f8", color);
-			pieces[6] = new Knight("g8", color);
-			pieces[7] = new Rook("h8", color);
-			pieces[8] = new Pawn("a7", color);
-			pieces[9] = new Pawn("b7", color);
-			pieces[10] = new Pawn("c7", color);
-			pieces[11] = new Pawn("d7", color);
-			pieces[12] = new Pawn("e7", color);
-			pieces[13] = new Pawn("f7", color);
-			pieces[14] = new Pawn("g7", color);
-			pieces[15] = new Pawn("h7", color);
-			*/
+			color = "black";
 		}
+
+		void loadPieces(char board[][8]) override;
 };
