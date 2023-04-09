@@ -7,11 +7,9 @@
 using namespace std;
 
 void printBoard(char board[][8]){
-	if(sizeof(board) == 0) return;
-	
 	cout << "-------------------------------------------------" << endl << endl;
 	cout << "   ABCDEFGH" << endl << endl;
-	for(int i=sizeof(board)-1; i >= 0 ; i--){
+	for(int i= sizeof(board)-1; i >= 0 ; i--){
 		cout << i+1 << "  ";
 		for(int j=0; j < sizeof(board[i]); j++){
 			cout << board[i][j];
@@ -22,19 +20,19 @@ void printBoard(char board[][8]){
 	
 }
 
-void scanBoard(Piece* whitePieces[16], Piece* blackPieces[16], char board[][8]){
+void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces, char board[][8]){
 	string white_square, black_square;
 	int *white_coords, *black_coords;
 	
 	for(int i=0; i < 16; i++){
-		white_square = (*(whitePieces+i))->currentSquare;
-		black_square = (*(blackPieces+i))->currentSquare;
+		white_square = whitePieces.at(i)->currentSquare;
+		black_square = blackPieces.at(i)->currentSquare;
 		
 		white_coords = translateSquare(white_square);
 		black_coords = translateSquare(black_square);
 		
-		board[*white_coords][*(white_coords+1)] = whitePieces[i]->boardChar;
-		board[*black_coords][*(black_coords+1)] = blackPieces[i]->boardChar;
+		board[*white_coords][*(white_coords+1)] = whitePieces.at(i)->boardChar;
+		board[*black_coords][*(black_coords+1)] = blackPieces.at(i)->boardChar;
 	
 		delete[] white_coords;
 		delete[] black_coords;
@@ -61,6 +59,16 @@ int* translateSquare(string square){
 	return coords;
 }
 
+string translateSquare(int* coords){
+	string letters = "abcdefgh";
+
+	string rank, file;
+
+	rank = letters[(coords[0])];
+	file = coords[1] + 48 + 1;
+
+	return rank + file;
+}
 
 char pieceToMove(int* coords, char board[][8]){
 	return board[*coords][*(coords+1)];

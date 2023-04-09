@@ -16,7 +16,7 @@ string replaceSpaces(string fen);
 
 
 void importFEN(string fen, char board[][8]){
-	cout << fen << endl << endl;
+	//cout << fen << endl << endl;
 	
 	string rows[8];
 	

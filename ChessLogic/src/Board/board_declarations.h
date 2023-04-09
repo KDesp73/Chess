@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include "../Pieces/piece_declarations.h" 
 
@@ -11,6 +12,7 @@ using namespace std;
 void printBoard(char board[][8]);
 
 int* translateSquare(string move);
+string translateSquare(int* coords);
 
 void makeMove(string from, string to, char board[][8]);
 
@@ -22,15 +24,12 @@ void printCoords(int* coords);
 
 void printCoords(string move);
 
-void scanBoard(Piece* whitePieces[16], Piece* blackPieces[16], char board[][8]);
+void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces, char board[][8]);
 
 /*void emptyBoard(char (*board)[8]);*/
 
 void emptyBoard(char board[][8]);
 
 
-//game_logic.cpp
-void start();
 
-void promt(Pieces* p, char board[][8]);
 

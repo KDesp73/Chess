@@ -3,6 +3,7 @@
 
 #include "Board/board_declarations.h"
 #include "Board/notation.h"
+#include "Board/game_logic.h"
 #include "Pieces/piece_declarations.h"
 
 void test_importFEN(){
@@ -50,9 +51,9 @@ void test_exportFEN(){
 }
 
 int main(int argc, char** argv) {
-	//start();
+	string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
-	char emptyBoard[][8] = {
+	char board[][8] = {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -62,6 +63,8 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
+
+	start(starting_fen);
 
 	return 0;
 }

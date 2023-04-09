@@ -23,8 +23,6 @@ set(SOURCES
     src/Pieces/Queen.cpp
     src/Pieces/Rook.cpp
     src/Pieces/Pieces.cpp
-    src/Pieces/BlackPieces.cpp
-    src/Pieces/WhitePieces.cpp
 
 )
 
