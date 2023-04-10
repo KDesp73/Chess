@@ -35,4 +35,48 @@ bool Pawn::isValidMove(string to, char board[][8]){
 	return true;
 }
 
+void Pawn::promote(char board[][8]){
+	int promotionRank;
+	if(color == "white")
+		promotionRank = 8;
+	else
+		promotionRank = 1;
+
+	int* currentCoords = translateSquare(this->currentSquare);
+	if(currentCoords[0] != promotionRank-1) return;
+
+	char promoteTo;
+	do{
+		cout << "Promote to (q, r, b, n): ";
+		cin >> promoteTo;
+		cout << endl;
+	} while(promoteTo != 'q' && promoteTo != 'r' && promoteTo != 'b' && promoteTo != 'n');
+
+	Piece* promoted;
+
+	switch (promoteTo) {
+	case 'q':
+		promoted = new Queen(this->currentSquare, this->color);
+		break;
+	case 'r':
+		promoted = new Rook(this->currentSquare, this->color);
+		break;
+	case 'b':
+		promoted = new Bishop(this->currentSquare, this->color);
+		break;
+	case 'n':
+		promoted = new Knight(this->currentSquare, this->color);
+		break;
+	default:
+		return;
+	}
+
+	if(color == "white")
+		board[currentCoords[0]][currentCoords[1]] = toupper(promoteTo);
+	else
+		board[currentCoords[0]][currentCoords[1]] = promoteTo;
+
+	this->~Pawn();
+}
+
 

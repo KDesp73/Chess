@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 	string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
 	char board[][8] = {
-		{'K', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -70,11 +70,15 @@ int main(int argc, char** argv) {
 	Pieces* bp = new BlackPieces();
 	string *move;
 
-	importFEN(starting_fen, board);
+	//importFEN(starting_fen, board);
 	
 	printBoard(board);
 
-	
+	Pawn *p = new Pawn("e1", "black");
+
+	p->promote(board);
+
+	printBoard(board);
 	
 
 

@@ -47,6 +47,7 @@ class Pawn: public Piece {
 		}
 		void move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		void promote(char board[][8]);
 };
 
 
