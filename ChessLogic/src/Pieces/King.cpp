@@ -11,19 +11,18 @@ void King::move(string to, char board[][8]){
 }
 
 bool King::isValidMove(string to, char board[][8]) {
-	char file = currentSquare.at(0);
-	int rank = currentSquare.at(1) - 48;
-	
-	cout << file << " " << rank << endl;
-	
-	char toFile = to.at(0);
-	int toRank = to.at(1) - 48;
-	
-	cout << toFile << " " << toRank << endl;
-	
+	int* fromCoords = translateSquare(currentSquare);
 	int* toCoords = translateSquare(to);
-	
-	// checks
-	
-	return true;
+
+	int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0], toCol = toCoords[1];
+
+	int rowDiff = abs(fromRow - toRow);
+    int colDiff = abs(fromCol - toCol);
+
+    // Check if the move is valid (1 square in any direction)
+    if (rowDiff <= 1 && colDiff <= 1) {
+        return true;
+    }
+
+    return false;
 }
