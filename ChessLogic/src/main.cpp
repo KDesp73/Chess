@@ -70,16 +70,17 @@ int main(int argc, char** argv) {
 	Pieces* bp = new BlackPieces();
 	string *move;
 
-	//importFEN(starting_fen, board);
-	
+	importFEN(starting_fen, board);
 	printBoard(board);
 
-	Pawn *p = new Pawn("e1", "black");
+	wp->loadPieces(board);
+	bp->loadPieces(board);
 
-	p->promote(board);
+	wp->printPieces();
+	bp->printPieces();
 
-	printBoard(board);
-	
+	cout << wp->calculateMaterial() << endl;
+	cout << bp->calculateMaterial() << endl;
 
 
 

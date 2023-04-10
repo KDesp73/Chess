@@ -149,7 +149,6 @@ class Pieces{
 		Piece* pieceInSquare(string square, char board[][8]);
 		int calculateMaterial();
 		virtual void loadPieces(char board[][8]) = 0;
-
 };
 
 class WhitePieces : public Pieces{
