@@ -47,7 +47,9 @@ class Pawn: public Piece {
 		}
 		void move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		bool isValidCapture(string to, char board[][8]);
 		void promote(char board[][8]);
+		bool isLastRank();
 };
 
 
@@ -171,4 +173,4 @@ class BlackPieces : public Pieces{
 		void loadPieces(char board[][8]) override;
 };
 
-Piece* returnPieceFromSquare(int x, int y, char board[][8]);
+Piece* pieceFromChar(int x, int y, char board[][8]);

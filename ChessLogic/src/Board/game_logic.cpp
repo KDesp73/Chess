@@ -23,24 +23,17 @@ void start(string starting_fen){
 	Pieces* bp = new BlackPieces();
 	string *move;
 
+	
+
 	importFEN(starting_fen, board);
 	wp->loadPieces(board);
 	bp->loadPieces(board);
 
 	printBoard(board);
 
-	move = prompt(wp, board);
-	makeGivenMove(move[0], move[1], wp, board);
-	free(move);
-	
-	printBoard(board);
-
 	move = prompt(bp, board);
-	makeGivenMove(move[0], move[1], bp, board);
-	free(move);
-	
+	makeGivenMove(move, bp, board);
 	printBoard(board);
-
 
 }
 
@@ -55,11 +48,11 @@ string* prompt(Pieces* p, char board[][8]){
 	return new string[2]{from, to};
 }
 
-void makeGivenMove(string from, string to, Pieces *p, char board[][8]){
-	Piece* pieceToMove = p->pieceInSquare(from, board);
-	
+void makeGivenMove(string *move, Pieces *p, char board[][8]){
+	Piece* pieceToMove = p->pieceInSquare(move[0], board);
+
 	if(&pieceToMove == NULL) {
-		cout << "Nothing in " << from << " square" << endl;
+		cout << "Nothing in " << move[0] << " square" << endl;
 		return;
 	} 
 	if(pieceToMove->color != p->color) {
@@ -67,5 +60,5 @@ void makeGivenMove(string from, string to, Pieces *p, char board[][8]){
 		return;
 	}
 	
-	pieceToMove->move(to, board);
+	pieceToMove->move(move[1], board);
 }

@@ -64,25 +64,6 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
 
-	//start(starting_fen);
-
-	Pieces* wp = new WhitePieces();
-	Pieces* bp = new BlackPieces();
-	string *move;
-
-	importFEN(starting_fen, board);
-	printBoard(board);
-
-	wp->loadPieces(board);
-	bp->loadPieces(board);
-
-	wp->printPieces();
-	bp->printPieces();
-
-	cout << wp->calculateMaterial() << endl;
-	cout << bp->calculateMaterial() << endl;
-
-
-
+	start(starting_fen);
 	return 0;
 }
