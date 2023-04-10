@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 	string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
 	char board[][8] = {
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{'K', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -64,7 +64,20 @@ int main(int argc, char** argv) {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 	};
 
-	start(starting_fen);
+	//start(starting_fen);
+
+	Pieces* wp = new WhitePieces();
+	Pieces* bp = new BlackPieces();
+	string *move;
+
+	importFEN(starting_fen, board);
+	
+	printBoard(board);
+
+	
+	
+
+
 
 	return 0;
 }

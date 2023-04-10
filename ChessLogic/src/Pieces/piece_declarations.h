@@ -29,9 +29,7 @@ class Piece {
 		}
 		virtual void move(string to, char board[][8]);
 		virtual void printPiece();
-		virtual bool isValidMove(string to, char board[][8]){
-			return false;
-		}
+		virtual bool isValidMove(string to, char board[][8]){return false;}
 };
 
 class Pawn: public Piece {
@@ -39,6 +37,8 @@ class Pawn: public Piece {
 		Pawn(string currentSquare, string color) {
 			//Piece::Piece(currentSquare, color);
 			value = 1;
+			this->color = color;
+			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'P';
 			} else {
@@ -53,7 +53,8 @@ class Pawn: public Piece {
 class Rook: public Piece {
 	public:
 		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
-			
+			this->color = color;
+			this->currentSquare = currentSquare;
 			value = 5;
 			if(color == "white"){
 				this->boardChar = 'R';
@@ -69,6 +70,8 @@ class Knight: public Piece {
 	public:
 		Knight(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
+			this->color = color;
+			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'N';
 			} else {
@@ -83,6 +86,8 @@ class Bishop: public Piece {
 	public:
 		Bishop(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
+			this->color = color;
+			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'B';
 			} else {
@@ -97,6 +102,8 @@ class Queen: public Piece {
 	public:
 		Queen(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 9;
+			this->color = color;
+			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'Q';
 			} else {
@@ -111,6 +118,8 @@ class King: public Piece {
 	public:
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
+			this->color = color;
+			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'K';
 			} else {
@@ -145,8 +154,8 @@ class Pieces{
 class WhitePieces : public Pieces{
 	public:
 		~WhitePieces(){}
-		WhitePieces(){
-			color = "white";
+		WhitePieces() : Pieces(){
+			this->color = "white";
 		}
 
 		void loadPieces(char board[][8]) override;
@@ -155,9 +164,11 @@ class WhitePieces : public Pieces{
 class BlackPieces : public Pieces{
 	public:
 		~BlackPieces(){}
-		BlackPieces(){
-			color = "black";
+		BlackPieces() : Pieces(){
+			this->color = "black";
 		}
 
 		void loadPieces(char board[][8]) override;
 };
+
+Piece* returnPieceFromSquare(int x, int y, char board[][8]);

@@ -9,5 +9,5 @@ void Piece::move(string to, char board[][8]){
 }
 
 void Piece::printPiece(){
-	cout << boardChar << " " << color << " " << currentSquare << endl;
+	cout << this->boardChar << " " << this->color << " " << this->currentSquare << endl;
 }

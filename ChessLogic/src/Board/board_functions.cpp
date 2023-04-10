@@ -7,7 +7,7 @@
 using namespace std;
 
 void printBoard(char board[][8]){
-	cout << "-------------------------------------------------" << endl << endl;
+	//cout << "-------------------------------------------------" << endl << endl;
 	cout << "   ABCDEFGH" << endl << endl;
 	for(int i= sizeof(board)-1; i >= 0 ; i--){
 		cout << i+1 << "  ";

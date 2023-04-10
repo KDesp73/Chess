@@ -28,9 +28,9 @@ int Pieces::calculateMaterial(){
 	return material;
 }
 
-Piece* returnPieceFromSquare(int x, int y, char c, char board[][8]){
+Piece* returnPieceFromSquare(int x, int y, char board[][8]){
 	string currentSquare;
-	switch(c){
+	switch(board[x][y]){
 		case 'p':
 			return new Pawn(translateSquare(new int[2]{x, y}), "black");
 			break;
@@ -79,7 +79,7 @@ void WhitePieces::loadPieces(char board[][8]){
 	for (int i = 0; i < pieces.size(); i++) {
 		for (int j = 0; i < pieces.size(); j++) {
 			if(board[i][j] != ' ' && isupper(board[i][j]))
-				pieces.push_back(returnPieceFromSquare(i, j, board[i][j], board));
+				this->pieces.push_back(returnPieceFromSquare(i, j, board));
 		}
 		
 	}
@@ -90,7 +90,7 @@ void BlackPieces::loadPieces(char board[][8]){
 	for (int i = 0; i < pieces.size(); i++) {
 		for (int j = 0; i < pieces.size(); j++) {
 			if(board[i][j] != ' ' && !isupper(board[i][j]))
-				pieces.push_back(returnPieceFromSquare(i, j, board[i][j], board));
+				this->pieces.push_back(returnPieceFromSquare(i, j, board));
 		}
 		
 	}

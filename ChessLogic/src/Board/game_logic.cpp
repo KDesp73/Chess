@@ -21,11 +21,12 @@ void start(string starting_fen){
 	
 	Pieces* wp = new WhitePieces();
 	Pieces* bp = new BlackPieces();
-
 	string *move;
 
 	importFEN(starting_fen, board);
-	
+	wp->loadPieces(board);
+	bp->loadPieces(board);
+
 	printBoard(board);
 
 	move = prompt(wp, board);
