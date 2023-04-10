@@ -10,34 +10,30 @@ void Rook::move(string to, char board[][8]){
 
 }
 
-bool Rook::isValidMove(string to, char board[][8]) {
-	char file = currentSquare.at(0);
-	int rank = currentSquare.at(1) - 48;
-	
-	cout << file << " " << rank << endl;
-	
-	char toFile = to.at(0);
-	int toRank = to.at(1) - 48;
-	
-	cout << toFile << " " << toRank << endl;
-	
+bool Rook::isValidMove(string to, char board[][8]){
+	int* fromCoords = translateSquare(currentSquare);
 	int* toCoords = translateSquare(to);
-	
-	if((file != toFile) && (rank != toRank)) return false; // No diagonal movement
-	if(currentSquare == to) return false; // No move to currentSquare
-	//if(board[*toCoords][*(toCoords+1)] != ' ') return false; //
-	
-	if(file == toFile){
-		for(int i=1; i < abs(file-toFile); i++){
-			if(board[*toCoords - i][*(toCoords+1)] != ' ') return false;
-		}
-	}
-	
-	if(rank == toRank){
-		for(int i=1; i < abs(rank-toRank); i++){
-			if(board[*toCoords][*(toCoords+1) - i] != ' ') return false;
-		}
-	}
-	
-	return true;
+
+	int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0], toCol = toCoords[1];
+
+	if (fromRow == toRow) {
+        // Moving horizontally
+        int step = (toCol > fromCol) ? 1 : -1;
+        for (int i = fromCol + step; i != toCol; i += step) {
+            if (board[fromRow][i] != ' ') {
+                return false;
+            }
+        }
+        return true;
+    } else if (fromCol == toCol) {
+        // Moving vertically
+        int step = (toRow > fromRow) ? 1 : -1;
+        for (int i = fromRow + step; i != toRow; i += step) {
+            if (board[i][fromCol] != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
