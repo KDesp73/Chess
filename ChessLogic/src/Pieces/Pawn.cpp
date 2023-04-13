@@ -142,5 +142,5 @@ void Pawn::promote(char board[][8]){
 
 
 bool Pawn::isLastRank(){
-
+	return false;
 }
