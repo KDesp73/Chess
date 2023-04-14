@@ -26,6 +26,8 @@ void start(string starting_fen){
 	wp->loadPieces(board);
 	bp->loadPieces(board);
 
+	bp->printPieces();
+
 	printBoard(board);
 
 	gameLoop(wp, bp, board);
@@ -36,20 +38,26 @@ void gameLoop(Pieces *wp, Pieces *bp, char board[][8]){
 	do{
 		if(playing == "white"){
 			cout << "White's turn" << endl;
-			turn(wp, board);
-			playing = "black";
+
+			bool moveMade = turn(wp, board);
+			if(moveMade)
+				playing = "black";
 		} else {
 			cout << "Black's turn" << endl;
-			turn(bp, board);
-			playing = "white";
+			bool moveMade = turn(bp, board);
+			if(moveMade)
+				playing = "white";
 		}
 	} while(!isMate(board) && !isDraw(board));
 }
 
-void turn(Pieces *p, char board[][8]){
+bool turn(Pieces *p, char board[][8]){
 	string *move = prompt(p, board);
-	makeGivenMove(move, p, board);
-	printBoard(board);
+	bool moveMade = makeGivenMove(move, p, board);
+	if(moveMade)
+		printBoard(board);
+
+	return moveMade;
 }
 
 string* prompt(Pieces* p, char board[][8]){
@@ -76,8 +84,7 @@ bool makeGivenMove(string *move, Pieces *p, char board[][8]){
 		return false;
 	}
 	
-	pieceToMove->move(move[1], board);
-	return true;
+	return pieceToMove->move(move[1], board);
 }
 
 bool isMate(char board[][8]){

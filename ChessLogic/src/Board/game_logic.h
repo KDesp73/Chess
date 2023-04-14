@@ -13,7 +13,7 @@ string* prompt(Pieces* p, char board[][8]);
 
 bool makeGivenMove(string *move, Pieces *p, char board[][8]);
 
-void turn(Pieces *p, char board[][8]);
+bool turn(Pieces *p, char board[][8]);
 
 bool isMate(char board[][8]);
 bool isDraw(char board[][8]);
