@@ -27,7 +27,7 @@ class Piece {
 			this->currentSquare = currentSquare;
 			this->color = color;
 		}
-		virtual void move(string to, char board[][8]);
+		virtual bool move(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
 };
@@ -45,7 +45,7 @@ class Pawn: public Piece {
 				this->boardChar = 'p';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
 		void promote(char board[][8]);
@@ -65,7 +65,7 @@ class Rook: public Piece {
 				this->boardChar = 'r';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -81,7 +81,7 @@ class Knight: public Piece {
 				this->boardChar = 'n';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -97,7 +97,7 @@ class Bishop: public Piece {
 				this->boardChar = 'b';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -113,7 +113,7 @@ class Queen: public Piece {
 				this->boardChar = 'q';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -129,7 +129,7 @@ class King: public Piece {
 				this->boardChar = 'k';
 			}
 		}
-		void move(string to, char board[][8]) override;
+		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 

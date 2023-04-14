@@ -1,10 +1,10 @@
 #include <cstdlib>
 #include "../Board/board_declarations.h"
 
-void Pawn::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return;
+bool Pawn::move(string to, char board[][8]){
+	if(!isValidMove(to, board)) return false;
 	
-	Piece::move(to, board);
+	return Piece::move(to, board);
 }
 /*
 bool Pawn::isValidMove(string to, char board[][8]){

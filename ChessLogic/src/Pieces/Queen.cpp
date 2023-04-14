@@ -3,11 +3,10 @@
 
 
 
-void Queen::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return;
+bool Queen::move(string to, char board[][8]){
+	if(!isValidMove(to, board)) return false;
 	
-	Piece::move(to, board);
-
+	return Piece::move(to, board);
 }
 
 bool Queen::isValidMove(string to, char board[][8]) {

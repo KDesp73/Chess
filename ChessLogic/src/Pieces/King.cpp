@@ -3,11 +3,10 @@
 
 
 
-void King::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return;
+bool King::move(string to, char board[][8]){
+	if(!isValidMove(to, board)) return false;
 	
-	Piece::move(to, board);
-
+	return Piece::move(to, board);
 }
 
 bool King::isValidMove(string to, char board[][8]) {

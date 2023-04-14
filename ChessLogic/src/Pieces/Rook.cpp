@@ -3,11 +3,10 @@
 #include <cstdlib>
 
 
-void Rook::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return;
+bool Rook::move(string to, char board[][8]){
+	if(!isValidMove(to, board)) return false;
 	
-	Piece::move(to, board);
-
+	return Piece::move(to, board);
 }
 
 bool Rook::isValidMove(string to, char board[][8]){

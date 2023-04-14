@@ -63,20 +63,21 @@ string* prompt(Pieces* p, char board[][8]){
 	return new string[2]{from, to};
 }
 
-void makeGivenMove(string *move, Pieces *p, char board[][8]){
+bool makeGivenMove(string *move, Pieces *p, char board[][8]){
 	Piece* pieceToMove = p->pieceInSquare(move[0], board);
 
 	//Move checks
 	if(pieceToMove == NULL) {
 		cout << "Nothing in " << move[0] << " square" << endl;
-		return;
+		return false;
 	} 
 	if(pieceToMove->color != p->color) {
 		cout << "You cannot move the enemy pieces" << endl;
-		return;
+		return false;
 	}
 	
 	pieceToMove->move(move[1], board);
+	return true;
 }
 
 bool isMate(char board[][8]){

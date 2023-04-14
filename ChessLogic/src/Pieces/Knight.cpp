@@ -3,11 +3,10 @@
 
 
 
-void Knight::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return;
+bool Knight::move(string to, char board[][8]){
+	if(!isValidMove(to, board)) return false;
 	
-	Piece::move(to, board);
-
+	return Piece::move(to, board);
 }
 
 bool Knight::isValidMove(string to, char board[][8]) {

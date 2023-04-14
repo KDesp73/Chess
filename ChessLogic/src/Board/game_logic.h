@@ -11,7 +11,7 @@ void start(string starting_fen);
 
 string* prompt(Pieces* p, char board[][8]);
 
-void makeGivenMove(string *move, Pieces *p, char board[][8]);
+bool makeGivenMove(string *move, Pieces *p, char board[][8]);
 
 void turn(Pieces *p, char board[][8]);
 

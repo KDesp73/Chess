@@ -78,13 +78,13 @@ char pieceToMove(string square, char board[][8]){
 	return pieceToMove(coords, board);
 }
 
-void makeMove(string from, string to, char board[][8]){
+bool makeMove(string from, string to, char board[][8]){
 	int* fromCoords = new int[2];
 	fromCoords = translateSquare(from);
 	int* toCoords = new int[2];
 	toCoords = translateSquare(to);
 	
-	if(fromCoords == NULL || toCoords == NULL) return;
+	if(fromCoords == NULL || toCoords == NULL) return false;
 	
 	char piece = pieceToMove(from, board);
 	
@@ -92,6 +92,8 @@ void makeMove(string from, string to, char board[][8]){
 	
 	board[*fromCoords][*(fromCoords+1)] = ' ';
 	board[*toCoords][*(toCoords+1)] = piece;
+
+	return true;
 }
 
 

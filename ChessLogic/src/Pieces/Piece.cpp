@@ -2,10 +2,12 @@
 #include "piece_declarations.h"
 
 
-void Piece::move(string to, char board[][8]){
-	makeMove(currentSquare, to, board);
-	
-	currentSquare = to;
+bool Piece::move(string to, char board[][8]){
+	bool moveMade = makeMove(currentSquare, to, board);
+	if(moveMade)
+		currentSquare = to;
+
+	return moveMade;
 }
 
 void Piece::printPiece(){
