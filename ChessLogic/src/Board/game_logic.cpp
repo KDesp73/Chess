@@ -21,9 +21,6 @@ void start(string starting_fen){
 	
 	Pieces* wp = new WhitePieces();
 	Pieces* bp = new BlackPieces();
-	string *move;
-
-	
 
 	importFEN(starting_fen, board);
 	wp->loadPieces(board);
@@ -37,7 +34,6 @@ void start(string starting_fen){
 void gameLoop(Pieces *wp, Pieces *bp, char board[][8]){
 	string playing = "white";
 	do{
-		//check for draw and mate
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 			turn(wp, board);
@@ -70,7 +66,8 @@ string* prompt(Pieces* p, char board[][8]){
 void makeGivenMove(string *move, Pieces *p, char board[][8]){
 	Piece* pieceToMove = p->pieceInSquare(move[0], board);
 
-	if(&pieceToMove == NULL) {
+	//Move checks
+	if(pieceToMove == NULL) {
 		cout << "Nothing in " << move[0] << " square" << endl;
 		return;
 	} 

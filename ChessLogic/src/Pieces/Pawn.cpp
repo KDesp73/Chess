@@ -6,7 +6,7 @@ void Pawn::move(string to, char board[][8]){
 	
 	Piece::move(to, board);
 }
-
+/*
 bool Pawn::isValidMove(string to, char board[][8]){
 	char file = currentSquare.at(0);
 	int rank = currentSquare.at(1) - 48;
@@ -38,8 +38,8 @@ bool Pawn::isValidMove(string to, char board[][8]){
 	
 	
 	return true;
-}
-/*
+}*/
+
 bool Pawn::isValidMove(string to, char board[][8]){
 	int* fromCoords = translateSquare(currentSquare);
 	int* toCoords = translateSquare(to);
@@ -49,29 +49,31 @@ bool Pawn::isValidMove(string to, char board[][8]){
 
 	int direction;
     if (this->color == "white") {
-        direction = -1;
-    } else {
         direction = 1;
+    } else {
+        direction = -1;
     }
+
     // Check if the pawn is moving forward one or two squares
     if (toCol == fromCol && toRow == fromRow + direction) {
         if (board[toRow][toCol] == ' ') {
             return true;
         }
-    } else if (toCol == fromCol && toRow == fromRow + 2 * direction && fromRow == (this->color == "white" ? 6 : 1)) {
-        if (board[toRow][toCol] == ' ' && board[fromRow + direction][toCol] == ' ') {
+    } else if (toCol == fromCol && toRow == fromRow + 2 * direction && fromRow == (this->color == "white" ? 1 : 6)) {
+        if (board[toRow][toCol] == ' ' && board[fromRow + direction	][toCol] == ' ') {
             return true;
         }
     }
     // Check if the pawn is capturing an opponent's piece
+	bool isOpponentsPiece = ((this->color == "white" && !isupper(board[toRow][toCol])) || (this->color == "black" && isupper(board[toRow][toCol])));
     if (abs(toCol - fromCol) == 1 && toRow == fromRow + direction) {
-        if (board[toRow][toCol] != ' ' && ((this->color == "white" && !isupper(board[toRow][toCol])) || (this->color == "black" && isupper(board[toRow][toCol])))) {
+        if (board[toRow][toCol] != ' ' && isOpponentsPiece) {
             return true;
         }
     }
     return false;
 }
-*/
+
 
 bool Pawn::isValidCapture(string to, char board[][8]){
 	int direction;
@@ -88,8 +90,9 @@ bool Pawn::isValidCapture(string to, char board[][8]){
 
 
     // Check if the pawn is capturing an opponent's piece
+	bool isOpponentsPiece = ((this->color == "white" && !isupper(board[toRow][toCol])) || (this->color == "black" && isupper(board[toRow][toCol])));
     if (abs(toCol - fromCol) == 1 && toRow == fromRow + direction) {
-        if (board[toRow][toCol] != '.' && ((this->color == "white" && !isupper(board[toRow][toCol])) || (this->color == "black" && isupper(board[toRow][toCol])))) {
+        if (board[toRow][toCol] != ' ' && isOpponentsPiece) {
             return true;
         }
     }
@@ -129,6 +132,7 @@ void Pawn::promote(char board[][8]){
 		promoted = new Knight(this->currentSquare, this->color);
 		break;
 	default:
+		Pawn::promote(board);
 		return;
 	}
 
