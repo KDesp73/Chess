@@ -10,6 +10,7 @@ class Piece {
 		string color;
 		char boardChar;
 		int value;
+		string type;
 		
 		virtual ~Piece(){
 		}
@@ -37,6 +38,7 @@ class Pawn: public Piece {
 		Pawn(string currentSquare, string color) {
 			//Piece::Piece(currentSquare, color);
 			value = 1;
+			this->type = "Pawn";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			if(color == "white"){
@@ -55,7 +57,9 @@ class Pawn: public Piece {
 
 class Rook: public Piece {
 	public:
+		bool hasMoved = false;
 		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
+			this->type = "Rook";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			value = 5;
@@ -73,6 +77,7 @@ class Knight: public Piece {
 	public:
 		Knight(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
+			this->type = "Knight";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			if(color == "white"){
@@ -89,6 +94,7 @@ class Bishop: public Piece {
 	public:
 		Bishop(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
+			this->type = "Bishop";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			if(color == "white"){
@@ -105,6 +111,7 @@ class Queen: public Piece {
 	public:
 		Queen(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 9;
+			this->type = "Queen";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			if(color == "white"){
@@ -119,8 +126,11 @@ class Queen: public Piece {
 
 class King: public Piece {
 	public:
+		bool hasMoved = false;
+		bool isInCheck = false;
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
+			this->type = "King";
 			this->color = color;
 			this->currentSquare = currentSquare;
 			if(color == "white"){
@@ -131,6 +141,8 @@ class King: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		bool canCastle(string to, char board[][8]);
+		bool castle(string to, char board[][8]);
 };
 
 /*==========================={ Pieces }===========================*/
