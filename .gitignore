@@ -4,4 +4,5 @@
 /ChessLogic/*.o
 /ChessLogic/Makefile.win
 /ChessLogic/.vscode/
+/.vscode/
 /ChessLogic/build/
