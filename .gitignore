@@ -3,6 +3,5 @@
 /ChessLogic/ChessLogic.layout
 /ChessLogic/*.o
 /ChessLogic/Makefile.win
-/.vscode/
-/.vscode/*.json
+/ChessLogic/.vscode/
 /ChessLogic/build/
