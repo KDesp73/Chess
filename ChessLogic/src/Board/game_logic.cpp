@@ -51,6 +51,8 @@ void gameLoop(Pieces *wp, Pieces *bp, char board[][8]){
 
 bool turn(Pieces *p, char board[][8]){
 	string *move = prompt(p, board);
+	if(move == NULL) return false;
+
 	bool moveMade = makeGivenMove(move, p, board);
 	if(moveMade)
 		printBigBoard(board);
@@ -65,6 +67,8 @@ string* prompt(Pieces* p, char board[][8]){
 	cout << "To: ";
 	cin >> to;
 	cout << endl;
+
+	if(!isValidSquare(from) || !isValidSquare(to)) return NULL;
 	
 	return new string[2]{from, to};
 }

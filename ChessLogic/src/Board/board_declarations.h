@@ -35,4 +35,4 @@ void emptyBoard(char board[][8]);
 
 vector<Piece*> squareIsAttacked(string square, Pieces *p, char board[][8]);
 
-
+bool isValidSquare(string square);

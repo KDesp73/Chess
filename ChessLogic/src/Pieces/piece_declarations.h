@@ -16,8 +16,7 @@ class Piece {
 		}
 		
 		Piece(){
-		}
-		
+		}	
 		
 		Piece(string currentSquare, string color){
 			if(color != "white" && color != "black"){

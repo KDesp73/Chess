@@ -7,12 +7,10 @@
 
 using namespace std;
 
-void printBoard(char board[][8]) {
-    printBoard("white", board);
-}
+void printBoard(char board[][8]) { printBoard("white", board); }
 
-void printBoard(string playingAs, char board[][8]){
-    if(playingAs == "white"){
+void printBoard(string playingAs, char board[][8]) {
+    if (playingAs == "white") {
         cout << "   ABCDEFGH" << endl << endl;
         for (int i = 7; i >= 0; i--) {
             cout << i + 1 << "  ";
@@ -22,7 +20,7 @@ void printBoard(string playingAs, char board[][8]){
             cout << "  " << i + 1 << endl;
         }
         cout << endl << "   ABCDEFGH" << endl << endl;
-    } else if(playingAs == "black"){
+    } else if (playingAs == "black") {
         cout << "   HGFEDCBA" << endl << endl;
         for (int i = 0; i <= 7; i++) {
             cout << i + 1 << "  ";
@@ -32,17 +30,15 @@ void printBoard(string playingAs, char board[][8]){
             cout << "  " << i + 1 << endl;
         }
         cout << endl << "   HGFEDCBA" << endl << endl;
-    } else{
+    } else {
         cout << "Incorrect argument" << endl;
     }
 }
 
-void printBigBoard(char board[][8]) {
-	printBigBoard("white", board);
-}
+void printBigBoard(char board[][8]) { printBigBoard("white", board); }
 
-void printBigBoard(string playingAs, char board[][8]){
-    if(playingAs == "white"){
+void printBigBoard(string playingAs, char board[][8]) {
+    if (playingAs == "white") {
         cout << "     A   B   C   D   E   F   G   H " << endl;
         cout << "   +---+---+---+---+---+---+---+---+" << endl;
         for (int i = 7; i >= 0; i--) {
@@ -54,7 +50,7 @@ void printBigBoard(string playingAs, char board[][8]){
             cout << "   +---+---+---+---+---+---+---+---+" << endl;
         }
         cout << "     A   B   C   D   E   F   G   H " << endl;
-    } else if(playingAs == "black"){
+    } else if (playingAs == "black") {
         cout << "     H   G   F   E   D   C   B   A " << endl;
         cout << "   +---+---+---+---+---+---+---+---+" << endl;
         for (int i = 0; i <= 7; i++) {
@@ -67,13 +63,12 @@ void printBigBoard(string playingAs, char board[][8]){
         }
         cout << "     H   G   F   E   D   C   B   A " << endl;
 
-    } else{
+    } else {
         cout << "Incorrect argument" << endl;
     }
 }
 
-void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces,
-               char board[][8]) {
+void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces, char board[][8]) {
     string white_square, black_square;
     int *white_coords, *black_coords;
 
@@ -181,4 +176,12 @@ vector<Piece*> squareIsAttacked(string square, Pieces* p, char board[][8]) {
         }
     }
     return list;
+}
+
+bool isValidSquare(string square){
+    if(square.length() != 2) return false;
+    if(!isalpha(square[0])) return false;
+    if(!isdigit(square[1])) return false;
+
+    return true;
 }
