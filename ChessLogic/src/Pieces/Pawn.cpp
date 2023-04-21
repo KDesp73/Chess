@@ -3,8 +3,22 @@
 
 bool Pawn::move(string to, char board[][8]){
 	if(!isValidMove(to, board)) return false;
+
+	printCoords(currentSquare);
+
+	if(translateSquare(currentSquare)[0]  == 7 || translateSquare(currentSquare)[0]  == 0){
+		cout << "Promote" << endl;
+		this->promote(board);
+	}
 	
-	return Piece::move(to, board);
+	bool valid = Piece::move(to, board);
+
+	if(translateSquare(currentSquare)[0]  == 7 || translateSquare(currentSquare)[0]  == 0){
+		cout << "Promote" << endl;
+		this->promote(board);
+	}
+
+	return valid;
 }
 /*
 bool Pawn::isValidMove(string to, char board[][8]){
