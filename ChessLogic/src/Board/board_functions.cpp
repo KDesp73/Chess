@@ -11,7 +11,7 @@ void printBoard(char board[][8]) {
     // cout << "-------------------------------------------------" << endl <<
     // endl;
     cout << "   ABCDEFGH" << endl << endl;
-    for (int i = sizeof(board) - 1; i >= 0; i--) {
+    for (int i = 7; i >= 0; i--) {
         cout << i + 1 << "  ";
         for (int j = 0; j < sizeof(board[i]); j++) {
             cout << board[i][j];
@@ -24,7 +24,7 @@ void printBoard(char board[][8]) {
 void printBigBoard(char board[][8]) {
 	cout << "     A   B   C   D   E   F   G   H " << endl;
     cout << "   +---+---+---+---+---+---+---+---+" << endl;
-    for (int i = sizeof(board) - 1; i >= 0; i--) {
+    for (int i = 7; i >= 0; i--) {
         cout << i + 1 << "  ";
         for (int j = 0; j < sizeof(board[i]); j++) {
             cout << "| " << board[i][j] << " ";

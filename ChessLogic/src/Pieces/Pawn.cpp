@@ -4,8 +4,6 @@
 bool Pawn::move(string to, char board[][8]){
 	if(!isValidMove(to, board)) return false;
 
-	printCoords(currentSquare);
-
 	if(translateSquare(currentSquare)[0]  == 7 || translateSquare(currentSquare)[0]  == 0){
 		cout << "Promote" << endl;
 		this->promote(board);
@@ -20,39 +18,6 @@ bool Pawn::move(string to, char board[][8]){
 
 	return valid;
 }
-/*
-bool Pawn::isValidMove(string to, char board[][8]){
-	char file = currentSquare.at(0);
-	int rank = currentSquare.at(1) - 48;
-	
-	cout << file << " " << rank << endl;
-	
-	char toFile = to.at(0);
-	int toRank = to.at(1) - 48;
-	
-	int* toCoords = translateSquare(to);
-
-	int direction;
-    if (this->color == "white") {
-        direction = 1;
-    } else {
-        direction = -1;
-    }
-	
-	if(currentSquare == to) return false;
-	if(rank >= toRank) return false;
-	if(file != toFile) return false; 
-	if(board[toCoords[0]][toCoords[1]+direction] != ' ') return false;
-	if(rank == 2 || rank == 7){
-		if(abs(rank-toRank) > 2) return false;
-		else if((abs(rank-toRank) == 2) && (board[toCoords[0]-1][toCoords[1]] != ' ')) return false;
-	} else {
-		if(abs(rank-toRank) > 1) return false;
-	}
-	
-	
-	return true;
-}*/
 
 bool Pawn::isValidMove(string to, char board[][8]){
 	int* fromCoords = translateSquare(currentSquare);
@@ -156,9 +121,4 @@ void Pawn::promote(char board[][8]){
 		board[currentCoords[0]][currentCoords[1]] = promoteTo;
 
 	this->~Pawn();
-}
-
-
-bool Pawn::isLastRank(){
-	return false;
 }

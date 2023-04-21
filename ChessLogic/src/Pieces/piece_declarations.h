@@ -51,7 +51,6 @@ class Pawn: public Piece {
 		bool isValidMove(string to, char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
 		void promote(char board[][8]);
-		bool isLastRank();
 };
 
 
