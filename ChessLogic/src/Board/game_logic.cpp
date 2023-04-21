@@ -3,59 +3,41 @@
 
 #include "./board_declarations.h"
 #include "./game_logic.h"
-#include "./notation.h"
 #include "../Pieces/piece_declarations.h" 
 
 
 void start(string starting_fen){
-	char board[][8] = {
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-	};
+	Board *board = new Board("white", starting_fen);
+	board->printBigBoard();
 	
-	Pieces* wp = new WhitePieces();
-	Pieces* bp = new BlackPieces();
-
-	importFEN(starting_fen, board);
-	wp->loadPieces(board);
-	bp->loadPieces(board);
-
-	printBigBoard(board);
-	
-	gameLoop(wp, bp, board);
+	gameLoop(board);
 }
 
-void gameLoop(Pieces *wp, Pieces *bp, char board[][8]){
+void gameLoop(Board *board){
 	string playing = "white";
 	do{
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
-			bool moveMade = turn(wp, board);
+			bool moveMade = turn(board->wp, board);
 			if(moveMade)
 				playing = "black";
 		} else {
 			cout << "Black's turn" << endl;
-			bool moveMade = turn(bp, board);
+			bool moveMade = turn(board->bp, board);
 			if(moveMade)
 				playing = "white";
 		}
-	} while(!isMate(board) && !isDraw(board));
+	} while(!isMate(board->board) && !isDraw(board->board));
 }
 
-bool turn(Pieces *p, char board[][8]){
-	string *move = prompt(p, board);
+bool turn(Pieces *p, Board *board){
+	string *move = prompt(p, board->board);
 	if(move == NULL) return false;
 
-	bool moveMade = makeGivenMove(move, p, board);
+	bool moveMade = makeGivenMove(move, p, board->board);
 	if(moveMade)
-		printBigBoard(board);
+		board->printBigBoard();
 
 	return moveMade;
 }

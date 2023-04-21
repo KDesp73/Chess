@@ -2,6 +2,8 @@
 #include <iostream>
 #include<ctype.h>
 
+#include "board_declarations.h"
+
 using namespace std;
 
 /*================{ Utils }================*/
@@ -15,7 +17,7 @@ string replaceSpaces(string fen);
 /*================{ /Utils }================*/
 
 
-void importFEN(string fen, char board[][8]){
+void Board::importFEN(string fen){
 	//cout << fen << endl << endl;
 	
 	string rows[8];
@@ -39,12 +41,12 @@ void importFEN(string fen, char board[][8]){
 	
 	for(int i=0; i<8; i++){
 		for(int j=0; j<rows[i].length(); j++){
-			board[7-i][j] = rows[i][j];
+			this->board[7-i][j] = rows[i][j];
 		}
 	}
 }
 
-string exportFEN(char board[][8]){
+string Board::exportFEN(){
 	string temp_fen = "";
 
 	for(int i=0; i < 8; i++){
@@ -52,7 +54,7 @@ string exportFEN(char board[][8]){
 		if(i != 0) temp_fen += '/';
 		
 		for(int j=0; j < 8; j++){
-			temp_fen += board[7-i][j];
+			temp_fen += this->board[7-i][j];
 		}
 	}
 	

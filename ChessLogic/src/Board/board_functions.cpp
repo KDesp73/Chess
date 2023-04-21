@@ -7,9 +7,9 @@
 
 using namespace std;
 
-void printBoard(char board[][8]) { printBoard("white", board); }
+void Board::printBoard() { Board::printBoard("white"); }
 
-void printBoard(string playingAs, char board[][8]) {
+void Board::printBoard(string playingAs) {
     if (playingAs == "white") {
         cout << "   ABCDEFGH" << endl << endl;
         for (int i = 7; i >= 0; i--) {
@@ -35,9 +35,9 @@ void printBoard(string playingAs, char board[][8]) {
     }
 }
 
-void printBigBoard(char board[][8]) { printBigBoard("white", board); }
+void Board::printBigBoard() { Board::printBigBoard("white"); }
 
-void printBigBoard(string playingAs, char board[][8]) {
+void Board::printBigBoard(string playingAs) {
     if (playingAs == "white") {
         cout << "     A   B   C   D   E   F   G   H " << endl;
         cout << "   +---+---+---+---+---+---+---+---+" << endl;
@@ -68,7 +68,7 @@ void printBigBoard(string playingAs, char board[][8]) {
     }
 }
 
-void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces, char board[][8]) {
+void Board::scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces) {
     string white_square, black_square;
     int *white_coords, *black_coords;
 
