@@ -26,10 +26,8 @@ void start(string starting_fen){
 	wp->loadPieces(board);
 	bp->loadPieces(board);
 
-	bp->printPieces();
-
-	printBoard(board);
-
+	printBigBoard(board);
+	
 	gameLoop(wp, bp, board);
 }
 
@@ -55,7 +53,7 @@ bool turn(Pieces *p, char board[][8]){
 	string *move = prompt(p, board);
 	bool moveMade = makeGivenMove(move, p, board);
 	if(moveMade)
-		printBoard(board);
+		printBigBoard(board);
 
 	return moveMade;
 }

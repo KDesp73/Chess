@@ -10,6 +10,7 @@ using namespace std;
 
 //board_functions.cpp
 void printBoard(char board[][8]);
+void printBigBoard(char board[][8]);
 
 int* translateSquare(string move);
 string translateSquare(int* coords);
@@ -30,6 +31,6 @@ void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces, char boar
 
 void emptyBoard(char board[][8]);
 
-
+vector<Piece*> squareIsAttacked(string square, Pieces *p, char board[][8]);
 
 

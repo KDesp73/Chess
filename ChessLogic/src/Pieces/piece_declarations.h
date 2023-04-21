@@ -127,7 +127,7 @@ class Queen: public Piece {
 class King: public Piece {
 	public:
 		bool hasMoved = false;
-		bool isInCheck = false;
+		bool inCheck = false;
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
 			this->type = "King";
@@ -143,6 +143,7 @@ class King: public Piece {
 		bool isValidMove(string to, char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
 		bool castle(string to, char board[][8]);
+		bool isInCheck();
 };
 
 /*==========================={ Pieces }===========================*/
