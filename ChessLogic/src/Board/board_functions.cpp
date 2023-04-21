@@ -8,31 +8,68 @@
 using namespace std;
 
 void printBoard(char board[][8]) {
-    // cout << "-------------------------------------------------" << endl <<
-    // endl;
-    cout << "   ABCDEFGH" << endl << endl;
-    for (int i = 7; i >= 0; i--) {
-        cout << i + 1 << "  ";
-        for (int j = 0; j < sizeof(board[i]); j++) {
-            cout << board[i][j];
+    printBoard("white", board);
+}
+
+void printBoard(string playingAs, char board[][8]){
+    if(playingAs == "white"){
+        cout << "   ABCDEFGH" << endl << endl;
+        for (int i = 7; i >= 0; i--) {
+            cout << i + 1 << "  ";
+            for (int j = 0; j < sizeof(board[i]); j++) {
+                cout << board[i][j];
+            }
+            cout << "  " << i + 1 << endl;
         }
-        cout << "  " << i + 1 << endl;
+        cout << endl << "   ABCDEFGH" << endl << endl;
+    } else if(playingAs == "black"){
+        cout << "   HGFEDCBA" << endl << endl;
+        for (int i = 0; i <= 7; i++) {
+            cout << i + 1 << "  ";
+            for (int j = 0; j < sizeof(board[i]); j++) {
+                cout << board[i][j];
+            }
+            cout << "  " << i + 1 << endl;
+        }
+        cout << endl << "   HGFEDCBA" << endl << endl;
+    } else{
+        cout << "Incorrect argument" << endl;
     }
-    cout << endl << "   ABCDEFGH" << endl << endl;
 }
 
 void printBigBoard(char board[][8]) {
-	cout << "     A   B   C   D   E   F   G   H " << endl;
-    cout << "   +---+---+---+---+---+---+---+---+" << endl;
-    for (int i = 7; i >= 0; i--) {
-        cout << i + 1 << "  ";
-        for (int j = 0; j < sizeof(board[i]); j++) {
-            cout << "| " << board[i][j] << " ";
+	printBigBoard("white", board);
+}
+
+void printBigBoard(string playingAs, char board[][8]){
+    if(playingAs == "white"){
+        cout << "     A   B   C   D   E   F   G   H " << endl;
+        cout << "   +---+---+---+---+---+---+---+---+" << endl;
+        for (int i = 7; i >= 0; i--) {
+            cout << i + 1 << "  ";
+            for (int j = 0; j < sizeof(board[i]); j++) {
+                cout << "| " << board[i][j] << " ";
+            }
+            cout << "|  " << i + 1 << endl;
+            cout << "   +---+---+---+---+---+---+---+---+" << endl;
         }
-        cout << "|  " << i + 1 << endl;
-		cout << "   +---+---+---+---+---+---+---+---+" << endl;
+        cout << "     A   B   C   D   E   F   G   H " << endl;
+    } else if(playingAs == "black"){
+        cout << "     H   G   F   E   D   C   B   A " << endl;
+        cout << "   +---+---+---+---+---+---+---+---+" << endl;
+        for (int i = 0; i <= 7; i++) {
+            cout << i + 1 << "  ";
+            for (int j = 0; j < sizeof(board[i]); j++) {
+                cout << "| " << board[i][j] << " ";
+            }
+            cout << "|  " << i + 1 << endl;
+            cout << "   +---+---+---+---+---+---+---+---+" << endl;
+        }
+        cout << "     H   G   F   E   D   C   B   A " << endl;
+
+    } else{
+        cout << "Incorrect argument" << endl;
     }
-	cout << "     A   B   C   D   E   F   G   H " << endl;
 }
 
 void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces,

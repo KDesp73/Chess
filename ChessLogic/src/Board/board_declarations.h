@@ -10,7 +10,9 @@ using namespace std;
 
 //board_functions.cpp
 void printBoard(char board[][8]);
+void printBoard(string playingAs, char board[][8]);
 void printBigBoard(char board[][8]);
+void printBigBoard(string playingAs, char board[][8]);
 
 int* translateSquare(string move);
 string translateSquare(int* coords);
