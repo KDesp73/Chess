@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "Board/board_declarations.h"
-#include "Board/game_logic.h"
-#include "Pieces/piece_declarations.h"
+#include "chess_lib.h"
 
 
 int main(int argc, char** argv) {
