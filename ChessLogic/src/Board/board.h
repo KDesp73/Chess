@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include <string>
 #include "../Pieces/piece_declarations.h"
 
@@ -28,6 +29,13 @@ class Board{
             bp->loadPieces(board);
         }
 
+        Board(string playingAs, char board[8][8]){
+            this->playingAs = playingAs;
+            memcpy(this->board, board, 8*8*sizeof(char));
+            wp->loadPieces(board);
+            bp->loadPieces(board);
+        }
+
         void importFEN(string fen);
         string exportFEN();
         void printBoard();
@@ -37,3 +45,5 @@ class Board{
 
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
 };
+
+string exportFEN(char board[][8]);

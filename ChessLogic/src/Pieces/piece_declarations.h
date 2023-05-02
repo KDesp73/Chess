@@ -29,6 +29,7 @@ class Piece {
 			this->color = color;
 		}
 		virtual bool move(string to, char board[][8]);
+		void moveFreely(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
 		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
@@ -150,7 +151,9 @@ class King: public Piece {
 		vector<string> getValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
 		bool castle(string to, char board[][8]);
-		bool isInCheck();
+		bool isInCheck(char board[][8]);
+		bool isInCheck(string to, char board[][8]);
+		bool isInCheckmate(char board[][8]);
 };
 
 /*==========================={ Pieces }===========================*/

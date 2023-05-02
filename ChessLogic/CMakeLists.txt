@@ -14,7 +14,10 @@ set(SOURCES
     src/Board/Board.cpp
     src/Board/board.h
     src/Board/chess_notation.cpp
-    src/Board/game_logic.cpp
+    
+    src/Game/game_logic.cpp
+    src/Game/game_logic.h
+
 
     src/Pieces/Bishop.cpp
     src/Pieces/King.cpp

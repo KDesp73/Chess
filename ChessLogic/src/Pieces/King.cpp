@@ -1,5 +1,10 @@
+#include <algorithm>
+
 #include "piece_declarations.h"
 #include "../Board/board_declarations.h"
+#include "../Board/board.h"
+
+using namespace std;
 
 
 
@@ -35,6 +40,9 @@ bool King::isValidMove(string to, char board[][8]) {
     int colDiff = abs(fromCol - toCol);
 
 	if(this->capturesOwnPiece(toCoords, board)) return false;
+
+    //check if move is check
+    if(isInCheck(to, board)) return false;
 
     // check if king wants to castle
     if(colDiff == 2 && canCastle(to, board)) {
@@ -110,7 +118,31 @@ bool King::castle(string to, char board[][8]){
     return move(to, board);
 }
 
-bool King::isInCheck(){
+bool King::isInCheck(char board[][8]){
+    return isInCheck(this->currentSquare, board);
+}
+
+bool King::isInCheck(string to, char board[][8]){
+    Board *b = new Board("white", exportFEN(board));
+
+    vector<string> availableMoves;
+    if(this->color == "white"){
+        for(int i = 0; i < b->bp->pieces.size(); i++){
+            availableMoves = b->bp->pieces.at(i)->getValidMoves(board);
+            if(find(availableMoves.begin(), availableMoves.end(), to) != availableMoves.end()){
+                return true;
+            }
+        }
+    } else {
+        for(int i = 0; i < b->wp->pieces.size(); i++){
+            availableMoves = b->wp->pieces.at(i)->getValidMoves(board);
+            if(find(availableMoves.begin(), availableMoves.end(), to) != availableMoves.end()){
+                return true;
+            }
+        }
+    }
+    
+    b->~Board();
     return false;
 }
 
@@ -130,4 +162,8 @@ vector<string> King::getValidMoves(char board[][8]){
 		}	
 	}
 	return ret;
+}
+
+bool King::isInCheckmate(char board[][8]){
+    return (getValidMoves(board).empty() && isInCheck(board));
 }

@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../Pieces/piece_declarations.h"
-#include "board.h"
+#include "../Board/board.h"
 
 //game_logic.cpp
 void start(string starting_fen);

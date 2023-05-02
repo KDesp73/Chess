@@ -1,8 +1,8 @@
 #include <iostream>
 
 
-#include "./board_declarations.h"
-#include "board.h"
+#include "../Board/board_declarations.h"
+#include "../Board/board.h"
 #include "./game_logic.h"
 #include "../Pieces/piece_declarations.h" 
 

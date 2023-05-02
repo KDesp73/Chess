@@ -64,6 +64,22 @@ string Board::exportFEN(){
 	return fen;
 }
 
+string exportFEN(char board[][8]){
+	string temp_fen = "";
+
+	for(int i=0; i < 8; i++){
+		
+		if(i != 0) temp_fen += '/';
+		
+		for(int j=0; j < 8; j++){
+			temp_fen += board[7-i][j];
+		}
+	}
+	
+	string fen = replaceSpaces(temp_fen);
+
+	return fen;
+}
 
 
 string addSpaces(int index, int num, string fen){
