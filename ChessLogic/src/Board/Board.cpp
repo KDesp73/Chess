@@ -2,6 +2,7 @@
 #include <string>
 
 #include "./board_declarations.h"
+#include "./board.h"
 
 void Board::printBoard() { Board::printBoard("white"); }
 

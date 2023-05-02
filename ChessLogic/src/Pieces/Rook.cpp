@@ -18,6 +18,8 @@ bool Rook::isValidMove(string to, char board[][8]) {
     int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0],
         toCol = toCoords[1];
 
+	if(this->capturesOwnPiece(toCoords, board)) return false;
+
     if (fromRow == toRow) {
         // Moving horizontally
         int step = (toCol > fromCol) ? 1 : -1;
@@ -38,4 +40,22 @@ bool Rook::isValidMove(string to, char board[][8]) {
         return true;
     }
     return false;
+}
+
+vector<string> Rook::getValidMoves(char board[][8]){
+	vector<string> ret;
+	string letters = "abcdefgh";
+
+	string moveToCheck;
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			moveToCheck = letters[i] + to_string((j+1));
+
+			if(this->isValidMove(moveToCheck, board)){
+				ret.push_back(moveToCheck);
+			}
+
+		}	
+	}
+	return ret;
 }

@@ -12,6 +12,7 @@ set(SOURCES
     src/Board/board_declarations.h
     src/Board/board_functions.cpp
     src/Board/Board.cpp
+    src/Board/board.h
     src/Board/chess_notation.cpp
     src/Board/game_logic.cpp
 

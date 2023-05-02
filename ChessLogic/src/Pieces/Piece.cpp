@@ -13,3 +13,7 @@ bool Piece::move(string to, char board[][8]){
 void Piece::printPiece(){
 	cout << this->boardChar << " " << this->color << " " << this->currentSquare << endl;
 }
+
+bool Piece::capturesOwnPiece(int *toCoords, char board[][8]){
+	return (isupper(board[toCoords[0]][toCoords[1]]) && this->color == "white") || (islower(board[toCoords[0]][toCoords[1]]) && this->color == "black");
+}

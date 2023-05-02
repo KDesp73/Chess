@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 class Piece {
@@ -30,6 +31,8 @@ class Piece {
 		virtual bool move(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
+		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
+		bool capturesOwnPiece(int *toCoords, char board[][8]);
 };
 
 class Pawn: public Piece {
@@ -48,6 +51,7 @@ class Pawn: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
 		void promote(char board[][8]);
 };
@@ -69,6 +73,7 @@ class Rook: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 };
 
 class Knight: public Piece {
@@ -86,6 +91,7 @@ class Knight: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 };
 
 class Bishop: public Piece {
@@ -102,6 +108,7 @@ class Bishop: public Piece {
 			}
 		}
 		bool move(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -120,6 +127,7 @@ class Queen: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 };
 
 class King: public Piece {
@@ -139,6 +147,7 @@ class King: public Piece {
 		}
 		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
+		vector<string> getValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
 		bool castle(string to, char board[][8]);
 		bool isInCheck();
@@ -185,3 +194,5 @@ class BlackPieces : public Pieces{
 };
 
 Piece* pieceFromChar(int x, int y, char board[][8]);
+
+

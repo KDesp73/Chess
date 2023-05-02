@@ -2,6 +2,7 @@
 
 
 #include "./board_declarations.h"
+#include "board.h"
 #include "./game_logic.h"
 #include "../Pieces/piece_declarations.h" 
 

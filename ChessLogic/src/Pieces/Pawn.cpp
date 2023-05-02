@@ -67,6 +67,7 @@ bool Pawn::isValidCapture(string to, char board[][8]){
 
 	int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0], toCol = toCoords[1];
 
+	if(this->capturesOwnPiece(toCoords, board)) return false;
 
     // Check if the pawn is capturing an opponent's piece
 	bool isOpponentsPiece = ((this->color == "white" && !isupper(board[toRow][toCol])) || (this->color == "black" && isupper(board[toRow][toCol])));
@@ -121,4 +122,22 @@ void Pawn::promote(char board[][8]){
 		board[currentCoords[0]][currentCoords[1]] = promoteTo;
 
 	this->~Pawn();
+}
+
+vector<string> Pawn::getValidMoves(char board[][8]){
+	vector<string> ret;
+	string letters = "abcdefgh";
+
+	string moveToCheck;
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			moveToCheck = letters[i] + to_string((j+1));
+
+			if(this->isValidMove(moveToCheck, board) || this->isValidCapture(moveToCheck, board)){
+				ret.push_back(moveToCheck);
+			}
+
+		}	
+	}
+	return ret;
 }
