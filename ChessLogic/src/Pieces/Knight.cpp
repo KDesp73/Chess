@@ -28,19 +28,37 @@ bool Knight::isValidMove(string to, char board[][8]) {
 }
 
 vector<string> Knight::getValidMoves(char board[][8]){
-	vector<string> ret;
-	string letters = "abcdefgh";
+	char currentFile = currentSquare.at(0);
+    int currentRank = currentSquare.at(1) - 48;
 
-	string moveToCheck;
-	for (int i = 0; i < 8; i++){
-		for (int j = 0; j < 8; j++){
-			moveToCheck = letters[i] + to_string((j+1));
+    
 
-			if(this->isValidMove(moveToCheck, board)){
-				ret.push_back(moveToCheck);
-			}
+	vector<string> movesToCheck = {
+		string(1, currentFile+1) + to_string(currentRank+2),
+		string(1, currentFile-1) + to_string(currentRank+2),
+		string(1, currentFile+1) + to_string(currentRank-2),
+		string(1, currentFile-1) + to_string(currentRank-2),
+		string(1, currentFile+2) + to_string(currentRank+1),
+		string(1, currentFile+2) + to_string(currentRank-1),
+		string(1, currentFile-2) + to_string(currentRank+1),
+		string(1, currentFile-2) + to_string(currentRank-1),
+	};
 
-		}	
-	}
-	return ret;
+	// Filter invalid squares
+    for (int i = 0; i < movesToCheck.size(); i++) {
+        if (!isValidSquare(movesToCheck.at(i))) {
+            movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+    // Filter invalid moves
+    for (int i = 0; i < movesToCheck.size(); i++) {
+        if(!this->isValidMove(movesToCheck.at(i), board)){
+            movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+    return movesToCheck;
 }
