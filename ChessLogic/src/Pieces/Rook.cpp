@@ -43,19 +43,49 @@ bool Rook::isValidMove(string to, char board[][8]) {
 }
 
 vector<string> Rook::getValidMoves(char board[][8]){
-	vector<string> ret;
-	string letters = "abcdefgh";
+	char currentFile = currentSquare.at(0);
+    int currentRank = currentSquare.at(1) - 48;
 
-	string moveToCheck;
-	for (int i = 0; i < 8; i++){
-		for (int j = 0; j < 8; j++){
-			moveToCheck = letters[i] + to_string((j+1));
+    vector<string> movesToCheck;
 
-			if(this->isValidMove(moveToCheck, board)){
-				ret.push_back(moveToCheck);
-			}
+    
+    // Check same rank left
+    char tempFile = currentFile;
+    while(tempFile > 'a'){
+        tempFile--;
+        movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+    }
 
-		}	
-	}
-	return ret;
+
+    // Check same rank right
+    tempFile = currentFile;
+    while(tempFile < 'h'){
+        tempFile++;
+        movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+    }
+
+
+    // Check same file up
+    int tempRank = currentRank;
+    while(tempRank < 8){
+        tempRank++;
+        movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+    }
+    
+    // Check same file down
+    tempRank = currentRank;
+    while(tempRank > 1){
+        tempRank--;
+        movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+    }
+
+    // Filter invalid moves
+    for (int i = 0; i < movesToCheck.size(); i++) {
+        if(!this->isValidMove(movesToCheck.at(i), board)){
+            movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+    return movesToCheck;
 }
