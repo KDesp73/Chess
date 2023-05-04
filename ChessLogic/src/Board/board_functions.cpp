@@ -103,6 +103,8 @@ bool isValidSquare(string square){
     if(square.length() != 2) return false;
     if(!isalpha(square[0])) return false;
     if(!isdigit(square[1])) return false;
+    if(square[1] - 48 < 1 || square[1] - 48 > 8) return false;
+    if(square[0] < 'a' || square[0] > 'h') return false;
 
     return true;
 }
