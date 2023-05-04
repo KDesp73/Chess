@@ -32,19 +32,54 @@ bool Bishop::isValidMove(string to, char board[][8]) {
 }
 
 vector<string> Bishop::getValidMoves(char board[][8]){
-	vector<string> ret;
-	string letters = "abcdefgh";
+	char currentFile = currentSquare.at(0);
+    int currentRank = currentSquare.at(1) - 48;
 
-	string moveToCheck;
-	for (int i = 0; i < 8; i++){
-		for (int j = 0; j < 8; j++){
-			moveToCheck = letters[i] + to_string((j+1));
+    vector<string> movesToCheck;
 
-			if(this->isValidMove(moveToCheck, board)){
-				ret.push_back(moveToCheck);
-			}
-
-		}	
+	// Check up and right
+	char tempFile = currentFile;
+	int tempRank = currentRank;
+	while(tempFile < 'h' && tempRank < 8){
+		tempFile++;
+		tempRank++;
+		movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
 	}
-	return ret;
+
+	// Check up and left
+	tempFile = currentFile;
+	tempRank = currentRank;
+	while(tempFile > 'a' && tempRank < 8){
+		tempFile--;
+		tempRank++;
+		movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+	}
+
+	// Check down and right
+	tempFile = currentFile;
+	tempRank = currentRank;
+	while(tempFile < 'h' && tempRank > 1){
+		tempFile++;
+		tempRank--;
+		movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+	}
+
+	// Check down and left
+	tempFile = currentFile;
+	tempRank = currentRank;
+	while(tempFile > 'a' && tempRank > 1){
+		tempFile--;
+		tempRank--;
+		movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+	}
+
+	// Filter invalid moves
+    for (int i = 0; i < movesToCheck.size(); i++) {
+        if(!this->isValidMove(movesToCheck.at(i), board)){
+            movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+	return movesToCheck;
 }
