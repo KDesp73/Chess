@@ -121,43 +121,48 @@ bool King::isInCheck(char board[][8]) {
 bool King::isInCheck(string to, char board[][8]) {
     Board* b = new Board("white", exportFEN(board));
 
-    vector<string> availableMoves;
     if (this->color == "white") {
-        for (int i = 0; i < b->bp->pieces.size(); i++) {
-            availableMoves = b->bp->pieces.at(i)->getValidMoves(board);
-            if (find(availableMoves.begin(), availableMoves.end(), to) !=
-                availableMoves.end()) {
+        for (Piece* p : b->bp->pieces) {
+            if (p->isValidMove(to, board)) {
+                delete p;
                 return true;
             }
         }
     } else {
-        for (int i = 0; i < b->wp->pieces.size(); i++) {
-            availableMoves = b->wp->pieces.at(i)->getValidMoves(board);
-            if (find(availableMoves.begin(), availableMoves.end(), to) !=
-                availableMoves.end()) {
+        for (Piece* p : b->wp->pieces) {
+            if (p->isValidMove(to, board)) {
+                delete p;
                 return true;
             }
         }
     }
 
-    b->~Board();
+    delete b;
     return false;
+}
+
+bool King::isInCheckmate(char board[][8]) {
+    return (getValidMoves(board).empty() && isInCheck(board));
 }
 
 vector<string> King::getValidMoves(char board[][8]) {
     char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 
-    // All 8 possible King moves
+    // All 8 possible King moves + 2 castling moves
     vector<string> movesToCheck = {
-        string(1, currentFile) + "" + to_string(currentRank + 1),
-        string(1, currentFile) + "" + to_string(currentRank - 1),
-        string(1, (char)(currentFile + 1)) + "" + to_string(currentRank + 1),
-        string(1, (char)(currentFile + 1)) + "" + to_string(currentRank - 1),
-        string(1, (char)(currentFile - 1)) + "" + to_string(currentRank + 1),
-        string(1, (char)(currentFile - 1)) + "" + to_string(currentRank - 1),
-        string(1, (char)(currentFile + 1)) + "" + to_string(currentRank),
-        string(1, (char)(currentFile - 1)) + "" + to_string(currentRank)};
+        string(1, currentFile) + to_string(currentRank + 1),
+        string(1, currentFile) + to_string(currentRank - 1),
+        string(1, currentFile + 1) + to_string(currentRank + 1),
+        string(1, currentFile + 1) + to_string(currentRank - 1),
+        string(1, currentFile - 1) + to_string(currentRank + 1),
+        string(1, currentFile - 1) + to_string(currentRank - 1),
+        string(1, currentFile + 1) + to_string(currentRank),
+        string(1, currentFile - 1) + to_string(currentRank),
+        string(1, currentFile + 2) + to_string(currentRank),  // Castling
+        string(1, currentFile - 2) + to_string(currentRank)   // Castling
+
+    };
 
     // Filter invalid squares
     for (int i = 0; i < movesToCheck.size(); i++) {
@@ -169,15 +174,11 @@ vector<string> King::getValidMoves(char board[][8]) {
 
     // Filter invalid moves
     for (int i = 0; i < movesToCheck.size(); i++) {
-        if(!this->isValidMove(movesToCheck.at(i), board)){
+        if (!this->isValidMove(movesToCheck.at(i), board)) {
             movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
             i--;
         }
     }
 
     return movesToCheck;
-}
-
-bool King::isInCheckmate(char board[][8]) {
-    return (getValidMoves(board).empty() && isInCheck(board));
 }

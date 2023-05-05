@@ -20,33 +20,18 @@ int main(int argc, char** argv) {
 	string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
 	string checkmate_fen = "rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR";
 
-	//start(random_fen);
+	//start(starting_fen);
 
+	string temp_fen = "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR";
+	Board b{"white", temp_fen};
+	b.printBigBoard();
 
+	King k{"e8", "black"};
 
-/*  // Pieces for random_fen 
-	Pawn *p = new Pawn("e2", "white");
-	Knight *n = new Knight("f3", "white");
-	Rook *r = new Rook("e1", "white");
-	Bishop *b = new Bishop("c6", "black");
+	printValidMoves(&k, temp_fen);
 
-
-*/
-	King *k = new King("e1", "white");
-	
-	cout << "Valid moves: ";
-	printValidMoves(k, "r1b1kbnr/ppp2p1p/8/3pp1pq/4P1P1/2Nn1P1B/PPP4P/R1BQK1NR");
-	cout << endl;
-
-	Board *b = new Board("white", "r1b1kbnr/ppp2p1p/8/3pp1pq/4P1P1/2Nn1P1B/PPP4P/R1BQK1NR");
-
-	b->printBigBoard();
-
-	cout << k->isInCheck(b->board) << endl;
-	cout << k->isInCheckmate(b->board) << endl;
-
-	b->~Board();
-	k->~King();
+	cout << "Is in check? " << k.isInCheck(b.board) << endl;
+	cout << "Is in checkmate? " << k.isInCheckmate(b.board) << endl;
 
 	return 0;
 }
