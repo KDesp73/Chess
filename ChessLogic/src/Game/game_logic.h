@@ -8,11 +8,14 @@
 #include "../Board/board.h"
 
 //game_logic.cpp
+
+namespace Game{
+
 void start(string starting_fen);
 
-string* prompt(Pieces* p, char board[][8]);
+Move prompt(Pieces* p, char board[][8]);
 
-bool makeGivenMove(string *move, Pieces *p, char board[][8]);
+bool makeGivenMove(Move move, Pieces *p, char board[][8]);
 
 bool turn(Pieces *p, Board *board);
 
@@ -20,3 +23,4 @@ bool isMate(char board[][8]);
 bool isDraw(char board[][8]);
 
 void gameLoop(Board *board);
+}

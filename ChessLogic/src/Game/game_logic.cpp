@@ -7,14 +7,14 @@
 #include "../Pieces/piece_declarations.h" 
 
 
-void start(string starting_fen){
+void Game::start(string starting_fen){
 	Board *board = new Board("white", starting_fen);
 	board->printBigBoard();
 	
-	gameLoop(board);
+	Game::gameLoop(board);
 }
 
-void gameLoop(Board *board){
+void Game::gameLoop(Board *board){
 	string playing = "white";
 	do{
 		if(playing == "white"){
@@ -32,18 +32,18 @@ void gameLoop(Board *board){
 	} while(!isMate(board->board) && !isDraw(board->board));
 }
 
-bool turn(Pieces *p, Board *board){
-	string *move = prompt(p, board->board);
-	if(move == NULL) return false;
+bool Game::turn(Pieces *p, Board *board){
+	Move move = Game::prompt(p, board->board);
+	if(sizeof(move) == 0) return false;
 
-	bool moveMade = makeGivenMove(move, p, board->board);
+	bool moveMade = Game::makeGivenMove(move, p, board->board);
 	if(moveMade)
 		board->printBigBoard();
 
 	return moveMade;
 }
 
-string* prompt(Pieces* p, char board[][8]){
+Move Game::prompt(Pieces* p, char board[][8]){
 	string from, to;
 	cout << "From: ";
 	cin >> from;
@@ -51,17 +51,17 @@ string* prompt(Pieces* p, char board[][8]){
 	cin >> to;
 	cout << endl;
 
-	if(!isValidSquare(from) || !isValidSquare(to)) return NULL;
+	if(!isValidSquare(from) || !isValidSquare(to)) return {};
 	
-	return new string[2]{from, to};
+	return Move{from, to};
 }
 
-bool makeGivenMove(string *move, Pieces *p, char board[][8]){
-	Piece* pieceToMove = p->pieceInSquare(move[0], board);
+bool Game::makeGivenMove(Move move, Pieces *p, char board[][8]){
+	Piece* pieceToMove = p->pieceInSquare(move.from, board);
 
 	//Move checks
 	if(pieceToMove == NULL) {
-		cout << "Nothing in " << move[0] << " square" << endl;
+		cout << "Nothing in " << move.from << " square" << endl;
 		return false;
 	} 
 	if(pieceToMove->color != p->color) {
@@ -69,13 +69,13 @@ bool makeGivenMove(string *move, Pieces *p, char board[][8]){
 		return false;
 	}
 	
-	return pieceToMove->move(move[1], board);
+	return pieceToMove->move(move.to, board);
 }
 
-bool isMate(char board[][8]){
+bool Game::isMate(char board[][8]){
 	return false;
 }
 
-bool isDraw(char board[][8]){
+bool Game::isDraw(char board[][8]){
 	return false;
 }
