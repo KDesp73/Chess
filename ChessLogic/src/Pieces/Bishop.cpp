@@ -10,10 +10,10 @@ bool Bishop::move(string to, char board[][8]){
 }
 
 bool Bishop::isValidMove(string to, char board[][8]) {
-	int* fromCoords = translateSquare(currentSquare);
-	int* toCoords = translateSquare(to);
+	Coords fromCoords = translateSquare(currentSquare);
+	Coords toCoords = translateSquare(to);
 
-	int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0], toCol = toCoords[1];
+	int fromRow = fromCoords.x, fromCol = fromCoords.y, toRow = toCoords.x, toCol = toCoords.y;
 
 	if(this->capturesOwnPiece(toCoords, board)) return false;
 

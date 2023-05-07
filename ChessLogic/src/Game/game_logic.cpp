@@ -1,17 +1,13 @@
 #include <iostream>
 
-
-#include "../Board/board_declarations.h"
-#include "../Board/board.h"
-#include "./game_logic.h"
-#include "../Pieces/piece_declarations.h" 
-
+#include "game_logic.h"
 
 void Game::start(string starting_fen){
 	Board *board = new Board("white", starting_fen);
 	board->printBigBoard();
 	
 	Game::gameLoop(board);
+	delete board;
 }
 
 void Game::gameLoop(Board *board){
@@ -29,13 +25,19 @@ void Game::gameLoop(Board *board){
 			if(moveMade)
 				playing = "white";
 		}
+
+		// cout << "WhitePieces: " << endl;
+		// board->wp->printPieces();
+		// cout << endl << "BlackPieces: " << endl;
+		// board->bp->printPieces();
 	} while(!isMate(board->board) && !isDraw(board->board));
 }
 
 bool Game::turn(Pieces *p, Board *board){
 	Move move = Game::prompt(p, board->board);
-	if(sizeof(move) == 0) return false;
-
+	if(sizeof(move) == 0) {
+		return false;
+	}
 	bool moveMade = Game::makeGivenMove(move, p, board->board);
 	if(moveMade)
 		board->printBigBoard();
@@ -51,7 +53,10 @@ Move Game::prompt(Pieces* p, char board[][8]){
 	cin >> to;
 	cout << endl;
 
-	if(!isValidSquare(from) || !isValidSquare(to)) return {};
+	if(!isValidSquare(from) || !isValidSquare(to)) {
+		cout << "Invalid squares" << endl;
+		return {};
+	}
 	
 	return Move{from, to};
 }

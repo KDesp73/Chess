@@ -4,23 +4,24 @@
 #include <vector>
 
 #include "../Pieces/piece_declarations.h" 
+#include "./structs.h"
 
 
 using namespace std;
 
 //board_functions.cpp
 
-
-int* translateSquare(string square);
-string translateSquare(int* coords);
+// int* translateSquare(string square);
+Coords translateSquare(string square);
+string translateSquare(Coords coords);
 
 bool makeMove(string from, string to, char board[][8]);
 
-char pieceToMove(int* coords, char board[][8]);
+char pieceToMove(Coords coords, char board[][8]);
 
 char pieceToMove(string square, char board[][8]);
 
-void printCoords(int* coords);
+void printCoords(Coords coords);
 
 void printCoords(string square);
 
@@ -34,8 +35,4 @@ vector<Piece*> squareIsAttacked(string square, Pieces *p, char board[][8]);
 
 bool isValidSquare(string square);
 
-struct Move{
-    string from;
-    string to;
-};
 

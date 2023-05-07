@@ -67,7 +67,7 @@ void Board::printBigBoard(string playingAs) {
 
 void Board::scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces) {
     string white_square, black_square;
-    int *white_coords, *black_coords;
+    Coords white_coords, black_coords;
 
     for (int i = 0; i < 16; i++) {
         white_square = whitePieces.at(i)->currentSquare;
@@ -76,9 +76,9 @@ void Board::scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces) {
         white_coords = translateSquare(white_square);
         black_coords = translateSquare(black_square);
 
-        board[*white_coords][*(white_coords + 1)] =
+        board[white_coords.x][white_coords.y] =
             whitePieces.at(i)->boardChar;
-        board[*black_coords][*(black_coords + 1)] =
+        board[black_coords.x][black_coords.y] =
             blackPieces.at(i)->boardChar;
     }
 }

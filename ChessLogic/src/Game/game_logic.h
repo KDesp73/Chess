@@ -6,6 +6,7 @@
 
 #include "../Pieces/piece_declarations.h"
 #include "../Board/board.h"
+#include "../Board/board_declarations.h"
 
 //game_logic.cpp
 
@@ -16,6 +17,7 @@ void start(string starting_fen);
 Move prompt(Pieces* p, char board[][8]);
 
 bool makeGivenMove(Move move, Pieces *p, char board[][8]);
+bool makeGivenMove(Move move, Pieces *p, Board *board);
 
 bool turn(Pieces *p, Board *board);
 

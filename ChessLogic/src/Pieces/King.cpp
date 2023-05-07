@@ -12,11 +12,11 @@ bool King::move(string to, char board[][8]) {
     King::hasMoved = true;
 
     // in case of castling //
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1];
-    int toRow = toCoords[0], toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
 
     int colDiff = abs(fromCol - toCol);
 
@@ -29,11 +29,11 @@ bool King::move(string to, char board[][8]) {
 }
 
 bool King::isValidMove(string to, char board[][8]) {
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0],
-        toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y, toRow = toCoords.x,
+        toCol = toCoords.y;
 
     int rowDiff = abs(fromRow - toRow);
     int colDiff = abs(fromCol - toCol);
@@ -56,11 +56,11 @@ bool King::isValidMove(string to, char board[][8]) {
 }
 
 bool King::canCastle(string to, char board[][8]) {
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1];
-    int toRow = toCoords[0], toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
 
     int direction = toCol - fromCol;
 
@@ -98,11 +98,11 @@ Rook* getRookToCastle(int direction, string color, char board[][8]) {
 bool King::castle(string to, char board[][8]) {
     if (!canCastle(to, board)) return false;
 
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1];
-    int toRow = toCoords[0], toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
 
     int direction = toCol - fromCol;
 

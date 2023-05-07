@@ -20,18 +20,19 @@ int main(int argc, char** argv) {
 	string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
 	string checkmate_fen = "rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR";
 
-	//start(starting_fen);
-
-	string temp_fen = "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR";
+	Game::start(starting_fen);
+/** /
+	string temp_fen = "rnb1kbnr/pppp1ppp/8/4p3/6Pq/4PP2/PPPP3P/RNBQKBNR";
 	Board b{"white", temp_fen};
 	b.printBigBoard();
 
-	King k{"e8", "black"};
+	King k{"e1", "white"};
 
 	printValidMoves(&k, temp_fen);
 
 	cout << "Is in check? " << k.isInCheck(b.board) << endl;
 	cout << "Is in checkmate? " << k.isInCheckmate(b.board) << endl;
+/**/
 
 	return 0;
 }

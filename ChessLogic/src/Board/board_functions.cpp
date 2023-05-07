@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int* translateSquare(string square) {
+Coords translateSquare(string square) {
     string letters = "abcdefgh";
 
     int x = square.at(1) - 48 - 1;
@@ -16,65 +16,63 @@ int* translateSquare(string square) {
     if ((square.length() < 0 || square.length() > 2) ||
         ((x < 0 || x > 7) && (y < 0 || y > 7))) {
         cout << "Invalid square";
-        return NULL;
+        return {};
     }
 
-    int* coords = new int[2];
-
-    coords[0] = x;
-    coords[1] = y;
+    Coords coords{x, y};
 
     return coords;
 }
 
-string translateSquare(int* coords) {
+string translateSquare(Coords coords) {
     string letters = "abcdefgh";
 
     string rank, file;
 
-    rank = letters[(coords[1])];
-    file = coords[0] + 48 + 1;
+    rank = letters[(coords.y)];
+    file = coords.x + 48 + 1;
 
     return rank + file;
 }
 
-char pieceToMove(int* coords, char board[][8]) {
-    return board[*coords][*(coords + 1)];
+char pieceToMove(Coords coords, char board[][8]) {
+    return board[coords.x][coords.y];
 }
 
 char pieceToMove(string square, char board[][8]) {
-    int* coords = translateSquare(square);
+    Coords coords = translateSquare(square);
 
     return pieceToMove(coords, board);
 }
 
 bool makeMove(string from, string to, char board[][8]) {
-    int* fromCoords = new int[2];
-    fromCoords = translateSquare(from);
-    int* toCoords = new int[2];
-    toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(from);
+    Coords toCoords = translateSquare(to);
 
-    if (fromCoords == NULL || toCoords == NULL) return false;
+    /*if (sizeof(fromCoords) || sizeof(toCoords)) {
+        cout << "Empty coords" << endl;
+        return false;
+    }*/
 
     char piece = pieceToMove(from, board);
 
     // cout << "Piece to move: |" << piece << "|" << endl;
 
-    board[*fromCoords][*(fromCoords + 1)] = ' ';
-    board[*toCoords][*(toCoords + 1)] = piece;
+    board[fromCoords.x][fromCoords.y] = ' ';
+    board[toCoords.x][toCoords.y] = piece;
 
     return true;
 }
 
-void printCoords(int* coords) {
-    cout << "(" << *coords << ", " << *(coords + 1) << ")" << endl;
+void printCoords(Coords coords) {
+    cout << "(" << coords.x << ", " << coords.y << ")" << endl;
 }
 
 void printCoords(string square) {
-    int* coords = translateSquare(square);
+    Coords coords = translateSquare(square);
 
     cout << square << " is "
-         << "(" << *coords << ", " << *(coords + 1) << ")" << endl;
+         << "(" << coords.x << ", " << coords.y << ")" << endl;
 }
 
 void emptyBoard(char board[][8]) {
@@ -100,11 +98,26 @@ vector<Piece*> squareIsAttacked(string square, Pieces* p, char board[][8]) {
 }
 
 bool isValidSquare(string square){
-    if(square.length() != 2) return false;
-    if(!isalpha(square[0])) return false;
-    if(!isdigit(square[1])) return false;
-    if(square[1] - 48 < 1 || square[1] - 48 > 8) return false;
-    if(square[0] < 'a' || square[0] > 'h') return false;
+    if(square.length() != 2){
+        // cout << "Move not 2 characters" << endl;
+        return false;
+    }
+    if(!isalpha(square[0])) {
+        // cout << "First character not in alphabet" << endl;
+        return false;
+    }
+    if(!isdigit(square[1])) {
+        // cout << "Second character not a digit" << endl;
+        return false;
+    }
+    if(square[1] - 48 < 1 || square[1] - 48 > 8) {
+        // cout << "Rank number less than 1 or grater than 8" << endl;
+        return false;
+    }
+    if(square[0] < 'a' || square[0] > 'h') {
+        // cout << "File character less than a or grater than h" << endl;
+        return false;
+    }
 
     return true;
 }

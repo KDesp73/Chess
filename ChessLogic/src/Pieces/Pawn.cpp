@@ -5,10 +5,30 @@
 bool Pawn::move(string to, char board[][8]) {
     if (!isValidMove(to, board)) return false;
 
+    if (translateSquare(currentSquare).x == 7 ||
+        translateSquare(currentSquare).x == 0) {
+        cout << "Promote" << endl;
+        this->promote(board);
+    }
+
+    bool valid = Piece::move(to, board);
+
+    if (translateSquare(currentSquare).x == 7 ||
+        translateSquare(currentSquare).x == 0) {
+        cout << "Promote" << endl;
+        this->promote(board);
+    }
+
+    return valid;
+}
+/*
+bool Pawn::move(string to, Board board) {
+    if (!isValidMove(to, board.board)) return false;
+
     if (translateSquare(currentSquare)[0] == 7 ||
         translateSquare(currentSquare)[0] == 0) {
         cout << "Promote" << endl;
-        this->promote(board);
+        this->promote(board.board);
     }
 
     bool valid = Piece::move(to, board);
@@ -16,18 +36,18 @@ bool Pawn::move(string to, char board[][8]) {
     if (translateSquare(currentSquare)[0] == 7 ||
         translateSquare(currentSquare)[0] == 0) {
         cout << "Promote" << endl;
-        this->promote(board);
+        this->promote(board.board);
     }
 
     return valid;
-}
+}*/
 
 bool Pawn::isValidMove(string to, char board[][8]) {
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0],
-        toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y, toRow = toCoords.x,
+        toCol = toCoords.y;
 
     int direction;
     if (this->color == "white") {
@@ -68,11 +88,11 @@ bool Pawn::isValidCapture(string to, char board[][8]) {
         direction = -1;
     }
 
-    int* fromCoords = translateSquare(currentSquare);
-    int* toCoords = translateSquare(to);
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
 
-    int fromRow = fromCoords[0], fromCol = fromCoords[1], toRow = toCoords[0],
-        toCol = toCoords[1];
+    int fromRow = fromCoords.x, fromCol = fromCoords.y, toRow = toCoords.x,
+        toCol = toCoords.y;
 
     if (this->capturesOwnPiece(toCoords, board)) return false;
 
@@ -95,8 +115,8 @@ void Pawn::promote(char board[][8]) {
     else
         promotionRank = 1;
 
-    int* currentCoords = translateSquare(this->currentSquare);
-    if (currentCoords[0] != promotionRank - 1) return;
+    Coords currentCoords = translateSquare(this->currentSquare);
+    if (currentCoords.x != promotionRank - 1) return;
 
     char promoteTo;
     do {
@@ -127,9 +147,9 @@ void Pawn::promote(char board[][8]) {
     }
 
     if (color == "white")
-        board[currentCoords[0]][currentCoords[1]] = toupper(promoteTo);
+        board[currentCoords.x][currentCoords.y] = toupper(promoteTo);
     else
-        board[currentCoords[0]][currentCoords[1]] = promoteTo;
+        board[currentCoords.x][currentCoords.y] = promoteTo;
 
     this->~Pawn();
 }

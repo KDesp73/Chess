@@ -4,6 +4,8 @@
 #include <string>
 #include "../Pieces/piece_declarations.h"
 
+using namespace std;
+
 class Board{
     public:
         string playingAs;

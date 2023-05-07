@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include "../Board/structs.h"
 
 using namespace std;
 
@@ -29,11 +30,12 @@ class Piece {
 			this->color = color;
 		}
 		virtual bool move(string to, char board[][8]);
+		// virtual bool move(string to, Board board);
 		void moveFreely(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
 		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
-		bool capturesOwnPiece(int *toCoords, char board[][8]);
+		bool capturesOwnPiece(Coords toCoords, char board[][8]);
 };
 
 class Pawn: public Piece {
@@ -51,6 +53,7 @@ class Pawn: public Piece {
 			}
 		}
 		bool move(string to, char board[][8]) override;
+		// bool move(string to, Board board) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
@@ -134,7 +137,6 @@ class Queen: public Piece {
 class King: public Piece {
 	public:
 		bool hasMoved = false;
-		bool inCheck = false;
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
 			this->type = "King";
@@ -197,5 +199,6 @@ class BlackPieces : public Pieces{
 };
 
 Piece* pieceFromChar(int x, int y, char board[][8]);
+
 
 
