@@ -170,11 +170,14 @@ bool Board::removePiece(string square, Board *board){
     if(pieceToRemove != NULL){
         if(pieceToRemove->color == "white"){
             board->wp->pieces.erase(board->wp->pieces.begin() + removeIndex);
-            pieceToRemove->~Piece();
         } else {
             board->bp->pieces.erase(board->bp->pieces.begin() + removeIndex);
-            pieceToRemove->~Piece();
         }
+
+        pieceToRemove->~Piece();
+        Coords coords = translateSquare(square);
+        board->board[coords.x][coords.y] = ' ';
+        
         return true;
     }
     return false;
