@@ -2,17 +2,21 @@
 
 #include "game_logic.h"
 
+static Board *mainBoard;
+
 void Game::start(string starting_fen){
-	Board *board = new Board("white", starting_fen);
-	board->printBigBoard();
+	// Board *board = new Board("white", starting_fen);
+	mainBoard = new Board("white", starting_fen);
+	mainBoard->printBigBoard();
 	
-	Game::gameLoop(board);
-	delete board;
+	Game::gameLoop(mainBoard);
+	delete mainBoard;
 }
 
 void Game::gameLoop(Board *board){
 	string playing = "white";
 	do{
+		board->moveFor = playing;
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
@@ -38,7 +42,7 @@ bool Game::turn(Pieces *p, Board *board){
 	if(sizeof(move) == 0) {
 		return false;
 	}
-	bool moveMade = Game::makeGivenMove(move, p, board->board);
+	bool moveMade = Board::movePiece(move, board);
 	if(moveMade)
 		board->printBigBoard();
 
@@ -59,22 +63,6 @@ Move Game::prompt(Pieces* p, char board[][8]){
 	}
 	
 	return Move{from, to};
-}
-
-bool Game::makeGivenMove(Move move, Pieces *p, char board[][8]){
-	Piece* pieceToMove = p->pieceInSquare(move.from, board);
-
-	//Move checks
-	if(pieceToMove == NULL) {
-		cout << "Nothing in " << move.from << " square" << endl;
-		return false;
-	} 
-	if(pieceToMove->color != p->color) {
-		cout << "You cannot move the enemy pieces" << endl;
-		return false;
-	}
-	
-	return pieceToMove->move(move.to, board);
 }
 
 bool Game::isMate(char board[][8]){

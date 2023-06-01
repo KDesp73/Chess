@@ -9,6 +9,7 @@ using namespace std;
 class Board{
     public:
         string playingAs;
+        string moveFor = "white";
         char board[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -44,8 +45,10 @@ class Board{
         void printBoard(string playingAs);
         void printBigBoard();
         void printBigBoard(string playingAs);
-
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
+
+        static bool movePiece(Move move, Board *board);
+        static bool removePiece(string square, Board *board);
 };
 
 string exportFEN(char board[][8]);
