@@ -6,27 +6,6 @@
 
 using namespace std;
 
-bool King::move(string to, char board[][8]) {
-    if (!isValidMove(to, board)) return false;
-
-    King::hasMoved = true;
-
-    // in case of castling //
-    Coords fromCoords = translateSquare(currentSquare);
-    Coords toCoords = translateSquare(to);
-
-    int fromRow = fromCoords.x, fromCol = fromCoords.y;
-    int toRow = toCoords.x, toCol = toCoords.y;
-
-    int colDiff = abs(fromCol - toCol);
-
-    if (colDiff == 2) {
-        return King::castle(to, board);
-    }
-    // // //
-
-    return Piece::move(to, board);
-}
 
 bool King::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
@@ -127,8 +106,9 @@ bool King::castle(string to, char board[][8]) {
     wantedRook->printPiece();
 
     // Castle
-    wantedRook->moveFreely(translateSquare(Coords{fromRow, toCol + direction}) , board);
-    return move(to, board);
+    //wantedRook->moveFreely(translateSquare(Coords{fromRow, toCol + direction}) , board);
+    // return Board::movePiece(Move{this->currentSquare, to}, importFEN());
+    return false;
 }
 
 bool King::isInCheck(char board[][8]) {
@@ -136,7 +116,7 @@ bool King::isInCheck(char board[][8]) {
 }
 
 bool King::isInCheck(string to, char board[][8]) {
-    Board* b = new Board("white", exportFEN(board));
+    Board* b = new Board("white", Board::exportFEN(board));
     Board::removePiece(this->currentSquare, b);
 
     if (this->color == "white") {

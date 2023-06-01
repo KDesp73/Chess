@@ -47,7 +47,7 @@ void Board::importFEN(string fen){
 	}
 }
 
-string Board::exportFEN(){
+string Board::exportFEN(Board *board){
 	string temp_fen = "";
 
 	for(int i=0; i < 8; i++){
@@ -55,7 +55,7 @@ string Board::exportFEN(){
 		if(i != 0) temp_fen += '/';
 		
 		for(int j=0; j < 8; j++){
-			temp_fen += this->board[7-i][j];
+			temp_fen += board->board[7-i][j];
 		}
 	}
 	
@@ -64,7 +64,9 @@ string Board::exportFEN(){
 	return fen;
 }
 
-string exportFEN(char board[][8]){
+
+
+string Board::exportFEN(char board[][8]){
 	string temp_fen = "";
 
 	for(int i=0; i < 8; i++){

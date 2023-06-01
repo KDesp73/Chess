@@ -3,14 +3,6 @@
 #include "../Board/board_declarations.h"
 #include "piece_declarations.h"
 
-bool Rook::move(string to, char board[][8]) {
-    if (!isValidMove(to, board)) return false;
-
-    Rook::hasMoved = true;
-
-    return Piece::move(to, board);
-}
-
 bool Rook::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
     Coords toCoords = translateSquare(to);

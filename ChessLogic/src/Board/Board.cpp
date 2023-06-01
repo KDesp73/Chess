@@ -136,6 +136,12 @@ bool Board::movePiece(Move move, Board *board) {
         !canMove(king, move, board)
     ) return false;
 
+    // Special piece functionality
+    if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
+        Board::promotePawn(move.to, pawn, board);
+        return true;
+    }
+
     // Capture the piece
     Board::removePiece(move.to, board);
 
@@ -145,6 +151,55 @@ bool Board::movePiece(Move move, Board *board) {
     if (moveMade) pieceToMove->currentSquare = move.to;
 
     return moveMade;
+}
+
+void Board::moveFreely(Move move, Board *board){
+    Piece *pieceToMove = NULL;
+    int moveIndex, captureIndex;
+    Piece *pieceToCapture = NULL;
+
+    // Search white for pieces
+    for (int i = 0; i < board->wp->pieces.size(); i++) {
+        if (move.from == board->wp->pieces.at(i)->currentSquare && board->moveFor == "white") {
+            pieceToMove = board->wp->pieces.at(i);
+            moveIndex = i;
+        } else if (move.to == board->wp->pieces.at(i)->currentSquare) {
+            pieceToCapture = board->wp->pieces.at(i);
+            captureIndex = i;
+        }
+    }
+
+    // Search black for pieces
+    for (int i = 0; i < board->bp->pieces.size(); i++) {
+        if (move.from == board->bp->pieces.at(i)->currentSquare && board->moveFor == "black") {
+            pieceToMove = board->bp->pieces.at(i);
+            moveIndex = i;
+        } else if (move.to == board->bp->pieces.at(i)->currentSquare) {
+            pieceToCapture = board->bp->pieces.at(i);
+            captureIndex = i;
+        }
+    }
+
+    Pawn *pawn = dynamic_cast<Pawn *>(pieceToMove);
+    Rook *rook = dynamic_cast<Rook *>(pieceToMove);
+    Knight *knight = dynamic_cast<Knight *>(pieceToMove);
+    Bishop *bishop = dynamic_cast<Bishop *>(pieceToMove);
+    Queen *queen = dynamic_cast<Queen *>(pieceToMove);
+    King *king = dynamic_cast<King *>(pieceToMove);
+
+    // Special piece functionality
+    if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
+        Board::promotePawn(move.to, pawn, board);
+        return;
+    }
+
+    // Capture the piece
+    Board::removePiece(move.to, board);
+
+    // Make the move
+    bool moveMade;
+    moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);
+    if (moveMade) pieceToMove->currentSquare = move.to;
 }
 
 bool Board::removePiece(string square, Board *board){
@@ -162,6 +217,42 @@ bool Board::removePiece(string square, Board *board){
     // Search black for pieces
     for (int i = 0; i < board->bp->pieces.size(); i++) {
         if (square == board->bp->pieces.at(i)->currentSquare && board->moveFor == "white") {
+            pieceToRemove = board->bp->pieces.at(i);
+            removeIndex = i;
+        } 
+    }
+
+    if(pieceToRemove != NULL){
+        if(pieceToRemove->color == "white"){
+            board->wp->pieces.erase(board->wp->pieces.begin() + removeIndex);
+        } else {
+            board->bp->pieces.erase(board->bp->pieces.begin() + removeIndex);
+        }
+
+        pieceToRemove->~Piece();
+        Coords coords = translateSquare(square);
+        board->board[coords.x][coords.y] = ' ';
+        
+        return true;
+    }
+    return false;
+}
+
+bool Board::removePieceFreely(string square, Board *board){
+    Piece *pieceToRemove = NULL;
+    int removeIndex;
+
+    // Search white for pieces
+    for (int i = 0; i < board->wp->pieces.size(); i++) {
+        if (square == board->wp->pieces.at(i)->currentSquare) {
+            pieceToRemove = board->wp->pieces.at(i);
+            removeIndex = i;
+        } 
+    }
+
+    // Search black for pieces
+    for (int i = 0; i < board->bp->pieces.size(); i++) {
+        if (square == board->bp->pieces.at(i)->currentSquare) {
             pieceToRemove = board->bp->pieces.at(i);
             removeIndex = i;
         } 

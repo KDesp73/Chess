@@ -23,15 +23,11 @@ class Piece {
 		Piece(string currentSquare, string color){
 			if(color != "white" && color != "black"){
 				cout << "Incorrect color" << endl;
-				//throw std::exception("Incorrect color");
 			}
 			
 			this->currentSquare = currentSquare;
 			this->color = color;
 		}
-		virtual bool move(string to, char board[][8]);
-		// virtual bool move(string to, Board board);
-		void moveFreely(string to, char board[][8]);
 		virtual void printPiece();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
 		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
@@ -40,24 +36,19 @@ class Piece {
 
 class Pawn: public Piece {
 	public:
-		Pawn(string currentSquare, string color) {
-			//Piece::Piece(currentSquare, color);
+		Pawn(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 1;
 			this->type = "Pawn";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'P';
 			} else {
 				this->boardChar = 'p';
 			}
 		}
-		bool move(string to, char board[][8]) override;
-		// bool move(string to, Board board) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
-		void promote(char board[][8]);
+		bool canPromote(string to, char board[][8]);
 };
 
 
@@ -66,8 +57,6 @@ class Rook: public Piece {
 		bool hasMoved = false;
 		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
 			this->type = "Rook";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			value = 5;
 			if(color == "white"){
 				this->boardChar = 'R';
@@ -75,7 +64,6 @@ class Rook: public Piece {
 				this->boardChar = 'r';
 			}
 		}
-		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 };
@@ -85,15 +73,12 @@ class Knight: public Piece {
 		Knight(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
 			this->type = "Knight";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'N';
 			} else {
 				this->boardChar = 'n';
 			}
 		}
-		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 };
@@ -103,15 +88,12 @@ class Bishop: public Piece {
 		Bishop(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
 			this->type = "Bishop";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'B';
 			} else {
 				this->boardChar = 'b';
 			}
 		}
-		bool move(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
@@ -121,15 +103,12 @@ class Queen: public Piece {
 		Queen(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 9;
 			this->type = "Queen";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'Q';
 			} else {
 				this->boardChar = 'q';
 			}
 		}
-		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 };
@@ -140,15 +119,12 @@ class King: public Piece {
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
 			this->type = "King";
-			this->color = color;
-			this->currentSquare = currentSquare;
 			if(color == "white"){
 				this->boardChar = 'K';
 			} else {
 				this->boardChar = 'k';
 			}
 		}
-		bool move(string to, char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
