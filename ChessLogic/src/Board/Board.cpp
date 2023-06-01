@@ -274,6 +274,24 @@ bool Board::removePieceFreely(string square, Board *board){
     return false;
 }
 
+
+Piece* Board::findPiece(string type, string color){
+    if(color == "white"){
+        for (int i = 0; i < this->wp->pieces.size(); i++){
+            if(type == wp->pieces.at(i)->type) return wp->pieces.at(i);
+        }
+    } else {
+        for (int i = 0; i < this->bp->pieces.size(); i++){
+            if(type == bp->pieces.at(i)->type) return bp->pieces.at(i);
+        }
+    }
+    
+}
+
+
+
+
+
 bool canMove(Piece *piece, Move move, Board *board) {
     return piece != NULL && piece->isValidMove(move.to, board->board);
 }

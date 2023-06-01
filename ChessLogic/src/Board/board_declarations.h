@@ -9,9 +9,6 @@
 
 using namespace std;
 
-//board_functions.cpp
-
-// int* translateSquare(string square);
 Coords translateSquare(string square);
 string translateSquare(Coords coords);
 

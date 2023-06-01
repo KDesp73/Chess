@@ -47,7 +47,8 @@ class Board{
         void printBigBoard();
         void printBigBoard(string playingAs);
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
-
+        Piece *findPiece(string type, string color);
+        
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board);
         static bool removePiece(string square, Board *board);
@@ -56,4 +57,5 @@ class Board{
         static bool promotePawn(string square, Pawn *pawn, Board *board);
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
+        
 };
