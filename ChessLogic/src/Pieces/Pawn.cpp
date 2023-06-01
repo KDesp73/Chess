@@ -1,7 +1,7 @@
 #include <cstdlib>
 
 #include "../Board/board_declarations.h"
-
+/*
 bool Pawn::move(string to, char board[][8]) {
     if (!isValidMove(to, board)) return false;
 
@@ -17,26 +17,6 @@ bool Pawn::move(string to, char board[][8]) {
         translateSquare(currentSquare).x == 0) {
         cout << "Promote" << endl;
         this->promote(board);
-    }
-
-    return valid;
-}
-/*
-bool Pawn::move(string to, Board board) {
-    if (!isValidMove(to, board.board)) return false;
-
-    if (translateSquare(currentSquare)[0] == 7 ||
-        translateSquare(currentSquare)[0] == 0) {
-        cout << "Promote" << endl;
-        this->promote(board.board);
-    }
-
-    bool valid = Piece::move(to, board);
-
-    if (translateSquare(currentSquare)[0] == 7 ||
-        translateSquare(currentSquare)[0] == 0) {
-        cout << "Promote" << endl;
-        this->promote(board.board);
     }
 
     return valid;
@@ -108,50 +88,14 @@ bool Pawn::isValidCapture(string to, char board[][8]) {
     return false;
 }
 
-void Pawn::promote(char board[][8]) {
-    int promotionRank;
-    if (color == "white")
-        promotionRank = 8;
-    else
-        promotionRank = 1;
-
-    Coords currentCoords = translateSquare(this->currentSquare);
-    if (currentCoords.x != promotionRank - 1) return;
-
-    char promoteTo;
-    do {
-        cout << "Promote to (q, r, b, n): ";
-        cin >> promoteTo;
-        cout << endl;
-    } while (promoteTo != 'q' && promoteTo != 'r' && promoteTo != 'b' &&
-             promoteTo != 'n');
-
-    Piece* promoted;
-
-    switch (promoteTo) {
-        case 'q':
-            promoted = new Queen(this->currentSquare, this->color);
-            break;
-        case 'r':
-            promoted = new Rook(this->currentSquare, this->color);
-            break;
-        case 'b':
-            promoted = new Bishop(this->currentSquare, this->color);
-            break;
-        case 'n':
-            promoted = new Knight(this->currentSquare, this->color);
-            break;
-        default:
-            Pawn::promote(board);
-            return;
-    }
-
-    if (color == "white")
-        board[currentCoords.x][currentCoords.y] = toupper(promoteTo);
-    else
-        board[currentCoords.x][currentCoords.y] = promoteTo;
-
-    this->~Pawn();
+bool Pawn::canPromote(string to, char board[][8]){
+    bool validMove = this->isValidMove(to, board);
+    bool validCapture = this->isValidCapture(to, board);
+    if(this->color == "white"){
+        return (validMove || validCapture) && translateSquare(to).x == 7;
+    } else {
+        return (this->isValidMove(to, board) || this->isValidCapture(to, board)) && translateSquare(to).x == 0;
+    } 
 }
 
 vector<string> Pawn::getValidMoves(char board[][8]) {

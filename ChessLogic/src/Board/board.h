@@ -9,6 +9,7 @@ using namespace std;
 class Board{
     public:
         string playingAs;
+        string moveFor = "white";
         char board[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -39,13 +40,22 @@ class Board{
         }
 
         void importFEN(string fen);
-        string exportFEN();
+        static string exportFEN(Board *board);
+        static string exportFEN(char board[][8]);
         void printBoard();
         void printBoard(string playingAs);
         void printBigBoard();
         void printBigBoard(string playingAs);
-
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
-};
+        Piece *findPiece(string type, string color);
+        
+        static bool movePiece(Move move, Board *board);
+        static void moveFreely(Move move, Board *board);
+        static bool removePiece(string square, Board *board);
+        static bool removePieceFreely(string square, Board *board);
 
-string exportFEN(char board[][8]);
+        static bool promotePawn(string square, Pawn *pawn, Board *board);
+        static bool enpassantPawn(string square, Pawn *pawn, Board *board);
+        static bool castleKing(string square, King *king, Board *board);
+        
+};

@@ -6,27 +6,6 @@
 
 using namespace std;
 
-bool King::move(string to, char board[][8]) {
-    if (!isValidMove(to, board)) return false;
-
-    King::hasMoved = true;
-
-    // in case of castling //
-    Coords fromCoords = translateSquare(currentSquare);
-    Coords toCoords = translateSquare(to);
-
-    int fromRow = fromCoords.x, fromCol = fromCoords.y;
-    int toRow = toCoords.x, toCol = toCoords.y;
-
-    int colDiff = abs(fromCol - toCol);
-
-    if (colDiff == 2) {
-        return King::castle(to, board);
-    }
-    // // //
-
-    return Piece::move(to, board);
-}
 
 bool King::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
@@ -55,27 +34,6 @@ bool King::isValidMove(string to, char board[][8]) {
     return false;
 }
 
-bool King::canCastle(string to, char board[][8]) {
-    Coords fromCoords = translateSquare(currentSquare);
-    Coords toCoords = translateSquare(to);
-
-    int fromRow = fromCoords.x, fromCol = fromCoords.y;
-    int toRow = toCoords.x, toCol = toCoords.y;
-
-    int direction = toCol - fromCol;
-
-    if (hasMoved) return false;
-    if (toRow - fromRow != 0) return false;
-    if (abs(direction) != 2) return false;
-
-    // is the space between the king and the rook empty?
-    // is the king in check?
-    // will the king be in check?
-    // did the wanted rook move?
-
-    return true;
-}
-
 Rook* getRookToCastle(int direction, string color, char board[][8]) {
     Piece* wantedRook;
     if (direction > 0 && color == "white") {
@@ -86,14 +44,49 @@ Rook* getRookToCastle(int direction, string color, char board[][8]) {
         wantedRook = pieceFromChar(7, 7, board);
     } else if (direction < 0 && color == "black") {
         wantedRook = pieceFromChar(7, 0, board);
+    } else {
+        cout << "Something went wrong" << endl;
     }
-
-    cout << "Wanted rook: ";
-    wantedRook->printPiece();
-    cout << endl;
 
     return dynamic_cast<Rook*>(wantedRook);
 }
+
+bool King::canCastle(string to, char board[][8]) {
+    Coords fromCoords = translateSquare(currentSquare);
+    Coords toCoords = translateSquare(to);
+
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
+
+    int direction = toCol - fromCol;
+
+    // did the King move
+    if (hasMoved) return false;
+    
+    // don't go up or down
+    if (abs(toRow - fromRow) != 0) return false;
+    
+    // is only two steps
+    if (abs(direction) != 2) return false;
+
+    // is the space between the king and the rook empty?
+    if(board[fromRow][toCol + direction] != ' ') return false;
+
+    // is the king in check?
+    if(this->isInCheck(board)) return false;
+    
+    direction = (direction > 0) ? 1 : -1;
+
+    // will the king be in check?
+    if(this->isInCheck(translateSquare(Coords{fromRow, toCol + direction}) , board)) return false;
+    
+    // did the wanted rook move?
+    Rook *wantedRook = getRookToCastle(direction, this->color, board);
+    if(wantedRook->hasMoved) return false;
+
+    return true;
+}
+
 
 bool King::castle(string to, char board[][8]) {
     if (!canCastle(to, board)) return false;
@@ -105,13 +98,17 @@ bool King::castle(string to, char board[][8]) {
     int toRow = toCoords.x, toCol = toCoords.y;
 
     int direction = toCol - fromCol;
+    direction = (direction > 0) ? 1 : -1;
 
     Rook* wantedRook = getRookToCastle(direction, this->color, board);
 
     if (wantedRook == NULL) return false;
-    cout << "here" << endl;
+    wantedRook->printPiece();
 
-    return move(to, board);
+    // Castle
+    //wantedRook->moveFreely(translateSquare(Coords{fromRow, toCol + direction}) , board);
+    // return Board::movePiece(Move{this->currentSquare, to}, importFEN());
+    return false;
 }
 
 bool King::isInCheck(char board[][8]) {
@@ -119,18 +116,21 @@ bool King::isInCheck(char board[][8]) {
 }
 
 bool King::isInCheck(string to, char board[][8]) {
-    Board* b = new Board("white", exportFEN(board));
+    Board* b = new Board("white", Board::exportFEN(board));
+    Board::removePiece(this->currentSquare, b);
 
     if (this->color == "white") {
         for (Piece* p : b->bp->pieces) {
-            if (p->isValidMove(to, board)) {
+            if(p->type == "King") continue;
+            if (p->isValidMove(to, b->board)) {
                 delete p;
                 return true;
             }
         }
     } else {
         for (Piece* p : b->wp->pieces) {
-            if (p->isValidMove(to, board)) {
+            if(p->type == "King") continue;
+            if (p->isValidMove(to, b->board)) {
                 delete p;
                 return true;
             }

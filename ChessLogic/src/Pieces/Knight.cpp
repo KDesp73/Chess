@@ -3,11 +3,6 @@
 
 
 
-bool Knight::move(string to, char board[][8]){
-	if(!isValidMove(to, board)) return false;
-	
-	return Piece::move(to, board);
-}
 
 bool Knight::isValidMove(string to, char board[][8]) {
 	Coords fromCoords = translateSquare(currentSquare);
