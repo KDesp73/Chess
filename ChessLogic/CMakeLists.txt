@@ -10,12 +10,15 @@ set(SOURCES
     src/chess_lib.h
 
     src/Board/board_declarations.h
-    src/Board/board_utils.h
     src/Board/board_functions.cpp
+    src/Board/board_utils.cpp
+    src/Board/board_utils.h
     src/Board/Board.cpp
     src/Board/board.h
     src/Board/chess_notation.cpp
     src/Board/special_piece_moves.cpp
+    src/Board/king_checks.cpp
+    src/Board/structs.h
     
     src/Game/game_logic.cpp
     src/Game/game_logic.h

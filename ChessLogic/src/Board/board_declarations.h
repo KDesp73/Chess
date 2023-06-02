@@ -5,6 +5,7 @@
 
 #include "../Pieces/piece_declarations.h" 
 #include "./structs.h"
+#include "./board.h"
 
 
 using namespace std;

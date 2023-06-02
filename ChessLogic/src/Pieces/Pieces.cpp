@@ -92,3 +92,13 @@ void BlackPieces::loadPieces(char board[][8]){
 	}
 	
 }
+
+vector<Piece *> Pieces::isValidMove(string square, char board[][8]){
+	vector<Piece *> ret;
+	for (int i = 0; i < this->pieces.size(); i++){
+		if(this->pieces.at(i)->isValidMove(square, board)) ret.push_back(this->pieces.at(i));
+		if(dynamic_cast<Pawn *>(this->pieces.at(i)) != NULL && dynamic_cast<Pawn *>(this->pieces.at(i))->isValidCapture(square, board)) ret.push_back(this->pieces.at(i));
+	}
+	
+	return ret;
+}

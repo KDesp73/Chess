@@ -128,9 +128,8 @@ class King: public Piece {
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
-		bool isInCheck(char board[][8]);
-		bool isInCheck(string to, char board[][8]);
-		bool isInCheckmate(char board[][8]);
+		vector<Piece*> isInCheck(char board[][8]);
+		vector<Piece*> isInCheck(string to, char board[][8]);
 };
 
 /*==========================={ Pieces }===========================*/
@@ -149,6 +148,7 @@ class Pieces{
 		
 		void printPieces();
 		Piece* pieceInSquare(string square, char board[][8]);
+		vector<Piece *> isValidMove(string square, char board[][8]);
 		int calculateMaterial();
 		virtual void loadPieces(char board[][8]) = 0;
 };

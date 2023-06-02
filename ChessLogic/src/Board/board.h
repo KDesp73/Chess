@@ -6,8 +6,6 @@
 
 using namespace std;
 
-static Rook *leftWhiteRook, *rightWhiteRook, *leftBlackRook, *rightBlackRook;
-
 class Board{
     public:
         string playingAs;
@@ -53,8 +51,10 @@ class Board{
         int findPiece(Piece *);
         Piece* findPiece(Coords coords);
         Rook* getRookToCastle(int direction, string color);
+        bool isInCheckmate(King *king);
+		bool isInStalemate(King *king);
 
-        
+        static bool isProtected(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board);
         static bool removePiece(string square, Board *board);

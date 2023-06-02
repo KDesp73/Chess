@@ -19,11 +19,10 @@ bool King::isValidMove(string to, char board[][8]) {
     if (this->capturesOwnPiece(toCoords, board)) return false;
 
     // check if move is check
-    if (isInCheck(to, board)) return false;
+    if (!isInCheck(to, board).empty()) return false;
 
     // check if king wants to castle
     if (colDiff == 2 && canCastle(to, board)){
-        cout << "The king can castle" << endl;
         return true;
     }
 
@@ -58,12 +57,12 @@ bool King::canCastle(string to, char board[][8]) {
     if(board[fromRow][fromCol + (direction*2)] != ' ') return false;
 
     // is the king in check?
-    if(this->isInCheck(board)) return false;
+    if(!this->isInCheck(board).empty()) return false;
     
 
     // will the king be in check?
-    if(this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction)}) , board)) return false;
-    if(this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction * 2)}) , board)) return false;
+    if(!this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction)}) , board).empty()) return false;
+    if(!this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction * 2)}) , board).empty()) return false;
     
 
     // // did the wanted rook move?
@@ -75,39 +74,37 @@ bool King::canCastle(string to, char board[][8]) {
 
 
 
-bool King::isInCheck(char board[][8]) {
+vector<Piece*> King::isInCheck(char board[][8]) {
     return isInCheck(this->currentSquare, board);
 }
 
-bool King::isInCheck(string to, char board[][8]) {
+vector<Piece*> King::isInCheck(string to, char board[][8]) {
     Board* b = new Board("white", Board::exportFEN(board));
-    Board::removePiece(this->currentSquare, b);
+    Board::removePieceFreely(this->currentSquare, b);
+
+    vector<Piece*> ret;
 
     if (this->color == "white") {
         for (Piece* p : b->bp->pieces) {
-            if(p->type == "King") continue;
+            // if(p->type == "King") continue;
             if (p->isValidMove(to, b->board)) {
-                delete p;
-                return true;
+                ret.push_back(p);
             }
         }
     } else {
         for (Piece* p : b->wp->pieces) {
-            if(p->type == "King") continue;
+            // if(p->type == "King") continue;
             if (p->isValidMove(to, b->board)) {
-                delete p;
-                return true;
+                ret.push_back(p);
             }
         }
     }
 
     delete b;
-    return false;
+    return ret;
 }
 
-bool King::isInCheckmate(char board[][8]) {
-    return (getValidMoves(board).empty() && isInCheck(board));
-}
+
 
 vector<string> King::getValidMoves(char board[][8]) {
     char currentFile = currentSquare.at(0);
