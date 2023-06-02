@@ -6,6 +6,8 @@
 
 using namespace std;
 
+static Rook *leftWhiteRook, *rightWhiteRook, *leftBlackRook, *rightBlackRook;
+
 class Board{
     public:
         string playingAs;
@@ -49,6 +51,9 @@ class Board{
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
         Piece *findPiece(string type, string color);
         int findPiece(Piece *);
+        Piece* findPiece(Coords coords);
+        Rook* getRookToCastle(int direction, string color);
+
         
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board);
@@ -58,5 +63,6 @@ class Board{
         static bool promotePawn(string square, Pawn *pawn, Board *board);
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
+
         
 };

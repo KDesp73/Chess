@@ -6,15 +6,8 @@
 #include <vector>
 
 #include "./board_declarations.h"
+#include "./board_utils.h"
 #include "../text/text.h"
-
-
-
-namespace BoardUtils{
-    bool canMove(Piece *piece, Move move, Board *board);
-    bool contains(vector<string> moves, string move);
-    bool kingWantsToCastle(Move move);
-}
 
 using namespace std;
 using namespace BoardUtils;
@@ -148,16 +141,20 @@ bool Board::movePiece(Move move, Board *board) {
     }
 
     if(king != NULL && kingWantsToCastle(move) && king->canCastle(move.to, board->board)){
-        return Board::castleKing(move.to, king, board);;
+        return Board::castleKing(move.to, king, board);
     }
 
     // Capture the piece
     Board::removePiece(move.to, board);
 
     // Make the move
-    bool moveMade;
-    moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);
+    bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
     if (moveMade) {
+        cout << to_string(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "rook") << endl;
+        cout << to_string(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "rook") << endl;
+        if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
+        if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
+
         pieceToMove->currentSquare = move.to;
         pieceToMove->hasMoved = true;
     }
@@ -314,6 +311,11 @@ int Board::findPiece(Piece *piece){
     return -1;
 }
 
+Piece* Board::findPiece(Coords coords){
+    if(this->bp->pieceInSquare(translateSquare(coords), this->board) != NULL) return this->bp->pieceInSquare(translateSquare(coords), this->board);
+    if(this->wp->pieceInSquare(translateSquare(coords), this->board) != NULL) return this->wp->pieceInSquare(translateSquare(coords), this->board);
+    return NULL;
+}
 
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
@@ -335,4 +337,17 @@ bool BoardUtils::kingWantsToCastle(Move move){
     int toRow = toCoords.x, toCol = toCoords.y;
 
     return abs(fromCol - toCol) == 2;
+}
+
+int BoardUtils::calcDirection(King *king, string square){
+    Coords fromCoords = translateSquare(king->currentSquare);
+    Coords toCoords = translateSquare(square);
+
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
+
+    int direction = toCol - fromCol;
+    direction = (direction > 0) ? 1 : -1;
+
+    return direction;
 }

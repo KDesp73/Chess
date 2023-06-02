@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 bool King::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
     Coords toCoords = translateSquare(to);
@@ -23,7 +22,7 @@ bool King::isValidMove(string to, char board[][8]) {
     if (isInCheck(to, board)) return false;
 
     // check if king wants to castle
-    if (colDiff == 2 && canCastle(to, board)) {
+    if (colDiff == 2 && canCastle(to, board)){
         cout << "The king can castle" << endl;
         return true;
     }
@@ -34,22 +33,6 @@ bool King::isValidMove(string to, char board[][8]) {
     return false;
 }
 
-Rook* getRookToCastle(int direction, string color, char board[][8]) {
-    Piece* wantedRook;
-    if (direction > 0 && color == "white") {
-        wantedRook = pieceFromChar(0, 7, board);
-    } else if (direction < 0 && color == "white") {
-        wantedRook = pieceFromChar(0, 0, board);
-    } else if (direction > 0 && color == "black") {
-        wantedRook = pieceFromChar(7, 7, board);
-    } else if (direction < 0 && color == "black") {
-        wantedRook = pieceFromChar(7, 0, board);
-    } else {
-        cout << "Something went wrong" << endl;
-    }
-
-    return dynamic_cast<Rook*>(wantedRook);
-}
 
 bool King::canCastle(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
@@ -83,10 +66,9 @@ bool King::canCastle(string to, char board[][8]) {
     if(this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction * 2)}) , board)) return false;
     
 
-    // did the wanted rook move?
-    Rook *wantedRook = getRookToCastle(direction, this->color, board);
-    if(wantedRook == NULL) return false;
-    if(wantedRook->hasMoved) return false;
+    // // did the wanted rook move?
+    if(direction > 0 && this->h_rook_moved) return false;
+    if(direction < 0 && this->a_rook_moved) return false;
 
     return true;
 }

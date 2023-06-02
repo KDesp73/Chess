@@ -1,9 +1,6 @@
 #include "board.h"
 #include "board_declarations.h"
-
-namespace BoardUtils{   
-    Rook* getRookToCastle(int direction, string color, char board[][8]) ;
-}
+#include "board_utils.h"
 
 bool Board::promotePawn(string square, Pawn *pawn, Board *board){
     int promotionRank, direction;
@@ -70,7 +67,7 @@ bool Board::castleKing(string square, King *king, Board *board){
     int direction = toCol - fromCol;
     direction = (direction > 0) ? 1 : -1;
 
-    Rook* wantedRook = BoardUtils::getRookToCastle(direction, king->color, board->board);
+    Rook* wantedRook = board->getRookToCastle(direction, king->color);
 
     if (wantedRook == NULL) return false;
     wantedRook->printPiece();
@@ -83,16 +80,16 @@ bool Board::castleKing(string square, King *king, Board *board){
     return true;
 }
 
-Rook* BoardUtils::getRookToCastle(int direction, string color, char board[][8]) {
+Rook* Board::getRookToCastle(int direction, string color) {
     Piece* wantedRook;
     if (direction > 0 && color == "white") {
-        wantedRook = pieceFromChar(0, 7, board);
+        wantedRook = this->findPiece(Coords{0, 7});
     } else if (direction < 0 && color == "white") {
-        wantedRook = pieceFromChar(0, 0, board);
+        wantedRook = this->findPiece(Coords{0, 0});
     } else if (direction > 0 && color == "black") {
-        wantedRook = pieceFromChar(7, 7, board);
+        wantedRook = this->findPiece(Coords{7, 7});
     } else if (direction < 0 && color == "black") {
-        wantedRook = pieceFromChar(7, 0, board);
+        wantedRook = this->findPiece(Coords{7, 0});
     } else {
         cout << "Something went wrong" << endl;
     }

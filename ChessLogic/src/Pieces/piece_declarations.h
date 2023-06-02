@@ -115,6 +115,7 @@ class Queen: public Piece {
 
 class King: public Piece {
 	public:
+		bool a_rook_moved = false, h_rook_moved = false; 
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
 			this->type = "King";
@@ -127,7 +128,6 @@ class King: public Piece {
 		bool isValidMove(string to, char board[][8]) override;
 		vector<string> getValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
-		bool castle(string to, char board[][8]);
 		bool isInCheck(char board[][8]);
 		bool isInCheck(string to, char board[][8]);
 		bool isInCheckmate(char board[][8]);

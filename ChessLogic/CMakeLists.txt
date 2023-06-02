@@ -10,6 +10,7 @@ set(SOURCES
     src/chess_lib.h
 
     src/Board/board_declarations.h
+    src/Board/board_utils.h
     src/Board/board_functions.cpp
     src/Board/Board.cpp
     src/Board/board.h
