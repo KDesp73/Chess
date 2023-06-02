@@ -59,6 +59,7 @@ bool King::canCastle(string to, char board[][8]) {
     int toRow = toCoords.x, toCol = toCoords.y;
 
     int direction = toCol - fromCol;
+    direction = (direction > 0) ? 1 : -1;
 
     // did the King move
     if (hasMoved) return false;
@@ -67,49 +68,30 @@ bool King::canCastle(string to, char board[][8]) {
     if (abs(toRow - fromRow) != 0) return false;
     
     // is only two steps
-    if (abs(direction) != 2) return false;
+    if (abs(toCol - fromCol) != 2) return false;
 
     // is the space between the king and the rook empty?
-    if(board[fromRow][toCol + direction] != ' ') return false;
+    if(board[fromRow][fromCol + (direction)] != ' ') return false;
+    if(board[fromRow][fromCol + (direction*2)] != ' ') return false;
 
     // is the king in check?
     if(this->isInCheck(board)) return false;
     
-    direction = (direction > 0) ? 1 : -1;
 
     // will the king be in check?
-    if(this->isInCheck(translateSquare(Coords{fromRow, toCol + direction}) , board)) return false;
+    if(this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction)}) , board)) return false;
+    if(this->isInCheck(translateSquare(Coords{fromRow, fromCol + (direction * 2)}) , board)) return false;
     
+
     // did the wanted rook move?
     Rook *wantedRook = getRookToCastle(direction, this->color, board);
+    if(wantedRook == NULL) return false;
     if(wantedRook->hasMoved) return false;
 
     return true;
 }
 
 
-bool King::castle(string to, char board[][8]) {
-    if (!canCastle(to, board)) return false;
-
-    Coords fromCoords = translateSquare(currentSquare);
-    Coords toCoords = translateSquare(to);
-
-    int fromRow = fromCoords.x, fromCol = fromCoords.y;
-    int toRow = toCoords.x, toCol = toCoords.y;
-
-    int direction = toCol - fromCol;
-    direction = (direction > 0) ? 1 : -1;
-
-    Rook* wantedRook = getRookToCastle(direction, this->color, board);
-
-    if (wantedRook == NULL) return false;
-    wantedRook->printPiece();
-
-    // Castle
-    //wantedRook->moveFreely(translateSquare(Coords{fromRow, toCol + direction}) , board);
-    // return Board::movePiece(Move{this->currentSquare, to}, importFEN());
-    return false;
-}
 
 bool King::isInCheck(char board[][8]) {
     return isInCheck(this->currentSquare, board);

@@ -8,10 +8,16 @@
 #include "./board_declarations.h"
 #include "../text/text.h"
 
-using namespace std;
 
-bool canMove(Piece *piece, Move move, Board *board);
-bool contains(vector<string> moves, string move);
+
+namespace BoardUtils{
+    bool canMove(Piece *piece, Move move, Board *board);
+    bool contains(vector<string> moves, string move);
+    bool kingWantsToCastle(Move move);
+}
+
+using namespace std;
+using namespace BoardUtils;
 
 void Board::printBoard() { Board::printBoard("white"); }
 
@@ -138,8 +144,11 @@ bool Board::movePiece(Move move, Board *board) {
 
     // Special piece functionality
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        Board::promotePawn(move.to, pawn, board);
-        return true;
+        return Board::promotePawn(move.to, pawn, board);;
+    }
+
+    if(king != NULL && kingWantsToCastle(move) && king->canCastle(move.to, board->board)){
+        return Board::castleKing(move.to, king, board);;
     }
 
     // Capture the piece
@@ -148,8 +157,10 @@ bool Board::movePiece(Move move, Board *board) {
     // Make the move
     bool moveMade;
     moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);
-    if (moveMade) pieceToMove->currentSquare = move.to;
-
+    if (moveMade) {
+        pieceToMove->currentSquare = move.to;
+        pieceToMove->hasMoved = true;
+    }
     return moveMade;
 }
 
@@ -189,8 +200,7 @@ void Board::moveFreely(Move move, Board *board){
 
     // Special piece functionality
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        Board::promotePawn(move.to, pawn, board);
-        return;
+        Board::promotePawn(move.to, pawn, board);;
     }
 
     // Capture the piece
@@ -199,7 +209,10 @@ void Board::moveFreely(Move move, Board *board){
     // Make the move
     bool moveMade;
     moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);
-    if (moveMade) pieceToMove->currentSquare = move.to;
+    if (moveMade) {
+        pieceToMove->currentSquare = move.to;
+        pieceToMove->hasMoved = true;
+    }
 }
 
 bool Board::removePiece(string square, Board *board){
@@ -285,20 +298,41 @@ Piece* Board::findPiece(string type, string color){
             if(type == bp->pieces.at(i)->type) return bp->pieces.at(i);
         }
     }
-    
+    return NULL;
+}
+
+int Board::findPiece(Piece *piece){
+    if(piece->color == "white"){
+        for (int i = 0; i < this->wp->pieces.size(); i++){
+            if(piece == wp->pieces.at(i)) return i;
+        }
+    } else {
+        for (int i = 0; i < this->bp->pieces.size(); i++){
+            if(piece == bp->pieces.at(i)) return i;
+        }
+    }
+    return -1;
 }
 
 
 
-
-
-bool canMove(Piece *piece, Move move, Board *board) {
+bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
     return piece != NULL && piece->isValidMove(move.to, board->board);
 }
 
-bool contains(vector<string> moves, string move){
+bool BoardUtils::contains(vector<string> moves, string move){
     for (int i = 0; i < moves.size(); i++){
         if(moves.at(i) == move) return true;
     }
     return false;
+}
+
+bool BoardUtils::kingWantsToCastle(Move move){
+    Coords fromCoords = translateSquare(move.from);
+    Coords toCoords = translateSquare(move.to);
+
+    int fromRow = fromCoords.x, fromCol = fromCoords.y;
+    int toRow = toCoords.x, toCol = toCoords.y;
+
+    return abs(fromCol - toCol) == 2;
 }

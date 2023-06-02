@@ -13,6 +13,7 @@ class Piece {
 		char boardChar;
 		int value;
 		string type;
+		bool hasMoved = false;
 		
 		virtual ~Piece(){
 		}
@@ -54,7 +55,6 @@ class Pawn: public Piece {
 
 class Rook: public Piece {
 	public:
-		bool hasMoved = false;
 		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
 			this->type = "Rook";
 			value = 5;
@@ -115,7 +115,6 @@ class Queen: public Piece {
 
 class King: public Piece {
 	public:
-		bool hasMoved = false;
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
 			this->type = "King";

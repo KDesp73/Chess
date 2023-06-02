@@ -48,6 +48,7 @@ class Board{
         void printBigBoard(string playingAs);
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
         Piece *findPiece(string type, string color);
+        int findPiece(Piece *);
         
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board);
