@@ -106,7 +106,6 @@ bool Board::isInCheckmate(King *king) {
             int direction = (colDiff < 0) ? 1 : -1;
             for (int i = 1; i < abs(queenCol - kingCol); i++) {
                 string squareToCheck = letters[queenCol + i*direction] + to_string(queenRow + 1);
-                vector<Piece *> a = this->wp->isValidMove(squareToCheck, this->board);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
                     return true;
             }
@@ -147,7 +146,6 @@ bool Board::isInCheckmate(King *king) {
             }
         }
     }
-
 
     return true;
 }
