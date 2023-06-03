@@ -15,4 +15,7 @@ namespace BoardUtils{
     bool kingWantsToCastle(Move move);
     int calcDirection(King *king, string square);
     bool canKingCapturePiece(King *king, Move move, Board *board);
+    bool canRookBeBlocked(Rook *rook, King *king, Board *board);
+    bool canBishopBeBlocked(Bishop *bishop, King *king, Board *board);
+    bool canQueenBeBlocked(Queen *queen, King *king, Board *board);
 }

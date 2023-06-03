@@ -7,7 +7,17 @@ bool Board::isInCheckmate(King *king) {
 
     if (piecesThatCheckTheKing.empty()) return false;
 
-    if (!king->getValidMoves(this->board).empty()) return false;
+    vector<string> kingsValidMoves = king->getValidMoves(this->board);
+    
+    // Filter invalid moves once more checking protected pieces
+    for (int i = 0; i < kingsValidMoves.size(); i++){
+        if(!BoardUtils::canMove(king, Move{king->currentSquare, kingsValidMoves.at(i)}, this)) {
+            kingsValidMoves.erase(kingsValidMoves.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+    if (!kingsValidMoves.empty()) return false;
 
     if (piecesThatCheckTheKing.size() > 1) return true;
 
@@ -123,25 +133,25 @@ bool Board::isInCheckmate(King *king) {
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 - i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                        return true;
                 }
             } else if(rowDiff < 0 && colDiff > 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 + i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                        return true;
                 }
             } else if(rowDiff > 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 - i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                        return true;
                 }
             } else if(rowDiff < 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 + i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                        return true;
                 }
             }
         }

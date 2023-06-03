@@ -326,21 +326,24 @@ bool Board::isProtected(Piece *piece, Board *board) {
     temp_board[translateSquare(piece->currentSquare).x]
               [translateSquare(piece->currentSquare).y] = ' ';
 
-    if (piece->color == "white" &&
-        !board->wp->isValidMove(piece->currentSquare, temp_board).empty())
-        return true;
-    if (piece->color == "black" &&
-        !board->bp->isValidMove(piece->currentSquare, temp_board).empty())
-        return true;
+    King *opponentsKing = dynamic_cast<King *>(board->findPiece("King", (piece->color == "white") ? "black" : "white"));
 
-    return false;
+    if(opponentsKing != NULL){
+        temp_board[translateSquare(opponentsKing->currentSquare).x]
+                  [translateSquare(opponentsKing->currentSquare).y] = ' ';
+    }
+
+    return (BoardUtils::canMove(piece->color, piece->currentSquare, new Board("white", temp_board)));
 }
 
-bool Board::isPinned(Piece *piece, Board *board){
-    if(piece->type == "King") return false;
 
+bool Board::isPinned(Piece *piece, Board *board){
     Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
     King *king = dynamic_cast<King *>(board->findPiece("King", piece->color));
+
+    if(king == NULL){
+        cout << "King is null" << endl;
+    }
 
     vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(board->board);
 
