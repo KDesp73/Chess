@@ -3,15 +3,16 @@
 
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
-    if(!BoardUtils::canKingCapturePiece(piece, move, board)) return false;
+    King *king = dynamic_cast<King *>(piece);
+    if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
 
     return piece != NULL && piece->isValidMove(move.to, board->board);
 }
 
-bool BoardUtils::canMove(string color, Move move, Board *board) {
+bool BoardUtils::canMove(string color, string square, Board *board) {
     Pieces *pieces = (color == "white") ? board->wp : board->bp;
     for (int i = 0; i < pieces->pieces.size(); i++)    {
-        if(BoardUtils::canMove(pieces->pieces.at(i), move, board)) return true;
+        if(BoardUtils::canMove(pieces->pieces.at(i), Move{pieces->pieces.at(i)->currentSquare, square}, board)) return true;
     }
     return false;
 }
@@ -46,29 +47,24 @@ int BoardUtils::calcDirection(King *king, string square){
     return direction;
 }
 
-bool BoardUtils::canKingCapturePiece(Piece *piece, Move move, Board *board){
-    King *king = dynamic_cast<King *>(piece);
+bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
     Piece *pieceToCapture = NULL;
-    if(king != NULL){
-        // Search white for pieces
-        for (int i = 0; i < board->wp->pieces.size(); i++) {
-            if (move.to == board->wp->pieces.at(i)->currentSquare) {
-                pieceToCapture = board->wp->pieces.at(i);
-            }
+    // Search white for pieces
+    for (int i = 0; i < board->wp->pieces.size(); i++) {
+        if (move.to == board->wp->pieces.at(i)->currentSquare) {
+            pieceToCapture = board->wp->pieces.at(i);
         }
-
-        // Search black for pieces
-        if(pieceToCapture == NULL){
-            for (int i = 0; i < board->bp->pieces.size(); i++) {
-                if (move.to == board->bp->pieces.at(i)->currentSquare) {
-                    pieceToCapture = board->bp->pieces.at(i);
-            }
-        }
-        }
-
-        if(pieceToCapture != NULL && Board::isProtected(pieceToCapture, board)) return false;
-        return true;
     }
 
-    return false;
+    // Search black for pieces
+    if(pieceToCapture == NULL){
+        for (int i = 0; i < board->bp->pieces.size(); i++) {
+            if (move.to == board->bp->pieces.at(i)->currentSquare) {
+                pieceToCapture = board->bp->pieces.at(i);
+        }
+    }
+    }
+
+    if(pieceToCapture != NULL && Board::isProtected(pieceToCapture, board)) return false;
+    return true;
 }

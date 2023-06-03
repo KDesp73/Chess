@@ -12,7 +12,7 @@ bool Board::isInCheckmate(King *king) {
     if (piecesThatCheckTheKing.size() > 1) return true;
 
     // Check if piece that checks the king can be captured
-    if(!BoardUtils::canMove(king->color, Move{king->currentSquare, piecesThatCheckTheKing.at(0)->currentSquare}, this)) {
+    if(BoardUtils::canMove(king->color, piecesThatCheckTheKing.at(0)->currentSquare, this)) {
         return false;
     }
 
@@ -127,8 +127,9 @@ bool Board::isInCheckmate(King *king) {
 
         // Rook check
         if (queenRow == kingRow) {
+            int direction = (colDiff < 0) ? 1 : -1;
             for (int i = 1; i < abs(queenCol - kingCol); i++) {
-                string squareToCheck = letters[queenCol - i] + to_string(queenRow + 1);
+                string squareToCheck = letters[queenCol + i*direction] + to_string(queenRow + 1);
                 vector<Piece *> a = this->wp->isValidMove(squareToCheck, this->board);
                 if (king->color == "white" && !this->wp->isValidMove(squareToCheck, this->board).empty())
                     return false;
@@ -136,8 +137,9 @@ bool Board::isInCheckmate(King *king) {
                     return false;
             }
         } else if (queenCol == kingCol) {
+            int direction = (rowDiff < 0) ? 1 : -1;
             for (int i = 1; i < abs(queenRow - kingRow); i++) {
-                string squareToCheck = letters[queenCol - 1] + to_string(queenRow + i - 1);
+                string squareToCheck = letters[queenCol - 1] + to_string(queenRow - 1 + i*direction);
                 if (king->color == "white" &&
                     !this->wp->isValidMove(squareToCheck, this->board).empty())
                     return false;

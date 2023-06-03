@@ -6,3 +6,4 @@
 #include "Board/structs.h"
 #include "Game/game_logic.h"
 #include "Pieces/piece_declarations.h"
+#include "text/text.h"
