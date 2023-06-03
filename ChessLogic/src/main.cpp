@@ -15,11 +15,12 @@ void printValidMoves(Piece *p, string fen){
 }
 
 bool testCheckMate(vector<string> mate_fens){
-	bool passed = true;
 	Text::clearScreen();
+	cout << Text::b_cyan + "Testing Mate...\n" + Text::normal << endl;
+	bool passed = true;
 	for (int i = 0; i < mate_fens.size(); i++){
 		Board b{"white", mate_fens.at(i)};
-		//b.printBigBoard();
+		// b.printBigBoard();
 
 		Piece *p = b.findPiece("King", "white");
 		King *king = dynamic_cast<King *>(p);
@@ -37,10 +38,8 @@ int main(int argc, char** argv) {
 	string castling_testing_fen = "r3k2r/8/8/8/8/8/8/R3K2R";
 	string promoting_testing_fen = "1b6/P7/8/3k4/5K2/8/p7/1B6";
 	string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
-	string checkmate_fen = "rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR";
 
-
-
+/**/
 	vector<string> mate_fens = {
 		"rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR",
 		"8/6q1/8/8/8/8/5n1P/6NK",
@@ -53,8 +52,19 @@ int main(int argc, char** argv) {
 		"3rq3/7k/8/8/4K3/8/8/5r2",
 		"8/7k/8/8/1n6/8/PPq5/2K5",
 		"KN5q/7k/8/8/8/8/5bb1/8",
-		"KR6/PPn4k/8/8/8/8/8/8"
+		"KR6/PPn4k/8/8/8/8/8/8",
+		"3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R",
+		"4k3/8/4r3/8/8/8/3P1P2/3RKB1q",
+		"K5k1/3n4/8/8/8/5b2/5b2/8",
+		"K6q/7k/8/8/8/5b2/5b2/8"
+		
 	};
+/** /
+
+	vector<string> mate_fens = {
+		"8/7k/8/8/1n6/8/PPq5/2K5",
+	};
+/**/
 
 	testCheckMate(mate_fens);
 

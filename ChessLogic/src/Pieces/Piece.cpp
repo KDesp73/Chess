@@ -4,7 +4,11 @@
 
 
 void Piece::printPiece(){
-	cout << this->boardChar << " " << this->color << " " << this->currentSquare << endl;
+	cout << this->toString() << endl;
+}
+
+string Piece::toString(){
+	return this->type + " " + this->color + " " + this->currentSquare;
 }
 
 bool Piece::capturesOwnPiece(Coords toCoords, char board[][8]){

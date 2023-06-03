@@ -30,6 +30,7 @@ class Piece {
 			this->color = color;
 		}
 		virtual void printPiece();
+		virtual string toString();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
 		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
 		bool capturesOwnPiece(Coords toCoords, char board[][8]);

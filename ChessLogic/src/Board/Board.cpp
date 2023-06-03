@@ -319,4 +319,37 @@ Piece* Board::findPiece(Coords coords){
     return NULL;
 }
 
+bool Board::isProtected(Piece *piece, Board *board) {
+    if (piece == NULL) return false;
+    char temp_board[8][8];
+    memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
+    temp_board[translateSquare(piece->currentSquare).x]
+              [translateSquare(piece->currentSquare).y] = ' ';
 
+    if (piece->color == "white" &&
+        !board->wp->isValidMove(piece->currentSquare, temp_board).empty())
+        return true;
+    if (piece->color == "black" &&
+        !board->bp->isValidMove(piece->currentSquare, temp_board).empty())
+        return true;
+
+    return false;
+}
+
+bool Board::isPinned(Piece *piece, Board *board){
+    if(piece->type == "King") return false;
+
+    Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
+    King *king = dynamic_cast<King *>(board->findPiece("King", piece->color));
+
+    vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(board->board);
+
+    // if removing the piece causes the king to be in check then it's pinned
+    char temp_board[8][8];
+    memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
+    temp_board[translateSquare(piece->currentSquare).x]
+              [translateSquare(piece->currentSquare).y] = ' ';
+
+    vector<Piece *> piecesThatCheckTheKing = king->isInCheck(temp_board);
+    return (piecesThatCheckTheKingBefore.size() < piecesThatCheckTheKing.size());
+}

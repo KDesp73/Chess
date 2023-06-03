@@ -38,21 +38,13 @@ bool Board::isInCheckmate(King *king) {
         if (rookRow == kingRow) {
             for (int i = 1; i <= abs(rookCol - kingCol); i++) {
                 string squareToCheck = letters[i] + to_string(rookRow + 1);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return true;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
                     return true;
             }
         } else if (rookCol == kingCol) {
             for (int i = 1; i <= abs(rookRow - kingRow); i++) {
                 string squareToCheck = letters[rookCol - 1] + to_string(i + 1);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return true;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
                     return true;
             }
         }
@@ -73,42 +65,26 @@ bool Board::isInCheckmate(King *king) {
         if(rowDiff > 0 && colDiff > 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y - i] + to_string(bishopCoords.x + 1 - i);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         } else if(rowDiff < 0 && colDiff > 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y - i] + to_string(bishopCoords.x + 1 + i);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         } else if(rowDiff > 0 && colDiff < 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y + i] + to_string(bishopCoords.x + 1 - i);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         } else if(rowDiff < 0 && colDiff < 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y + i] + to_string(bishopCoords.x + 1 + i);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         }
     }
@@ -131,21 +107,15 @@ bool Board::isInCheckmate(King *king) {
             for (int i = 1; i < abs(queenCol - kingCol); i++) {
                 string squareToCheck = letters[queenCol + i*direction] + to_string(queenRow + 1);
                 vector<Piece *> a = this->wp->isValidMove(squareToCheck, this->board);
-                if (king->color == "white" && !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" && !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         } else if (queenCol == kingCol) {
             int direction = (rowDiff < 0) ? 1 : -1;
             for (int i = 1; i < abs(queenRow - kingRow); i++) {
                 string squareToCheck = letters[queenCol - 1] + to_string(queenRow - 1 + i*direction);
-                if (king->color == "white" &&
-                    !this->wp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
-                if (king->color == "black" &&
-                    !this->bp->isValidMove(squareToCheck, this->board).empty())
-                    return false;
+                if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
             }
         } else {
             // Bishop check
@@ -153,42 +123,26 @@ bool Board::isInCheckmate(King *king) {
             if(rowDiff > 0 && colDiff > 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 - i);
-                    if (king->color == "white" &&
-                        !this->wp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
-                    if (king->color == "black" &&
-                        !this->bp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
+                    if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
                 }
             } else if(rowDiff < 0 && colDiff > 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 + i);
-                    if (king->color == "white" &&
-                        !this->wp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
-                    if (king->color == "black" &&
-                        !this->bp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
+                    if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
                 }
             } else if(rowDiff > 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 - i);
-                    if (king->color == "white" &&
-                        !this->wp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
-                    if (king->color == "black" &&
-                        !this->bp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
+                    if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
                 }
             } else if(rowDiff < 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 + i);
-                    if (king->color == "white" &&
-                        !this->wp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
-                    if (king->color == "black" &&
-                        !this->bp->isValidMove(squareToCheck, this->board).empty())
-                        return false;
+                    if (BoardUtils::canMove(king->color, squareToCheck, this))
+                    return true;
                 }
             }
         }
@@ -200,19 +154,3 @@ bool Board::isInCheckmate(King *king) {
 
 bool Board::isInStalemate(King *king) { return false; }
 
-bool Board::isProtected(Piece *piece, Board *board) {
-    if (piece == NULL) return false;
-    char temp_board[8][8];
-    memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
-    temp_board[translateSquare(piece->currentSquare).x]
-              [translateSquare(piece->currentSquare).y] = ' ';
-
-    if (piece->color == "white" &&
-        !board->wp->isValidMove(piece->currentSquare, temp_board).empty())
-        return true;
-    if (piece->color == "black" &&
-        !board->bp->isValidMove(piece->currentSquare, temp_board).empty())
-        return true;
-
-    return false;
-}
