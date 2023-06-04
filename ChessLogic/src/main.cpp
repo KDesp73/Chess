@@ -3,6 +3,9 @@
 
 #include "chess_lib.h"
 
+#include "Tests/tests.h"
+#include "Tests/test_fens.h"
+
 
 void printValidMoves(Piece *p, string fen){
 	Board *b = new Board("white", fen);
@@ -14,35 +17,6 @@ void printValidMoves(Piece *p, string fen){
 	}
 }
 
-bool testCheckMate(vector<string> mate_fens){
-	int passed_count = 0, failed_count = 0;
-	Text::clearScreen();
-	cout << Text::b_cyan + "Testing Mate...\n" + Text::normal << endl;
-	bool passed = true;
-	for (int i = 0; i < mate_fens.size(); i++){
-		Board b{"white", mate_fens.at(i)};
-		//b.printBigBoard();
-
-		Piece *p = b.findPiece("King", "white");
-		King *king = dynamic_cast<King *>(p);
-		//printValidMoves(king, temp_fen);
-
-		(b.isInCheckmate(king)) ? cout << Text::green + "Passed\n" + Text::normal : cout << Text::red + "Failed" + Text::normal +" at: " + mate_fens.at(i) + "\n";
-	
-		if(!b.isInCheckmate(king)) {
-			passed = false;
-			failed_count++;
-		}else{
-			passed_count++;
-		}
-	}
-
-	cout << endl << endl << Text::green + "Passed: " + to_string(passed_count) + Text::normal << endl;
-	cout << Text::red + "Failed: " + to_string(failed_count) + Text::normal << endl;
-
-	return passed;
-}
-
 int main(int argc, char** argv) {
 	string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	string castling_testing_fen = "r3k2r/8/8/8/8/8/8/R3K2R";
@@ -50,27 +24,7 @@ int main(int argc, char** argv) {
 	string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
 
 /**/
-	vector<string> mate_fens = {
-		"8/1k6/8/8/4PPP1/4PKP1/3n1R2/5q2",
-		"8/6q1/8/4k3/8/8/5n1P/6NK",
-		"7q/8/8/5k1K/8/8/8/8",
-		"K6q/8/1k6/8/8/8/8/8",
-		"8/8/8/8/8/5k2/5q2/5K2",
-		"8/8/8/8/8/5k2/6q1/7K",
-		"8/8/8/K1k5/8/8/8/q7",
-		"r7/8/6k1/8/K7/8/8/1r6",
-		"3rq3/7k/8/8/4K3/8/8/5r2",
-		"8/7k/8/8/1n6/8/PPq5/2K5",
-		"KR6/PPn4k/8/8/8/8/8/8",
-		"4k3/8/4r3/8/8/8/3P1P2/3RKB1q",
-		"K5k1/3n4/8/8/8/5b2/5b2/8",
-		"K6q/7k/8/8/8/5b2/5b2/8",
-		"rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR",
-		"KN5q/7k/8/8/8/8/5bb1/8",
-		"KN5r/7k/8/8/8/8/5bb1/8",
-		"3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R",
-		"K6q/1N5k/8/8/8/8/5bb1/8"
-	};
+	
 /** /
 
 	vector<string> mate_fens = {
@@ -83,7 +37,10 @@ int main(int argc, char** argv) {
 	};
 /**/
 
-	testCheckMate(mate_fens);
+	//Test::testCheckMate(mate_fens);
+	//Test::testPins(TestFens::pin_fens, TestFens::pinned_squares);
+	//Test::testCheck(TestFens::check_fens);
+	Test::testNotCheck(TestFens::should_not_be_check_fens);
 
 	return 0;
 }

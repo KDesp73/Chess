@@ -36,6 +36,10 @@ set(SOURCES
 
     src/text/text.h
     src/text/text.cpp
+
+    src/Tests/tests.h
+    src/Tests/test_fens.h
+    src/Tests/tests.cpp
 )
 
 

@@ -50,6 +50,7 @@ class Board{
         Piece *findPiece(string type, string color);
         int findPiece(Piece *);
         Piece* findPiece(Coords coords);
+        Piece*findPiece(string square);
         Rook* getRookToCastle(int direction, string color);
         bool isInCheckmate(King *king);
 		bool isInStalemate(King *king);

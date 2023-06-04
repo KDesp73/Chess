@@ -319,6 +319,10 @@ Piece* Board::findPiece(Coords coords){
     return NULL;
 }
 
+Piece* Board::findPiece(string square){
+    return this->findPiece(translateSquare(square));
+}
+
 bool Board::isProtected(Piece *piece, Board *board) {
     if (piece == NULL) return false;
     char temp_board[8][8];
@@ -356,3 +360,12 @@ bool Board::isPinned(Piece *piece, Board *board){
     vector<Piece *> piecesThatCheckTheKing = king->isInCheck(temp_board);
     return (piecesThatCheckTheKingBefore.size() < piecesThatCheckTheKing.size());
 }
+
+/*
+bool Board::isPinned(Piece *piece, Board *board){
+    Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
+    King *king = dynamic_cast<King *>(board->findPiece("King", piece->color));
+
+}
+*/
+

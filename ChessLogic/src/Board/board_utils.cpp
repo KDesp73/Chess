@@ -6,7 +6,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
     King *king = dynamic_cast<King *>(piece);
     if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
 
-    //if(piece->type != "King" && Board::isPinned(piece, board)) return false;
+    if(piece->type != "King" && Board::isPinned(piece, board)) return false;
 
     return piece != NULL && piece->isValidMove(move.to, board->board);
 }
