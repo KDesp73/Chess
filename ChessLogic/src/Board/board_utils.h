@@ -5,8 +5,9 @@
 
 using namespace std;
 
-#include "board_declarations.h"
 #include "structs.h"
+#include "../Pieces/Pieces.h"
+#include "board.h"
 
 namespace BoardUtils{
     bool canMove(Piece *piece, Move move, Board *board);
@@ -18,4 +19,14 @@ namespace BoardUtils{
     bool canRookBeBlocked(Rook *rook, King *king, Board *board);
     bool canBishopBeBlocked(Bishop *bishop, King *king, Board *board);
     bool canQueenBeBlocked(Queen *queen, King *king, Board *board);
+    Coords translateSquare(string square);
+    string translateSquare(Coords coords);
+    bool makeMove(string from, string to, char board[][8]);
+    char pieceToMove(Coords coords, char board[][8]);
+    char pieceToMove(string square, char board[][8]);
+    void printCoords(Coords coords);
+    void printCoords(string square);
+    void emptyBoard(char board[][8]);
+    vector<Piece*> squareIsAttacked(string square, Pieces *p, char board[][8]);
+    bool isValidSquare(string square);
 }

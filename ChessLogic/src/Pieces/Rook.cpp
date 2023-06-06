@@ -1,7 +1,9 @@
 #include <cstdlib>
 
-#include "../Board/board_declarations.h"
-#include "piece_declarations.h"
+#include "Pieces.h"
+#include "../Board/board_utils.h"
+
+using namespace BoardUtils;
 
 bool Rook::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);

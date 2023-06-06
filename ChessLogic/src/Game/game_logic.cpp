@@ -1,44 +1,52 @@
 #include <iostream>
 
 #include "game_logic.h"
+#include "../Pieces/Pieces.h"
+#include "../Board/board.h"
+#include "../Board/board_utils.h"
 
-static Board *mainBoard;
+
+namespace GameUtils {
+	Move prompt(Pieces* p, char board[][8]);
+	bool turn(Pieces *p, Board *board);
+	bool isMate(char board[][8]);
+	bool isDraw(char board[][8]);
+	void gameLoop(Board *board);
+};
+
+
+
 
 void Game::start(string starting_fen){
-	// Board *board = new Board("white", starting_fen);
+	Board *mainBoard = new Board("white", starting_fen);
 	mainBoard = new Board("white", starting_fen);
 	mainBoard->printBigBoard();
 	
-	Game::gameLoop(mainBoard);
+	GameUtils::gameLoop(mainBoard);
 	delete mainBoard;
 }
 
-void Game::gameLoop(Board *board){
+void GameUtils::gameLoop(Board *board){
 	string playing = "white";
 	do{
 		board->moveFor = playing;
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
-			bool moveMade = turn(board->wp, board);
+			bool moveMade = GameUtils::turn(board->wp, board);
 			if(moveMade)
 				playing = "black";
 		} else {
 			cout << "Black's turn" << endl;
-			bool moveMade = turn(board->bp, board);
+			bool moveMade = GameUtils::turn(board->bp, board);
 			if(moveMade)
 				playing = "white";
 		}
-
-		// cout << "WhitePieces: " << endl;
-		// board->wp->printPieces();
-		// cout << endl << "BlackPieces: " << endl;
-		// board->bp->printPieces();
-	} while(!isMate(board->board) && !isDraw(board->board));
+	} while(!GameUtils::isMate(board->board) && !GameUtils::isDraw(board->board));
 }
 
-bool Game::turn(Pieces *p, Board *board){
-	Move move = Game::prompt(p, board->board);
+bool GameUtils::turn(Pieces *p, Board *board){
+	Move move = GameUtils::prompt(p, board->board);
 	if(sizeof(move) == 0) {
 		return false;
 	}
@@ -49,7 +57,7 @@ bool Game::turn(Pieces *p, Board *board){
 	return moveMade;
 }
 
-Move Game::prompt(Pieces* p, char board[][8]){
+Move GameUtils::prompt(Pieces* p, char board[][8]){
 	string from, to;
 	cout << "From: ";
 	cin >> from;
@@ -57,7 +65,7 @@ Move Game::prompt(Pieces* p, char board[][8]){
 	cin >> to;
 	cout << endl;
 
-	if(!isValidSquare(from) || !isValidSquare(to)) {
+	if(!BoardUtils::isValidSquare(from) || !BoardUtils::isValidSquare(to)) {
 		cout << "Invalid squares" << endl;
 		return {};
 	}
@@ -65,10 +73,10 @@ Move Game::prompt(Pieces* p, char board[][8]){
 	return Move{from, to};
 }
 
-bool Game::isMate(char board[][8]){
+bool GameUtils::isMate(char board[][8]){
 	return false;
 }
 
-bool Game::isDraw(char board[][8]){
+bool GameUtils::isDraw(char board[][8]){
 	return false;
 }

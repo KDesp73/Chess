@@ -1,6 +1,10 @@
 #include <cstdlib>
 
-#include "../Board/board_declarations.h"
+#include "../Board/board_utils.h"
+#include "Pieces.h"
+
+using namespace BoardUtils;
+
 /*
 bool Pawn::move(string to, char board[][8]) {
     if (!isValidMove(to, board)) return false;

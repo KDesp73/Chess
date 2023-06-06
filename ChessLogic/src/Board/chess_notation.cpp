@@ -2,7 +2,6 @@
 #include <iostream>
 #include<ctype.h>
 
-#include "board_declarations.h"
 #include "board.h"
 
 using namespace std;

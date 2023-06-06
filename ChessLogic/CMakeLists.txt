@@ -9,8 +9,6 @@ set(SOURCES
     src/main.cpp
     src/chess_lib.h
 
-    src/Board/board_declarations.h
-    src/Board/board_functions.cpp
     src/Board/board_utils.cpp
     src/Board/board_utils.h
     src/Board/Board.cpp
@@ -28,7 +26,7 @@ set(SOURCES
     src/Pieces/King.cpp
     src/Pieces/Knight.cpp
     src/Pieces/Pawn.cpp
-    src/Pieces/piece_declarations.h
+    src/Pieces/Pieces.h
     src/Pieces/Piece.cpp
     src/Pieces/Pieces.cpp
     src/Pieces/Queen.cpp

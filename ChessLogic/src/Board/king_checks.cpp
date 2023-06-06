@@ -1,6 +1,7 @@
 #include "board.h"
-#include "board_declarations.h"
 #include "board_utils.h"
+
+using namespace BoardUtils;
 
 bool Board::isInCheckmate(King *king) {
     vector<Piece *> piecesThatCheckTheKing = king->isInCheck(this->board);

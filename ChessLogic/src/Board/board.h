@@ -2,7 +2,7 @@
 
 #include <cstring>
 #include <string>
-#include "../Pieces/piece_declarations.h"
+#include "../Pieces/Pieces.h"
 
 using namespace std;
 
@@ -24,7 +24,10 @@ class Board{
         Pieces *bp = new BlackPieces();
 
 
-        ~Board(){}
+        ~Board(){
+            delete wp;
+            delete bp;
+        }
         Board(string playingAs, string fen){
             this->playingAs = playingAs;
             importFEN(fen);

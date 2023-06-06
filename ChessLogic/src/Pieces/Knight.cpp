@@ -1,6 +1,7 @@
-#include "piece_declarations.h"
-#include "../Board/board_declarations.h"
+#include "Pieces.h"
+#include "../Board/board_utils.h"
 
+using namespace BoardUtils;
 
 
 

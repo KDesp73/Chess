@@ -37,10 +37,12 @@ int main(int argc, char** argv) {
 	};
 /**/
 
-	//Test::testCheckMate(mate_fens);
+	//Test::testCheck(TestFens::check_fens);
 	//Test::testPins(TestFens::pin_fens, TestFens::pinned_squares);
 	//Test::testCheck(TestFens::check_fens);
-	Test::testNotCheck(TestFens::should_not_be_check_fens);
+	//Test::testNotCheck(TestFens::should_not_be_check_fens);
+
+	Game::start(castling_testing_fen);
 
 	return 0;
 }

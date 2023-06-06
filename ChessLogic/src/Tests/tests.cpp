@@ -1,13 +1,14 @@
 # include "tests.h"
 
 #include "../chess_lib.h"
-#include "../Board/board_declarations.h"
+#include "../Board/board_utils.h"
 
 #include <iostream>
 #include <vector>
 #include <string>
 
 using namespace std;
+using namespace BoardUtils;
 
 bool Test::testCheckMate(vector<string> mate_fens){
 	int passed_count = 0, failed_count = 0;

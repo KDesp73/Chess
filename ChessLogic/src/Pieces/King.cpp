@@ -1,9 +1,10 @@
 #include <algorithm>
 
+#include "Pieces.h"
 #include "../Board/board.h"
-#include "../Board/board_declarations.h"
-#include "piece_declarations.h"
+#include "../Board/board_utils.h"
 
+using namespace BoardUtils;
 using namespace std;
 
 bool King::isValidMove(string to, char board[][8]) {

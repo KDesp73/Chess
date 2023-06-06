@@ -1,6 +1,7 @@
 #include "board.h"
-#include "board_declarations.h"
 #include "board_utils.h"
+
+using namespace BoardUtils;
 
 bool Board::promotePawn(string square, Pawn *pawn, Board *board){
     int promotionRank, direction;

@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "./board_declarations.h"
 #include "./board_utils.h"
 #include "../text/text.h"
 
