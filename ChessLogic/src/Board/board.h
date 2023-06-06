@@ -68,6 +68,4 @@ class Board{
         static bool promotePawn(string square, Pawn *pawn, Board *board);
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
-
-        
 };

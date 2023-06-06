@@ -7,16 +7,6 @@
 #include "Tests/test_fens.h"
 
 
-void printValidMoves(Piece *p, string fen){
-	Board *b = new Board("white", fen);
-
-	vector<string> ret = p->getValidMoves(b->board);
-
-	for(int i = 0; i < ret.size(); i++){
-		cout << ret.at(i) << endl;
-	}
-}
-
 int main(int argc, char** argv) {
 	string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	string castling_testing_fen = "r3k2r/8/8/8/8/8/8/R3K2R";

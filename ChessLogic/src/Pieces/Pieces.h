@@ -8,6 +8,16 @@ using namespace std;
 
 class Piece {
 	public:
+		static const string WHITE;
+		static const string BLACK;
+
+		static const string KING;
+		static const string QUEEN;
+		static const string ROOK;
+		static const string BISHOP;
+		static const string KNIGHT;
+		static const string PAWN;
+
 		string currentSquare;
 		string color;
 		char boardChar;
@@ -22,7 +32,7 @@ class Piece {
 		}	
 		
 		Piece(string currentSquare, string color){
-			if(color != "white" && color != "black"){
+			if(color != WHITE && color != BLACK){
 				cout << "Incorrect color" << endl;
 			}
 			
@@ -40,8 +50,8 @@ class Pawn: public Piece {
 	public:
 		Pawn(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 1;
-			this->type = "Pawn";
-			if(color == "white"){
+			this->type = PAWN;
+			if(color == WHITE){
 				this->boardChar = 'P';
 			} else {
 				this->boardChar = 'p';
@@ -57,9 +67,9 @@ class Pawn: public Piece {
 class Rook: public Piece {
 	public:
 		Rook(string currentSquare, string color) : Piece(currentSquare, color) {
-			this->type = "Rook";
+			this->type = ROOK;
 			value = 5;
-			if(color == "white"){
+			if(color == WHITE){
 				this->boardChar = 'R';
 			} else {
 				this->boardChar = 'r';
@@ -73,8 +83,8 @@ class Knight: public Piece {
 	public:
 		Knight(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
-			this->type = "Knight";
-			if(color == "white"){
+			this->type = KNIGHT;
+			if(color == WHITE){
 				this->boardChar = 'N';
 			} else {
 				this->boardChar = 'n';
@@ -88,8 +98,8 @@ class Bishop: public Piece {
 	public:
 		Bishop(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 3;
-			this->type = "Bishop";
-			if(color == "white"){
+			this->type = BISHOP;
+			if(color == WHITE){
 				this->boardChar = 'B';
 			} else {
 				this->boardChar = 'b';
@@ -103,8 +113,8 @@ class Queen: public Piece {
 	public:
 		Queen(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 9;
-			this->type = "Queen";
-			if(color == "white"){
+			this->type = QUEEN;
+			if(color == WHITE){
 				this->boardChar = 'Q';
 			} else {
 				this->boardChar = 'q';
@@ -119,8 +129,8 @@ class King: public Piece {
 		bool a_rook_moved = false, h_rook_moved = false; 
 		King(string currentSquare, string color) : Piece(currentSquare, color){
 			value = 10000;
-			this->type = "King";
-			if(color == "white"){
+			this->type = KING;
+			if(color == WHITE){
 				this->boardChar = 'K';
 			} else {
 				this->boardChar = 'k';
@@ -158,7 +168,7 @@ class WhitePieces : public Pieces{
 	public:
 		~WhitePieces(){}
 		WhitePieces() : Pieces(){
-			this->color = "white";
+			this->color = Piece::WHITE;
 		}
 
 		void loadPieces(char board[][8]) override;
@@ -168,7 +178,7 @@ class BlackPieces : public Pieces{
 	public:
 		~BlackPieces(){}
 		BlackPieces() : Pieces(){
-			this->color = "black";
+			this->color = Piece::BLACK;
 		}
 
 		void loadPieces(char board[][8]) override;

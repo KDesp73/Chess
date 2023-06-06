@@ -12,6 +12,6 @@ string Piece::toString(){
 }
 
 bool Piece::capturesOwnPiece(Coords toCoords, char board[][8]){
-	return (isupper(board[toCoords.x][toCoords.y]) && this->color == "white") || (islower(board[toCoords.x][toCoords.y]) && this->color == "black");
+	return (isupper(board[toCoords.x][toCoords.y]) && this->color == WHITE) || (islower(board[toCoords.x][toCoords.y]) && this->color == BLACK);
 }
 

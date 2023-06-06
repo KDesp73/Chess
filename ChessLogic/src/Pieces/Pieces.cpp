@@ -5,6 +5,17 @@ using namespace BoardUtils;
 
 #include <cctype>
 
+const string WHITE = "white";
+const string WHITE = "black";
+
+const string KING = "King";
+const string QUEEN = "Queen";
+const string ROOK = "Rook";
+const string BISHOP = "Bishop";
+const string KNIGHT = "Knight";
+const string PAWN = "Pawn";
+
+
 void Pieces::printPieces(){
 	for(int i=0; i< pieces.size(); i++){	
 		pieces.at(i)->printPiece();
