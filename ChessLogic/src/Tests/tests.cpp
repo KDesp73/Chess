@@ -145,3 +145,36 @@ bool Test::testNotCheck(vector<string> should_not_be_check_fens){
 bool Test::testNotCheck(string should_not_be_check_fen){
 	return Test::testNotCheck(vector<string>{should_not_be_check_fen});
 }
+
+bool Test::testStaleMate(vector<string> stalemate_fens){
+	int passed_count = 0, failed_count = 0;
+	Text::clearScreen();
+	cout << Text::b_cyan + "Testing Stalemate...\n" + Text::normal << endl;
+	bool passed = true;
+	for (int i = 0; i < stalemate_fens.size(); i++){
+		Board b{"white", stalemate_fens.at(i)};
+		//b.printBigBoard();
+
+		Piece *p = b.findPiece("King", "white");
+		King *king = dynamic_cast<King *>(p);
+
+		if(b.isInStalemate(king)) {
+			passed_count++;
+			cout << Text::green + "Passed\n" + Text::normal;
+			
+		}else{
+			passed = false;
+			failed_count++;
+			cout << Text::red + "Failed" + Text::normal +" at: " + stalemate_fens.at(i) + "\n";
+		}
+	}
+
+	cout << endl << endl << Text::green + "Passed: " + to_string(passed_count) + Text::normal << endl;
+	cout << Text::red + "Failed: " + to_string(failed_count) + Text::normal << endl;
+
+	return passed;
+}
+
+bool Test::testStaleMate(string stalemate_fen){
+	return Test::testStaleMate(vector<string>{stalemate_fen});
+}

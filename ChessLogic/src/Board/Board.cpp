@@ -395,3 +395,294 @@ bool Board::isPinned(Piece *piece, Board *board){
 }
 */
 
+vector<string> Board::getValidMoves(Piece *piece, Board *board){
+    Pawn *pawn = dynamic_cast<Pawn *>(piece);
+    Rook *rook = dynamic_cast<Rook *>(piece);
+    Knight *knight = dynamic_cast<Knight *>(piece);
+    Bishop *bishop = dynamic_cast<Bishop *>(piece);
+    Queen *queen = dynamic_cast<Queen *>(piece);
+    King *king = dynamic_cast<King *>(piece);
+
+    if(pawn != NULL){
+        char currentFile = pawn->currentSquare.at(0);
+        int currentRank = pawn->currentSquare.at(1) - 48;
+
+        vector<string> movesToCheck = {
+            string(1, currentFile) + to_string(currentRank + 1),
+            string(1, currentFile) + to_string(currentRank + 2)};
+        vector<string> capturesToCheck = {
+            string(1, currentFile + 1) + to_string(currentRank + 1),
+            string(1, currentFile - 1) + to_string(currentRank + 1),
+        };
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if (!BoardUtils::canMove(pawn, Move{pawn->currentSquare, movesToCheck.at(i)}, board)) {
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    if(knight != NULL){
+        char currentFile = knight->currentSquare.at(0);
+        int currentRank = knight->currentSquare.at(1) - 48;
+
+        
+
+        vector<string> movesToCheck = {
+            string(1, currentFile+1) + to_string(currentRank+2),
+            string(1, currentFile-1) + to_string(currentRank+2),
+            string(1, currentFile+1) + to_string(currentRank-2),
+            string(1, currentFile-1) + to_string(currentRank-2),
+            string(1, currentFile+2) + to_string(currentRank+1),
+            string(1, currentFile+2) + to_string(currentRank-1),
+            string(1, currentFile-2) + to_string(currentRank+1),
+            string(1, currentFile-2) + to_string(currentRank-1),
+        };
+
+        // Filter invalid squares
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if (!isValidSquare(movesToCheck.at(i))) {
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if(!BoardUtils::canMove(knight, Move{knight->currentSquare, movesToCheck.at(i)}, board)){
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    if(bishop != NULL){
+        char currentFile = bishop->currentSquare.at(0);
+        int currentRank = bishop->currentSquare.at(1) - 48;
+
+        vector<string> movesToCheck;
+
+        // Check up and right
+        char tempFile = currentFile;
+        int tempRank = currentRank;
+        while(tempFile < 'h' && tempRank < 8){
+            tempFile++;
+            tempRank++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check up and left
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile > 'a' && tempRank < 8){
+            tempFile--;
+            tempRank++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check down and right
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile < 'h' && tempRank > 1){
+            tempFile++;
+            tempRank--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check down and left
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile > 'a' && tempRank > 1){
+            tempFile--;
+            tempRank--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if(!BoardUtils::canMove(bishop, Move{bishop->currentSquare, movesToCheck.at(i)}, board)){
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    if(rook != NULL){
+        char currentFile = rook->currentSquare.at(0);
+        int currentRank = rook->currentSquare.at(1) - 48;
+
+        vector<string> movesToCheck;
+
+        
+        // Check same rank left
+        char tempFile = currentFile;
+        while(tempFile > 'a'){
+            tempFile--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+        }
+
+
+        // Check same rank right
+        tempFile = currentFile;
+        while(tempFile < 'h'){
+            tempFile++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+        }
+
+
+        // Check same file up
+        int tempRank = currentRank;
+        while(tempRank < 8){
+            tempRank++;
+            movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+        }
+        
+        // Check same file down
+        tempRank = currentRank;
+        while(tempRank > 1){
+            tempRank--;
+            movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+        }
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if(!BoardUtils::canMove(rook, Move{rook->currentSquare, movesToCheck.at(i)}, board)){
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    if(queen != NULL){
+        char currentFile = queen->currentSquare.at(0);
+        int currentRank = queen->currentSquare.at(1) - 48;
+
+        vector<string> movesToCheck;
+        char tempFile = currentFile;
+        int tempRank = currentRank;
+
+        // Check same rank left
+        while(tempFile > 'a'){
+            tempFile--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+        }
+
+        // Check same rank right
+        tempFile = currentFile;
+        while(tempFile < 'h'){
+            tempFile++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(currentRank));
+        }
+
+
+        // Check same file up
+        tempRank = currentRank;
+        while(tempRank < 8){
+            tempRank++;
+            movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+        }
+        
+        // Check same file down
+        tempRank = currentRank;
+        while(tempRank > 1){
+            tempRank--;
+            movesToCheck.push_back(string(1, currentFile) + to_string(tempRank));
+        }
+
+        // Check up and right
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile < 'h' && tempRank < 8){
+            tempFile++;
+            tempRank++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check up and left
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile > 'a' && tempRank < 8){
+            tempFile--;
+            tempRank++;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check down and right
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile < 'h' && tempRank > 1){
+            tempFile++;
+            tempRank--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Check down and left
+        tempFile = currentFile;
+        tempRank = currentRank;
+        while(tempFile > 'a' && tempRank > 1){
+            tempFile--;
+            tempRank--;
+            movesToCheck.push_back(string(1, tempFile) + to_string(tempRank));
+        }
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if(!BoardUtils::canMove(queen, Move{queen->currentSquare, movesToCheck.at(i)}, board)){
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    if(king != NULL){
+        char currentFile = king->currentSquare.at(0);
+        int currentRank = king->currentSquare.at(1) - 48;
+
+        // All 8 possible King moves + 2 castling moves
+        vector<string> movesToCheck = {
+            string(1, currentFile) + to_string(currentRank + 1),
+            string(1, currentFile) + to_string(currentRank - 1),
+            string(1, currentFile + 1) + to_string(currentRank + 1),
+            string(1, currentFile + 1) + to_string(currentRank - 1),
+            string(1, currentFile - 1) + to_string(currentRank + 1),
+            string(1, currentFile - 1) + to_string(currentRank - 1),
+            string(1, currentFile + 1) + to_string(currentRank),
+            string(1, currentFile - 1) + to_string(currentRank),
+            string(1, currentFile + 2) + to_string(currentRank),  // Castling
+            string(1, currentFile - 2) + to_string(currentRank)   // Castling
+
+        };
+
+        // Filter invalid squares
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if (!isValidSquare(movesToCheck.at(i))) {
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        // Filter invalid moves
+        for (int i = 0; i < movesToCheck.size(); i++) {
+            if (!BoardUtils::canMove(king, Move{king->currentSquare, movesToCheck.at(i)}, board)) {
+                movesToCheck.erase(movesToCheck.begin() + i);  // erase from vector
+                i--;
+            }
+        }
+
+        return movesToCheck;
+    }
+
+    return vector<string>{};
+}

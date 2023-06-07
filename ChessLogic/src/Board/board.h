@@ -63,6 +63,7 @@ class Board{
 
         static bool isProtected(Piece *piece, Board *board);
         static bool isPinned(Piece *piece, Board *board);
+        static vector<string> getValidMoves(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board);
         static bool removePiece(string square, Board *board);

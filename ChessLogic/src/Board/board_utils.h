@@ -19,6 +19,7 @@ namespace BoardUtils{
     bool canRookBeBlocked(Rook *rook, King *king, Board *board);
     bool canBishopBeBlocked(Bishop *bishop, King *king, Board *board);
     bool canQueenBeBlocked(Queen *queen, King *king, Board *board);
+    bool canPieceBeBlocked(Piece *piece, King *king, Board *board);
     Coords translateSquare(string square);
     string translateSquare(Coords coords);
     bool makeMove(string from, string to, char board[][8]);

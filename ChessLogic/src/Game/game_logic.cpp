@@ -9,23 +9,24 @@
 namespace GameUtils {
 	Move prompt(Pieces* p, char board[][8]);
 	bool turn(Pieces *p, Board *board);
-	bool isMate(char board[][8]);
-	bool isDraw(char board[][8]);
-	void gameLoop(Board *board);
+	bool isMate(Board *board);
+	bool isDraw(Board *board);
+	void gameLoop(Board *board, string playing);
 };
 
 
 
 
-void Game::start(string starting_fen){
+void Game::start(string starting_fen, string playing){
 	Board mainBoard ("white", starting_fen);
 	mainBoard.printBigBoard();
 	
-	GameUtils::gameLoop(&mainBoard);
+	GameUtils::gameLoop(&mainBoard, playing);
 }
 
-void GameUtils::gameLoop(Board *board){
-	string playing = "white";
+void GameUtils::gameLoop(Board *board, string playing){
+	if(isMate(board)) return;
+
 	do{
 		board->moveFor = playing;
 		if(playing == "white"){
@@ -40,7 +41,7 @@ void GameUtils::gameLoop(Board *board){
 			if(moveMade)
 				playing = "white";
 		}
-	} while(!GameUtils::isMate(board->board) && !GameUtils::isDraw(board->board));
+	} while(!GameUtils::isMate(board) && !GameUtils::isDraw(board));
 }
 
 bool GameUtils::turn(Pieces *p, Board *board){
@@ -71,10 +72,26 @@ Move GameUtils::prompt(Pieces* p, char board[][8]){
 	return Move{from, to};
 }
 
-bool GameUtils::isMate(char board[][8]){
+bool GameUtils::isMate(Board *board){
+	if(board->isInCheckmate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::WHITE)))){
+		cout << endl << "White is in checkmate" << endl << "Black Wins!" << endl;
+		return true;
+	} else if(board->isInCheckmate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK)))){
+		cout << endl << "Black is in checkmate" << endl << "White Wins!" << endl;
+		return true;
+	}
+
 	return false;
 }
 
-bool GameUtils::isDraw(char board[][8]){
+bool GameUtils::isDraw(Board *board){
+	if(board->isInStalemate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::WHITE)))){
+		cout << endl << "White is in stalemate" << endl << "It's a draw" << endl;
+		return true;
+	} else if(board->isInStalemate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK)))){
+		cout << endl << "Black is in stalemate" << endl << "It's a draw" << endl;
+		return true;
+	}
+
 	return false;
 }

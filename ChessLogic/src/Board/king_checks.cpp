@@ -175,5 +175,33 @@ bool Board::isInCheckmate(King *king) {
     return true;
 }
 
-bool Board::isInStalemate(King *king) { return false; }
+/**
+ * @brief Algorithm
+ * 1. If the King is in check it's not stalemate
+ * 2. If the King has valid moves it's not stalemate
+ * 3. If the king's pieces have a valid move it's not stalemate
+ * 
+ * In any other case it is checkmate
+ * 
+ * @param king 
+ * @return true
+ * @return false 
+ */
+bool Board::isInStalemate(King *king) {
+    vector<Piece *> piecesThatCheckTheKing = king->isInCheck(this->board);
+
+    if(!piecesThatCheckTheKing.empty()) return false;
+
+    if(!king->getValidMoves(board).empty()) return false;
+
+    Pieces *pieces = this->getPieces(king->color);
+
+    for (int i = 0; i < pieces->pieces.size(); i++){
+        if(pieces->pieces.at(i)->type == Piece::KING) continue;
+
+        if(!Board::getValidMoves(pieces->pieces.at(i), this).empty()) return false;
+    }
+
+    return true;
+};
 

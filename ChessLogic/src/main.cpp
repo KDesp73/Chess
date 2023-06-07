@@ -36,6 +36,11 @@ void handleOptions(int option){
 		cin.get();
 		ChessMenu();
 	case 4:
+		Test::testStaleMate(TestFens::stalemate_fens);
+		cout << "Press enter to return to menu..." << endl;
+		cin.get();
+		ChessMenu();
+	case 5:
 		cout << "Press enter to exit..." << endl;
 		cin.get();
 		exit(0);
@@ -45,14 +50,15 @@ void handleOptions(int option){
 }
 
 void ChessMenu(){
-	menu(4, vector<string>{"Play Chess", "Test Mate", "Test Check", "Test Pins", "Exit"}, &handleOptions);
+	menu(4, vector<string>{"Play", "Test Mate", "Test Check", "Test Pins", "Test Stalemate", "Exit"}, &handleOptions);
 }
 
 int main(int argc, char** argv) {
 
-
-	ChessMenu();
+	//ChessMenu();
+	//Game::start();
 	
+	Test::testStaleMate(TestFens::stalemate_fens);
 
 	return 0;
 }

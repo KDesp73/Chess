@@ -29,7 +29,6 @@ static vector<string> mate_fens = {
     "4k3/8/8/8/1qP5/3P4/4PP2/3BKQ2",
     "4k3/8/8/8/6Pq/5P2/3PP3/3QKB2",
     "rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR",
-    "KN5q/7k/8/8/8/8/5bb1/8",
     "3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R",
     "KN5r/7k/8/8/8/8/5bb1/8"
 };
@@ -41,12 +40,12 @@ static vector<string> pin_fens = {
     "KN5r/7k/8/8/8/8/5bb1/8",
     "7k/6r1/8/8/8/8/1Q6/8",
     "k7/b7/8/8/8/8/Q7/8",
-    "5r2/K7/8/5R2/r3Qk2/8/8/8",
-    "5r2/K7/8/5R2/r3Qk2/8/8/8",
-    "5R2/k7/8/5r2/R3qK2/8/8/8",
-    "5R2/k7/8/5r2/R3qK2/8/8/8",
-    "5r2/k7/5R2/8/r1Q2k2/8/8/8",
-    "5r2/k7/5R2/8/r1Q2k2/8/8/8",
+    "5r2/k7/8/5R2/r3QK2/8/8/8",
+    "5r2/k7/8/5R2/r3QK2/8/8/8",
+    "5R2/K7/8/5r2/R3qk2/8/8/8",
+    "5R2/K7/8/5r2/R3qk2/8/8/8",
+    "5r2/k7/5R2/8/r1Q2K2/8/8/8",
+    "5r2/k7/5R2/8/r1Q2K2/8/8/8",
 };
 
 static vector<string> pinned_squares = {
@@ -74,6 +73,13 @@ static vector<string> should_not_be_check_fens = {
     "8/8/2q2RK1/8/8/8/8/5b2",
     "5R2/k7/8/5r2/R3qK2/8/8/8",
     "5R2/k7/8/5r2/R3qK2/8/8/8",
+};
+
+static vector<string> stalemate_fens = {
+    "8/8/1b6/8/8/7q/5P2/6K1",
+    "K7/8/1q6/8/5k2/8/8/8",
+    "8/8/8/8/8/7k/7p/7K",
+
 };
 
 };
