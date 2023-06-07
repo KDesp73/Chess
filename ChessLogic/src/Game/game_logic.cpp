@@ -18,12 +18,10 @@ namespace GameUtils {
 
 
 void Game::start(string starting_fen){
-	Board *mainBoard = new Board("white", starting_fen);
-	mainBoard = new Board("white", starting_fen);
-	mainBoard->printBigBoard();
+	Board mainBoard ("white", starting_fen);
+	mainBoard.printBigBoard();
 	
-	GameUtils::gameLoop(mainBoard);
-	delete mainBoard;
+	GameUtils::gameLoop(&mainBoard);
 }
 
 void GameUtils::gameLoop(Board *board){

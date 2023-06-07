@@ -99,28 +99,30 @@ void Board::scanBoard(vector<Piece *> whitePieces,
 }
 
 bool Board::movePiece(Move move, Board *board) {
-    Piece *pieceToMove = nullptr;
     int moveIndex, captureIndex;
+    Piece *pieceToMove = nullptr;
     Piece *pieceToCapture = nullptr;
+    Pieces *whitePieces = board->getPieces(Piece::WHITE);
+    Pieces *blackPieces = board->getPieces(Piece::BLACK);
 
     // Search white for pieces
-    for (int i = 0; i < board->wp->pieces.size(); i++) {
-        if (move.from == board->wp->pieces.at(i)->currentSquare && board->moveFor == "white") {
-            pieceToMove = board->wp->pieces.at(i);
+    for (int i = 0; i < whitePieces->pieces.size(); i++) {
+        if (move.from == whitePieces->pieces.at(i)->currentSquare && board->moveFor == "white") {
+            pieceToMove = whitePieces->pieces.at(i);
             moveIndex = i;
-        } else if (move.to == board->wp->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->wp->pieces.at(i);
+        } else if (move.to == whitePieces->pieces.at(i)->currentSquare) {
+            pieceToCapture = whitePieces->pieces.at(i);
             captureIndex = i;
         }
     }
 
     // Search black for pieces
-    for (int i = 0; i < board->bp->pieces.size(); i++) {
-        if (move.from == board->bp->pieces.at(i)->currentSquare && board->moveFor == "black") {
-            pieceToMove = board->bp->pieces.at(i);
+    for (int i = 0; i < blackPieces->pieces.size(); i++) {
+        if (move.from == blackPieces->pieces.at(i)->currentSquare && board->moveFor == "black") {
+            pieceToMove = blackPieces->pieces.at(i);
             moveIndex = i;
-        } else if (move.to == board->bp->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->bp->pieces.at(i);
+        } else if (move.to == blackPieces->pieces.at(i)->currentSquare) {
+            pieceToCapture = blackPieces->pieces.at(i);
             captureIndex = i;
         }
     }
@@ -131,6 +133,8 @@ bool Board::movePiece(Move move, Board *board) {
     Bishop *bishop = dynamic_cast<Bishop *>(pieceToMove);
     Queen *queen = dynamic_cast<Queen *>(pieceToMove);
     King *king = dynamic_cast<King *>(pieceToMove);
+
+    
 
     if (
         !canMove(pawn, move, board) &&
@@ -166,28 +170,30 @@ bool Board::movePiece(Move move, Board *board) {
 }
 
 void Board::moveFreely(Move move, Board *board){
-    Piece *pieceToMove = NULL;
     int moveIndex, captureIndex;
+    Piece *pieceToMove = NULL;
     Piece *pieceToCapture = NULL;
+    Pieces *whitePieces = board->getPieces(Piece::WHITE);
+    Pieces *blackPieces = board->getPieces(Piece::BLACK);
 
     // Search white for pieces
-    for (int i = 0; i < board->wp->pieces.size(); i++) {
-        if (move.from == board->wp->pieces.at(i)->currentSquare && board->moveFor == "white") {
-            pieceToMove = board->wp->pieces.at(i);
+    for (int i = 0; i < whitePieces->pieces.size(); i++) {
+        if (move.from == whitePieces->pieces.at(i)->currentSquare && board->moveFor == "white") {
+            pieceToMove = whitePieces->pieces.at(i);
             moveIndex = i;
-        } else if (move.to == board->wp->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->wp->pieces.at(i);
+        } else if (move.to == whitePieces->pieces.at(i)->currentSquare) {
+            pieceToCapture = whitePieces->pieces.at(i);
             captureIndex = i;
         }
     }
 
     // Search black for pieces
-    for (int i = 0; i < board->bp->pieces.size(); i++) {
-        if (move.from == board->bp->pieces.at(i)->currentSquare && board->moveFor == "black") {
-            pieceToMove = board->bp->pieces.at(i);
+    for (int i = 0; i < blackPieces->pieces.size(); i++) {
+        if (move.from == blackPieces->pieces.at(i)->currentSquare && board->moveFor == "black") {
+            pieceToMove = blackPieces->pieces.at(i);
             moveIndex = i;
-        } else if (move.to == board->bp->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->bp->pieces.at(i);
+        } else if (move.to == blackPieces->pieces.at(i)->currentSquare) {
+            pieceToCapture = blackPieces->pieces.at(i);
             captureIndex = i;
         }
     }
@@ -221,30 +227,32 @@ void Board::moveFreely(Move move, Board *board){
 }
 
 bool Board::removePiece(string square, Board *board){
-    Piece *pieceToRemove = NULL;
     int removeIndex;
+    Piece *pieceToRemove = NULL;
+    Pieces *whitePieces = board->getPieces(Piece::WHITE);
+    Pieces *blackPieces = board->getPieces(Piece::BLACK);
 
     // Search white for pieces
-    for (int i = 0; i < board->wp->pieces.size(); i++) {
-        if (square == board->wp->pieces.at(i)->currentSquare && board->moveFor == "black") {
-            pieceToRemove = board->wp->pieces.at(i);
+    for (int i = 0; i < whitePieces->pieces.size(); i++) {
+        if (square == whitePieces->pieces.at(i)->currentSquare && board->moveFor == "black") {
+            pieceToRemove = whitePieces->pieces.at(i);
             removeIndex = i;
         } 
     }
 
     // Search black for pieces
-    for (int i = 0; i < board->bp->pieces.size(); i++) {
-        if (square == board->bp->pieces.at(i)->currentSquare && board->moveFor == "white") {
-            pieceToRemove = board->bp->pieces.at(i);
+    for (int i = 0; i < blackPieces->pieces.size(); i++) {
+        if (square == blackPieces->pieces.at(i)->currentSquare && board->moveFor == "white") {
+            pieceToRemove = blackPieces->pieces.at(i);
             removeIndex = i;
         } 
     }
 
     if(pieceToRemove != NULL){
         if(pieceToRemove->color == "white"){
-            board->wp->pieces.erase(board->wp->pieces.begin() + removeIndex);
+            whitePieces->pieces.erase(whitePieces->pieces.begin() + removeIndex);
         } else {
-            board->bp->pieces.erase(board->bp->pieces.begin() + removeIndex);
+            blackPieces->pieces.erase(blackPieces->pieces.begin() + removeIndex);
         }
 
         pieceToRemove->~Piece();
@@ -257,30 +265,32 @@ bool Board::removePiece(string square, Board *board){
 }
 
 bool Board::removePieceFreely(string square, Board *board){
-    Piece *pieceToRemove = NULL;
     int removeIndex;
+    Piece *pieceToRemove = NULL;
+    Pieces *whitePieces = board->getPieces(Piece::WHITE);
+    Pieces *blackPieces = board->getPieces(Piece::BLACK);
 
     // Search white for pieces
-    for (int i = 0; i < board->wp->pieces.size(); i++) {
-        if (square == board->wp->pieces.at(i)->currentSquare) {
-            pieceToRemove = board->wp->pieces.at(i);
+    for (int i = 0; i < whitePieces->pieces.size(); i++) {
+        if (square == whitePieces->pieces.at(i)->currentSquare) {
+            pieceToRemove = whitePieces->pieces.at(i);
             removeIndex = i;
         } 
     }
 
     // Search black for pieces
-    for (int i = 0; i < board->bp->pieces.size(); i++) {
-        if (square == board->bp->pieces.at(i)->currentSquare) {
-            pieceToRemove = board->bp->pieces.at(i);
+    for (int i = 0; i < blackPieces->pieces.size(); i++) {
+        if (square == blackPieces->pieces.at(i)->currentSquare) {
+            pieceToRemove = blackPieces->pieces.at(i);
             removeIndex = i;
         } 
     }
 
     if(pieceToRemove != NULL){
         if(pieceToRemove->color == "white"){
-            board->wp->pieces.erase(board->wp->pieces.begin() + removeIndex);
+            whitePieces->pieces.erase(whitePieces->pieces.begin() + removeIndex);
         } else {
-            board->bp->pieces.erase(board->bp->pieces.begin() + removeIndex);
+            blackPieces->pieces.erase(blackPieces->pieces.begin() + removeIndex);
         }
 
         pieceToRemove->~Piece();
@@ -357,7 +367,7 @@ bool Board::isProtected(Piece *piece, Board *board) {
 
 
 bool Board::isPinned(Piece *piece, Board *board){
-    Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
+    Pieces *pieces = board->getPieces(piece->color);
     King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
 
     if(king == NULL){
@@ -378,7 +388,7 @@ bool Board::isPinned(Piece *piece, Board *board){
 
 /*
 bool Board::isPinned(Piece *piece, Board *board){
-    Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
+    Pieces *pieces = (piece->color == "white") ? whitePieces : blackPieces;
     King *king = dynamic_cast<King *>(board->findPiece("King", piece->color));
 
 }

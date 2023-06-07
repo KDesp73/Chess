@@ -135,12 +135,14 @@ bool BoardUtils::isValidSquare(string square){
 }
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
+    if(piece == NULL || piece == nullptr) return false;
+
     King *king = dynamic_cast<King *>(piece);
     if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
 
-    if(piece->type != "King" && Board::isPinned(piece, board)) return false;
+    if(king == NULL && Board::isPinned(piece, board)) return false;
 
-    return piece != NULL && piece->isValidMove(move.to, board->board);
+    return piece->isValidMove(move.to, board->board);
 }
 
 bool BoardUtils::canMove(string color, string square, Board *board) {
