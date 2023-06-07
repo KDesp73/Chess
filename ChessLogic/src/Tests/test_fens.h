@@ -30,7 +30,8 @@ static vector<string> mate_fens = {
     "4k3/8/8/8/6Pq/5P2/3PP3/3QKB2",
     "rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR",
     "3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R",
-    "KN5r/7k/8/8/8/8/5bb1/8"
+    "KN5r/7k/8/8/8/8/5bb1/8",
+    "KR6/PPn5/8/8/8/4k3/4p3/8"
 };
 
 static vector<string> pin_fens = {
@@ -83,6 +84,14 @@ static vector<string> stalemate_fens = {
     "7k/8/8/2r1r3/3K4/2r5/8/8",
     "1r6/4k2b/8/8/1q6/3P4/2K5/7r",
     "1r6/4k2b/8/3q2p1/6Pp/7P/8/K7",
+    "8/8/8/8/8/4k3/4p3/4K3",
+    "bb6/b7/8/8/8/8/6P1/7K",
+    "6bb/7b/8/8/8/8/1P6/K7",
+    "6b1/7b/8/4K3/7b/b7/8/2b3b1",
+    "8/8/8/8/8/2q1q3/8/3K4",
+    "8/5q2/7K/5q2/8/8/8/8",
+    "2K5/8/1q1q4/8/8/8/8/8",
+    "8/8/8/8/2q5/K7/2q5/8"
 };
 
 };
