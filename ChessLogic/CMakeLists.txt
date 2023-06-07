@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(TextBasedGame)
+project(Chess)
+
+include("./Ansi-Text-Manipulation-Library/AnsiTextLibrary/CMakeLists.txt")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -32,13 +34,12 @@ set(SOURCES
     src/Pieces/Queen.cpp
     src/Pieces/Rook.cpp
 
-    src/text/text.h
-    src/text/text.cpp
-
     src/Tests/tests.h
     src/Tests/test_fens.h
     src/Tests/tests.cpp
 )
 
 
-add_executable(TextBasedGame ${SOURCES})
+add_executable(Chess ${SOURCES})
+
+target_link_libraries(Chess AnsiTextManipulationLibrary)

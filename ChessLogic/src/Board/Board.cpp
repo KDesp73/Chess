@@ -6,10 +6,11 @@
 #include <vector>
 
 #include "./board_utils.h"
-#include "../text/text.h"
+#include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
 using namespace std;
 using namespace BoardUtils;
+using namespace AnsiTextLib;
 
 Pieces* Board::getPieces(string color){
     if(color == Piece::WHITE) return wp;
@@ -134,7 +135,7 @@ bool Board::movePiece(Move move, Board *board) {
     Queen *queen = dynamic_cast<Queen *>(pieceToMove);
     King *king = dynamic_cast<King *>(pieceToMove);
 
-    
+
 
     if (
         !canMove(pawn, move, board) &&

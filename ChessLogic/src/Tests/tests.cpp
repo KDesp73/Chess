@@ -2,6 +2,7 @@
 
 #include "../chess_lib.h"
 #include "../Board/board_utils.h"
+#include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
 #include <iostream>
 #include <vector>
@@ -9,6 +10,7 @@
 
 using namespace std;
 using namespace BoardUtils;
+using namespace AnsiTextLib;
 
 bool Test::testCheckMate(vector<string> mate_fens){
 	int passed_count = 0, failed_count = 0;
@@ -80,7 +82,7 @@ bool Test::testPins(string pin_fen, string square){
 bool Test::testCheck(vector<string> check_fens){
 	int passed_count = 0, failed_count = 0;
 	Text::clearScreen();
-	cout << Text::b_cyan + "Testing Mate...\n" + Text::normal << endl;
+	cout << Text::b_cyan + "Testing Checks...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < check_fens.size(); i++){
 		Board b{"white", check_fens.at(i)};
@@ -114,7 +116,7 @@ bool Test::testCheck(string check_fen){
 bool Test::testNotCheck(vector<string> should_not_be_check_fens){
 	int passed_count = 0, failed_count = 0;
 	Text::clearScreen();
-	cout << Text::b_cyan + "Testing Mate...\n" + Text::normal << endl;
+	cout << Text::b_cyan + "Testing Not in Check...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < should_not_be_check_fens.size(); i++){
 		Board b{"white", should_not_be_check_fens.at(i)};
