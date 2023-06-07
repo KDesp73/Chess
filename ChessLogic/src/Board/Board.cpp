@@ -375,7 +375,6 @@ bool Board::isPinned(string to, Piece *piece, Board *board){
     Pieces *pieces = board->getPieces(piece->color);
     King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
 
-    if(piece->type == Piece::KNIGHT) return true;
     if(piece->type == Piece::KING) return false;
 
     string letters = "abcdefgh";

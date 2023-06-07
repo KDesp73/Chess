@@ -25,16 +25,19 @@ void handleOptions(int option){
 		cout << "Press enter to return to menu..." << endl;
 		cin.get();
 		ChessMenu();
+		break;
 	case 2:
 		Test::testCheck(TestFens::check_fens);
 		cout << "Press enter to return to menu..." << endl;
 		cin.get();
 		ChessMenu();
+		break;
 	case 3:
 		Test::testStaleMate(TestFens::stalemate_fens);
 		cout << "Press enter to return to menu..." << endl;
 		cin.get();
 		ChessMenu();
+		break;
 	case 4:
 		exit(0);
 	default:
