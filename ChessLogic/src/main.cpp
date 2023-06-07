@@ -31,16 +31,11 @@ void handleOptions(int option){
 		cin.get();
 		ChessMenu();
 	case 3:
-		Test::testPins(TestFens::pin_fens, TestFens::pinned_squares);
-		cout << "Press enter to return to menu..." << endl;
-		cin.get();
-		ChessMenu();
-	case 4:
 		Test::testStaleMate(TestFens::stalemate_fens);
 		cout << "Press enter to return to menu..." << endl;
 		cin.get();
 		ChessMenu();
-	case 5:
+	case 4:
 		exit(0);
 	default:
 		break;
@@ -48,15 +43,12 @@ void handleOptions(int option){
 }
 
 void ChessMenu(){
-	menu(4, vector<string>{"Play", "Test Mate", "Test Check", "Test Pins", "Test Stalemate", "Exit"}, &handleOptions);
+	menu(4, vector<string>{"Play", "Test Mate", "Test Check", "Test Stalemate", "Exit"}, &handleOptions);
 }
 
 int main(int argc, char** argv) {
 
 	ChessMenu();
-	//Game::start();
-	
-	//Test::testStaleMate("8/8/8/8/8/7k/7p/7K");
 
 	return 0;
 }

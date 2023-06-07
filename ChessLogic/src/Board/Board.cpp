@@ -357,7 +357,7 @@ bool Board::isProtected(Piece *piece, Board *board) {
     Board b{Piece::WHITE, temp_board};
     
     for(Piece *p : board->getPieces(piece->color)->pieces){
-        if(Board::isPinned(piece, board)) continue;;
+        if(Board::isPinned(piece->currentSquare, piece, board)) continue;;
         if(!p->isValidMove(piece->currentSquare, temp_board)) continue;
 
         if(piece->type == Piece::PAWN){
@@ -371,19 +371,105 @@ bool Board::isProtected(Piece *piece, Board *board) {
 }
 
 
-bool Board::isPinned(Piece *piece, Board *board){
+bool Board::isPinned(string to, Piece *piece, Board *board){
     Pieces *pieces = board->getPieces(piece->color);
     King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
 
-    if(king == NULL){
-        cout << "King is null" << endl;
+    if(piece->type == Piece::KNIGHT) return true;
+    if(piece->type == Piece::KING) return false;
+
+    string letters = "abcdefgh";
+
+    Coords toCoords = translateSquare(to);
+    Coords pieceCoords = translateSquare(piece->currentSquare);
+    Coords kingCoords = translateSquare(king->currentSquare);
+
+    int toRow = toCoords.x, toCol = toCoords.y;
+    int pieceRow = pieceCoords.x, pieceCol = pieceCoords.y;
+    int kingRow = kingCoords.x, kingCol = kingCoords.y;
+
+    int rowDiff = pieceRow - kingRow;
+    int colDiff = pieceCol - kingCol;
+
+    if(piece->type == Piece::ROOK){
+        if(pieceRow == kingRow){
+            if(pieceRow == toRow) return false;
+        } else if(pieceCol == kingCol){
+            if(pieceCol == toCol) return false;
+        }
+    }
+    
+    if(piece->type == Piece::BISHOP){
+        if(abs(rowDiff) == abs(colDiff)){
+            if(rowDiff > 0 && colDiff > 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y - i] + to_string(pieceCoords.x + 1 - i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff < 0 && colDiff > 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y - i] + to_string(pieceCoords.x + 1 + i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff > 0 && colDiff < 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y + i] + to_string(pieceCoords.x + 1 - i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff < 0 && colDiff < 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y + i] + to_string(pieceCoords.x + 1 + i);
+                    if(to == squareToCheck) return false;
+                }
+            }
+        } 
+    }
+
+    if(piece->type == Piece::QUEEN){
+        // Rook check
+        if(pieceRow == kingRow){
+            if(pieceRow == toRow) return false;
+        } else if(pieceCol == kingCol){
+            if(pieceCol == toCol) return false;
+        }
+
+        // Bishop check
+        if(abs(rowDiff) == abs(colDiff)){
+            if(rowDiff > 0 && colDiff > 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y - i] + to_string(pieceCoords.x + 1 - i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff < 0 && colDiff > 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y - i] + to_string(pieceCoords.x + 1 + i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff > 0 && colDiff < 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y + i] + to_string(pieceCoords.x + 1 - i);
+                    if(to == squareToCheck) return false;
+                }
+            } else if(rowDiff < 0 && colDiff < 0){
+                for (int i = 0; i < abs(rowDiff); i++){
+                    string squareToCheck = letters[pieceCoords.y + i] + to_string(pieceCoords.x + 1 + i);
+                    if(to == squareToCheck) return false;
+                }
+            }
+        } 
+    }
+
+    if(piece->type == Piece::PAWN){
+        if(pieceCol == kingCol){
+            if(toCol == kingCol) return false;
+        }
     }
 
     vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(board->board);
 
     // if removing the piece causes the king to be in check then it's pinned
     char temp_board[8][8];
-    memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
+    std::memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
     temp_board[translateSquare(piece->currentSquare).x]
               [translateSquare(piece->currentSquare).y] = ' ';
 

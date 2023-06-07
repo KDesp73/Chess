@@ -45,39 +45,6 @@ bool Test::testCheckMate(string mate_fen){
 	return Test::testCheckMate(vector<string>{mate_fen});
 }
 
-bool Test::testPins(vector<string> pin_fens, vector<string> squaresToCheck){
-    int passed_count = 0, failed_count = 0;
-    Text::clearScreen();
-
-    cout << Text::b_cyan + "Testing Pins...\n" + Text::normal << endl;
-	bool passed = true;
-	for (int i = 0; i < pin_fens.size(); i++){
-		Board b{"white", pin_fens.at(i)};
-		//b.printBigBoard();
-
-		Piece *p = b.findPiece(squaresToCheck.at(i));
-
-		if(Board::isPinned(p, &b)){
-            cout << Text::green + "Passed" + Text::normal << endl;
-            passed_count++;
-        } else{
-            passed = false;
-            cout << Text::red + "Failed" + Text::normal << " at: " + pin_fens.at(i) + " - " + squaresToCheck.at(i) << endl;
-            failed_count++;
-        }
-	}
-
-	cout << endl << endl << Text::green + "Passed: " + to_string(passed_count) + Text::normal << endl;
-	cout << Text::red + "Failed: " + to_string(failed_count) + Text::normal << endl;
-
-	return passed;
-}
-
-bool Test::testPins(string pin_fen, string square){
-	return Test::testPins(vector<string>{pin_fen}, vector<string>{square});
-}
-
-
 
 bool Test::testCheck(vector<string> check_fens){
 	int passed_count = 0, failed_count = 0;
