@@ -86,15 +86,15 @@ vector<Piece*> King::isInCheck(string to, char board[][8]) {
     vector<Piece*> ret;
 
     if (this->color == "white") {
-        for (Piece* p : b->bp->pieces) {
-            // if(p->type == "King") continue;
+        for (Piece* p : b->getPieces(Piece::BLACK)->pieces) {
+            //if(p->type == "King") continue;
             if (p->isValidMove(to, b->board)) {
                 ret.push_back(p);
             }
         }
     } else {
-        for (Piece* p : b->wp->pieces) {
-            // if(p->type == "King") continue;
+        for (Piece* p : b->getPieces(Piece::WHITE)->pieces) {
+            //if(p->type == "King") continue;
             if (p->isValidMove(to, b->board)) {
                 ret.push_back(p);
             }

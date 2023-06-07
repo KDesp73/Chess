@@ -26,13 +26,13 @@ int main(int argc, char** argv) {
 		"KN5r/7k/8/8/8/8/5bb1/8"
 	};
 /**/
-
 	//Test::testCheck(TestFens::check_fens);
 	//Test::testPins(TestFens::pin_fens, TestFens::pinned_squares);
 	//Test::testCheck(TestFens::check_fens);
 	//Test::testNotCheck(TestFens::should_not_be_check_fens);
 
-	Game::start(castling_testing_fen);
+	Test::testCheckMate(TestFens::mate_fens);
+	// Test::testCheckMate("3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R");
 
 	return 0;
 }

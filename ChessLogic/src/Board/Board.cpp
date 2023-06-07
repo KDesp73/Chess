@@ -11,6 +11,13 @@
 using namespace std;
 using namespace BoardUtils;
 
+Pieces* Board::getPieces(string color){
+    if(color == Piece::WHITE) return wp;
+    if(color == Piece::BLACK) return bp;
+
+    return nullptr;
+}
+
 void Board::printBoard() { Board::printBoard("white"); }
 
 void Board::printBoard(string playingAs) {
@@ -92,9 +99,9 @@ void Board::scanBoard(vector<Piece *> whitePieces,
 }
 
 bool Board::movePiece(Move move, Board *board) {
-    Piece *pieceToMove = NULL;
+    Piece *pieceToMove = nullptr;
     int moveIndex, captureIndex;
-    Piece *pieceToCapture = NULL;
+    Piece *pieceToCapture = nullptr;
 
     // Search white for pieces
     for (int i = 0; i < board->wp->pieces.size(); i++) {
@@ -329,20 +336,29 @@ bool Board::isProtected(Piece *piece, Board *board) {
     temp_board[translateSquare(piece->currentSquare).x]
               [translateSquare(piece->currentSquare).y] = ' ';
 
-    King *opponentsKing = dynamic_cast<King *>(board->findPiece("King", (piece->color == "white") ? "black" : "white"));
+    King *opponentsKing = dynamic_cast<King *>(board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE));
 
     if(opponentsKing != NULL){
         temp_board[translateSquare(opponentsKing->currentSquare).x]
                   [translateSquare(opponentsKing->currentSquare).y] = ' ';
     }
 
-    return (BoardUtils::canMove(piece->color, piece->currentSquare, new Board("white", temp_board)));
+    Board b{Piece::WHITE, temp_board};
+    
+    for(Piece *p : board->getPieces(piece->color)->pieces){
+        if(Board::isPinned(piece, board)) continue;;
+        if(!p->isValidMove(piece->currentSquare, temp_board)) continue;
+
+        return true;
+    }
+    
+    return false;
 }
 
 
 bool Board::isPinned(Piece *piece, Board *board){
     Pieces *pieces = (piece->color == "white") ? board->wp : board->bp;
-    King *king = dynamic_cast<King *>(board->findPiece("King", piece->color));
+    King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
 
     if(king == NULL){
         cout << "King is null" << endl;

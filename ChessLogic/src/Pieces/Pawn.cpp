@@ -5,27 +5,6 @@
 
 using namespace BoardUtils;
 
-/*
-bool Pawn::move(string to, char board[][8]) {
-    if (!isValidMove(to, board)) return false;
-
-    if (translateSquare(currentSquare).x == 7 ||
-        translateSquare(currentSquare).x == 0) {
-        cout << "Promote" << endl;
-        this->promote(board);
-    }
-
-    bool valid = Piece::move(to, board);
-
-    if (translateSquare(currentSquare).x == 7 ||
-        translateSquare(currentSquare).x == 0) {
-        cout << "Promote" << endl;
-        this->promote(board);
-    }
-
-    return valid;
-}*/
-
 bool Pawn::isValidMove(string to, char board[][8]) {
     Coords fromCoords = translateSquare(currentSquare);
     Coords toCoords = translateSquare(to);

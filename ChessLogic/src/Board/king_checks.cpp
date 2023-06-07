@@ -3,6 +3,20 @@
 
 using namespace BoardUtils;
 
+/**
+ * @brief Algorithm
+ * 1. If the King is not in check it's not mate
+ * 2. If the King has valid moves it's not mate
+ * 3. If the number of pieces that check the king is more than one it is mate
+ * 4. It the number of pieces that check the king is only one and it can be captured it's not mate
+ * 5. If the check can be blocked it's not mate
+ * 
+ * In any other case it is checkmate
+ * 
+ * @param king 
+ * @return true
+ * @return false 
+ */
 bool Board::isInCheckmate(King *king) {
     vector<Piece *> piecesThatCheckTheKing = king->isInCheck(this->board);
 

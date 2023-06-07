@@ -21,15 +21,15 @@ bool Test::testCheckMate(vector<string> mate_fens){
 
 		Piece *p = b.findPiece("King", "white");
 		King *king = dynamic_cast<King *>(p);
-		//printValidMoves(king, temp_fen);
 
-		(b.isInCheckmate(king)) ? cout << Text::green + "Passed\n" + Text::normal : cout << Text::red + "Failed" + Text::normal +" at: " + mate_fens.at(i) + "\n";
-	
-		if(!b.isInCheckmate(king)) {
+		if(b.isInCheckmate(king)) {
+			passed_count++;
+			cout << Text::green + "Passed\n" + Text::normal;
+			
+		}else{
 			passed = false;
 			failed_count++;
-		}else{
-			passed_count++;
+			cout << Text::red + "Failed" + Text::normal +" at: " + mate_fens.at(i) + "\n";
 		}
 	}
 
@@ -37,6 +37,10 @@ bool Test::testCheckMate(vector<string> mate_fens){
 	cout << Text::red + "Failed: " + to_string(failed_count) + Text::normal << endl;
 
 	return passed;
+}
+
+bool Test::testCheckMate(string mate_fen){
+	return Test::testCheckMate(vector<string>{mate_fen});
 }
 
 bool Test::testPins(vector<string> pin_fens, vector<string> squaresToCheck){
@@ -66,6 +70,11 @@ bool Test::testPins(vector<string> pin_fens, vector<string> squaresToCheck){
 
 	return passed;
 }
+
+bool Test::testPins(string pin_fen, string square){
+	return Test::testPins(vector<string>{pin_fen}, vector<string>{square});
+}
+
 
 
 bool Test::testCheck(vector<string> check_fens){
@@ -97,6 +106,11 @@ bool Test::testCheck(vector<string> check_fens){
 	return passed;
 }
 
+bool Test::testCheck(string check_fen){
+	return Test::testCheck(vector<string>{check_fen});
+}
+
+
 bool Test::testNotCheck(vector<string> should_not_be_check_fens){
 	int passed_count = 0, failed_count = 0;
 	Text::clearScreen();
@@ -126,3 +140,6 @@ bool Test::testNotCheck(vector<string> should_not_be_check_fens){
 	return passed;
 }
 
+bool Test::testNotCheck(string should_not_be_check_fen){
+	return Test::testNotCheck(vector<string>{should_not_be_check_fen});
+}

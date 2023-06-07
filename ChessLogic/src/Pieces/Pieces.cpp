@@ -5,15 +5,15 @@ using namespace BoardUtils;
 
 #include <cctype>
 
-const string WHITE = "white";
-const string WHITE = "black";
+const string Piece::WHITE = "white";
+const string Piece::BLACK = "black";
 
-const string KING = "King";
-const string QUEEN = "Queen";
-const string ROOK = "Rook";
-const string BISHOP = "Bishop";
-const string KNIGHT = "Knight";
-const string PAWN = "Pawn";
+const string Piece::KING = "King";
+const string Piece::QUEEN = "Queen";
+const string Piece::ROOK = "Rook";
+const string Piece::BISHOP = "Bishop";
+const string Piece::KNIGHT = "Knight";
+const string Piece::PAWN = "Pawn";
 
 
 void Pieces::printPieces(){

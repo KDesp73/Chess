@@ -70,8 +70,10 @@ void BoardUtils::printValidMoves(Piece *p, string fen){
 	vector<string> ret = p->getValidMoves(b->board);
 
 	for(int i = 0; i < ret.size(); i++){
-		cout << ret.at(i) << endl;
+		cout << i+1 << " " << ret.at(i) << endl;
 	}
+
+    delete b;
 }
 
 void BoardUtils::printCoords(Coords coords) {
@@ -136,13 +138,13 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
     King *king = dynamic_cast<King *>(piece);
     if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
 
-    //if(piece->type != "King" && Board::isPinned(piece, board)) return false;
+    if(piece->type != "King" && Board::isPinned(piece, board)) return false;
 
     return piece != NULL && piece->isValidMove(move.to, board->board);
 }
 
 bool BoardUtils::canMove(string color, string square, Board *board) {
-    Pieces *pieces = (color == "white") ? board->wp : board->bp;
+    Pieces *pieces = board->getPieces(color);
     for (int i = 0; i < pieces->pieces.size(); i++)    {
         if(BoardUtils::canMove(pieces->pieces.at(i), Move{pieces->pieces.at(i)->currentSquare, square}, board)) return true;
     }
@@ -182,19 +184,19 @@ int BoardUtils::calcDirection(King *king, string square){
 bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
     Piece *pieceToCapture = NULL;
     // Search white for pieces
-    for (int i = 0; i < board->wp->pieces.size(); i++) {
-        if (move.to == board->wp->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->wp->pieces.at(i);
+    for (int i = 0; i < board->getPieces(Piece::WHITE)->pieces.size(); i++) {
+        if (move.to == board->getPieces(Piece::WHITE)->pieces.at(i)->currentSquare) {
+            pieceToCapture = board->getPieces(Piece::WHITE)->pieces.at(i);
         }
     }
 
     // Search black for pieces
     if(pieceToCapture == NULL){
-        for (int i = 0; i < board->bp->pieces.size(); i++) {
-            if (move.to == board->bp->pieces.at(i)->currentSquare) {
-                pieceToCapture = board->bp->pieces.at(i);
+        for (int i = 0; i < board->getPieces(Piece::BLACK)->pieces.size(); i++) {
+            if (move.to == board->getPieces(Piece::BLACK)->pieces.at(i)->currentSquare) {
+                pieceToCapture = board->getPieces(Piece::BLACK)->pieces.at(i);
+            }
         }
-    }
     }
 
     return !(pieceToCapture != NULL && Board::isProtected(pieceToCapture, board));

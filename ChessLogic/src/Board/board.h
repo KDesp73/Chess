@@ -7,6 +7,10 @@
 using namespace std;
 
 class Board{
+    private:
+        Pieces *wp = new WhitePieces();
+        Pieces *bp = new BlackPieces();
+
     public:
         string playingAs;
         string moveFor = "white";
@@ -20,8 +24,6 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
-        Pieces *wp = new WhitePieces();
-        Pieces *bp = new BlackPieces();
 
 
         ~Board(){
@@ -42,6 +44,7 @@ class Board{
             bp->loadPieces(board);
         }
 
+        Pieces* getPieces(string color);
         void importFEN(string fen);
         static string exportFEN(Board *board);
         static string exportFEN(char board[][8]);

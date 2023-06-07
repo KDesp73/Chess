@@ -33,12 +33,12 @@ void GameUtils::gameLoop(Board *board){
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
-			bool moveMade = GameUtils::turn(board->wp, board);
+			bool moveMade = GameUtils::turn(board->getPieces(Piece::WHITE), board);
 			if(moveMade)
 				playing = "black";
 		} else {
 			cout << "Black's turn" << endl;
-			bool moveMade = GameUtils::turn(board->bp, board);
+			bool moveMade = GameUtils::turn(board->getPieces(Piece::BLACK), board);
 			if(moveMade)
 				playing = "white";
 		}
