@@ -81,7 +81,7 @@ bool Pawn::canPromote(string to, char board[][8]){
     } 
 }
 
-vector<string> Pawn::getValidMoves(char board[][8]) {
+vector<string> Pawn::getPseudoValidMoves(char board[][8]) {
     char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 

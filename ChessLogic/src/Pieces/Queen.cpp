@@ -57,7 +57,7 @@ bool Queen::isValidMove(string to, char board[][8]) {
     return false;
 }
 
-vector<string> Queen::getValidMoves(char board[][8]){
+vector<string> Queen::getPseudoValidMoves(char board[][8]){
 	char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 

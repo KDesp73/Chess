@@ -26,7 +26,7 @@ bool Bishop::isValidMove(string to, char board[][8]) {
     return true;
 }
 
-vector<string> Bishop::getValidMoves(char board[][8]){
+vector<string> Bishop::getPseudoValidMoves(char board[][8]){
 	char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 

@@ -36,7 +36,7 @@ bool Rook::isValidMove(string to, char board[][8]) {
     return false;
 }
 
-vector<string> Rook::getValidMoves(char board[][8]){
+vector<string> Rook::getPseudoValidMoves(char board[][8]){
 	char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 

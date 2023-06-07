@@ -42,7 +42,7 @@ class Piece {
 		virtual void printPiece();
 		virtual string toString();
 		virtual bool isValidMove(string to, char board[][8]){return false;}
-		virtual vector<string> getValidMoves(char board[][8]){vector<string> ret; return ret;}
+		virtual vector<string> getPseudoValidMoves(char board[][8]){vector<string> ret; return ret;}
 		bool capturesOwnPiece(Coords toCoords, char board[][8]);
 };
 
@@ -58,7 +58,7 @@ class Pawn: public Piece {
 			}
 		}
 		bool isValidMove(string to, char board[][8]) override;
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
 		bool canPromote(string to, char board[][8]);
 };
@@ -76,7 +76,7 @@ class Rook: public Piece {
 			}
 		}
 		bool isValidMove(string to, char board[][8]) override;
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 };
 
 class Knight: public Piece {
@@ -91,7 +91,7 @@ class Knight: public Piece {
 			}
 		}
 		bool isValidMove(string to, char board[][8]) override;
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 };
 
 class Bishop: public Piece {
@@ -105,7 +105,7 @@ class Bishop: public Piece {
 				this->boardChar = 'b';
 			}
 		}
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 		bool isValidMove(string to, char board[][8]) override;
 };
 
@@ -121,7 +121,7 @@ class Queen: public Piece {
 			}
 		}
 		bool isValidMove(string to, char board[][8]) override;
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 };
 
 class King: public Piece {
@@ -137,7 +137,7 @@ class King: public Piece {
 			}
 		}
 		bool isValidMove(string to, char board[][8]) override;
-		vector<string> getValidMoves(char board[][8]) override;
+		vector<string> getPseudoValidMoves(char board[][8]) override;
 		bool canCastle(string to, char board[][8]);
 		vector<Piece*> isInCheck(char board[][8]);
 		vector<Piece*> isInCheck(string to, char board[][8]);

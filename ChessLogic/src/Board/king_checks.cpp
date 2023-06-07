@@ -22,7 +22,7 @@ bool Board::isInCheckmate(King *king) {
 
     if (piecesThatCheckTheKing.empty()) return false;
 
-    vector<string> kingsValidMoves = king->getValidMoves(this->board);
+    vector<string> kingsValidMoves = Board::getValidMoves(king, this);
     
     // Filter invalid moves once more checking protected pieces
     for (int i = 0; i < kingsValidMoves.size(); i++){
@@ -192,7 +192,7 @@ bool Board::isInStalemate(King *king) {
 
     if(!piecesThatCheckTheKing.empty()) return false;
 
-    if(!king->getValidMoves(board).empty()) return false;
+    if(!Board::getValidMoves(king, this).empty()) return false;
 
     Pieces *pieces = this->getPieces(king->color);
 

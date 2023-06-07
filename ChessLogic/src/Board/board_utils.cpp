@@ -64,17 +64,6 @@ bool BoardUtils::makeMove(string from, string to, char board[][8]) {
     return true;
 }
 
-void BoardUtils::printValidMoves(Piece *p, string fen){
-	Board *b = new Board("white", fen);
-
-	vector<string> ret = p->getValidMoves(b->board);
-
-	for(int i = 0; i < ret.size(); i++){
-		cout << i+1 << " " << ret.at(i) << endl;
-	}
-
-    delete b;
-}
 
 void BoardUtils::printCoords(Coords coords) {
     cout << "(" << coords.x << ", " << coords.y << ")" << endl;

@@ -107,7 +107,7 @@ vector<Piece*> King::isInCheck(string to, char board[][8]) {
 
 
 
-vector<string> King::getValidMoves(char board[][8]) {
+vector<string> King::getPseudoValidMoves(char board[][8]) {
     char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 
