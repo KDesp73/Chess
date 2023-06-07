@@ -61,6 +61,7 @@ class Pawn: public Piece {
 		vector<string> getPseudoValidMoves(char board[][8]) override;
 		bool isValidCapture(string to, char board[][8]);
 		bool canPromote(string to, char board[][8]);
+		bool attacksSquare(string square, char board[][8]);
 };
 
 

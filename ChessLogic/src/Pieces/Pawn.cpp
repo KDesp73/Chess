@@ -71,6 +71,32 @@ bool Pawn::isValidCapture(string to, char board[][8]) {
     return false;
 }
 
+bool Pawn::attacksSquare(string square, char board[][8]){
+    char currentFile = this->currentSquare.at(0);
+    int currentRank = this->currentSquare.at(1) - 48;
+
+    int direction = (color == Piece::WHITE) ? 1 : -1;
+
+    vector<string> capturesToCheck = {
+        string(1, currentFile + 1) + to_string(currentRank + direction),
+        string(1, currentFile - 1) + to_string(currentRank + direction),
+    };
+
+    // Filter invalid squares
+    for (int i = 0; i < capturesToCheck.size(); i++) {
+        if (!isValidSquare(capturesToCheck.at(i))) {
+            capturesToCheck.erase(capturesToCheck.begin() + i);  // erase from vector
+            i--;
+        }
+    }
+
+    for (int i = 0; i < capturesToCheck.size(); i++){
+        if(square == capturesToCheck.at(i)) return true;
+    }
+
+    return false;
+}
+
 bool Pawn::canPromote(string to, char board[][8]){
     bool validMove = this->isValidMove(to, board);
     bool validCapture = this->isValidCapture(to, board);
@@ -85,12 +111,14 @@ vector<string> Pawn::getPseudoValidMoves(char board[][8]) {
     char currentFile = currentSquare.at(0);
     int currentRank = currentSquare.at(1) - 48;
 
+    int direction = (color == Piece::WHITE) ? 1 : -1;
+
     vector<string> movesToCheck = {
-        string(1, currentFile) + to_string(currentRank + 1),
-        string(1, currentFile) + to_string(currentRank + 2)};
+        string(1, currentFile) + to_string(currentRank + 1 * direction),
+        string(1, currentFile) + to_string(currentRank + 2 * direction)};
     vector<string> capturesToCheck = {
-        string(1, currentFile + 1) + to_string(currentRank + 1),
-        string(1, currentFile - 1) + to_string(currentRank + 1),
+        string(1, currentFile + 1) + to_string(currentRank + 1 * direction),
+        string(1, currentFile - 1) + to_string(currentRank + 1 * direction),
     };
 
     // Filter invalid moves

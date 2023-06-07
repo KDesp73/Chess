@@ -41,8 +41,6 @@ void handleOptions(int option){
 		cin.get();
 		ChessMenu();
 	case 5:
-		cout << "Press enter to exit..." << endl;
-		cin.get();
 		exit(0);
 	default:
 		break;
@@ -55,10 +53,10 @@ void ChessMenu(){
 
 int main(int argc, char** argv) {
 
-	//ChessMenu();
+	ChessMenu();
 	//Game::start();
 	
-	Test::testStaleMate(TestFens::stalemate_fens);
+	//Test::testStaleMate("8/8/8/8/8/7k/7p/7K");
 
 	return 0;
 }

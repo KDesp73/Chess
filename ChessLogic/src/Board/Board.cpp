@@ -360,6 +360,10 @@ bool Board::isProtected(Piece *piece, Board *board) {
         if(Board::isPinned(piece, board)) continue;;
         if(!p->isValidMove(piece->currentSquare, temp_board)) continue;
 
+        if(piece->type == Piece::PAWN){
+            if(dynamic_cast<Pawn *>(piece)->isValidCapture(piece->currentSquare, board->board)) return true;
+        }
+
         return true;
     }
     
@@ -406,14 +410,17 @@ vector<string> Board::getValidMoves(Piece *piece, Board *board){
     if(pawn != NULL){
         char currentFile = pawn->currentSquare.at(0);
         int currentRank = pawn->currentSquare.at(1) - 48;
+        
+        int direction = (piece->color == Piece::WHITE) ? 1 : -1;
 
         vector<string> movesToCheck = {
-            string(1, currentFile) + to_string(currentRank + 1),
-            string(1, currentFile) + to_string(currentRank + 2)};
+            string(1, currentFile) + to_string(currentRank + 1 * direction),
+            string(1, currentFile) + to_string(currentRank + 2 * direction)};
         vector<string> capturesToCheck = {
-            string(1, currentFile + 1) + to_string(currentRank + 1),
-            string(1, currentFile - 1) + to_string(currentRank + 1),
+            string(1, currentFile + 1) + to_string(currentRank + 1 * direction),
+            string(1, currentFile - 1) + to_string(currentRank + 1 * direction),
         };
+
 
         // Filter invalid moves
         for (int i = 0; i < movesToCheck.size(); i++) {
@@ -660,10 +667,13 @@ vector<string> Board::getValidMoves(Piece *piece, Board *board){
             string(1, currentFile - 1) + to_string(currentRank - 1),
             string(1, currentFile + 1) + to_string(currentRank),
             string(1, currentFile - 1) + to_string(currentRank),
-            string(1, currentFile + 2) + to_string(currentRank),  // Castling
-            string(1, currentFile - 2) + to_string(currentRank)   // Castling
-
         };
+
+        // For castling
+        if(king->color == Piece::WHITE && king->currentSquare == "e1" || king->color == Piece::BLACK && king->currentSquare == "e8"){
+            movesToCheck.push_back(string(1, currentFile + 2) + to_string(currentRank));
+            movesToCheck.push_back(string(1, currentFile - 2) + to_string(currentRank));
+        }
 
         // Filter invalid squares
         for (int i = 0; i < movesToCheck.size(); i++) {

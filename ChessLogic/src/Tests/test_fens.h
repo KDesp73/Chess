@@ -81,7 +81,8 @@ static vector<string> stalemate_fens = {
     "8/8/8/8/8/7k/7p/7K",
     "2r1r2k/8/8/7r/3K4/7r/8/8",
     "7k/8/8/2r1r3/3K4/2r5/8/8",
-    "1r6/4k2b/8/8/1q6/3P4/2K5/7r"
+    "1r6/4k2b/8/8/1q6/3P4/2K5/7r",
+    "1r6/4k2b/8/3q2p1/6Pp/7P/8/K7",
 };
 
 };
