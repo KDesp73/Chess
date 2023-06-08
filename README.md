@@ -22,7 +22,6 @@ Two player Chess written in C++ with CLI
 
 - No computer opponent
 - CLI only (no GUI)
-- No available moves hint
 
 ## ToDo
 
