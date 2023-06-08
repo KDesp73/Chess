@@ -696,28 +696,18 @@ void Board::copyMove(Move *src, Move *dest){
 }
 
 void Board::initBoardsBefore(){
-    for (int i = 0; i < 5; i++){
-        this->boards_before.push_back(
-            {
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-            }
-        );
+    for (int i = 0; i < boardsToPast; i++){
+        this->boards_before.push_back(Board::exportFEN(this->board));
     }
 }
 
 void Board::moveBoardsBack(){
     for (int i = this->boards_before.size()-1; i >= 0; i--){
         if(i == 0){
-            Board::copyBoard(this->board, this->boards_before.at(i));
+            boards_before.at(i) = Board::exportFEN(this->board);
+            break;
         }
 
-        Board::copyBoard(this->boards_before.at(i-1), this->boards_before.at(i));
+        boards_before.at(i) = boards_before.at(i-1);
     }
 }

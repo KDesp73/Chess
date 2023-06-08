@@ -11,6 +11,7 @@ class Board{
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
         void initBoardsBefore();
+        int boardsToPast = 5;
     public:
         string playingAs;
         bool showMaterial;
@@ -26,7 +27,7 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
         
-        vector<char[8][8]> boards_before;
+        vector<string> boards_before;
 
         Move *move_1_before = new Move(Move{"a1", "a1"});
         Move *move_2_before = new Move(Move{"a1", "a1"});
