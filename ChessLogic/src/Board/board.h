@@ -10,7 +10,7 @@ class Board{
     private:
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
-
+        void initBoardsBefore();
     public:
         string playingAs;
         bool showMaterial;
@@ -25,26 +25,9 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
-        char board_1_before[8][8] = {
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-        };
-        char board_2_before[8][8] = {
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-        };
+        
+        vector<char[8][8]> boards_before;
+
         Move *move_1_before = new Move(Move{"a1", "a1"});
         Move *move_2_before = new Move(Move{"a1", "a1"});
 
@@ -59,6 +42,8 @@ class Board{
             importFEN(fen);
             wp->loadPieces(board);
             bp->loadPieces(board);
+
+            initBoardsBefore();
         }
 
         Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true){
@@ -67,6 +52,8 @@ class Board{
             Board::copyBoard(board, this->board);
             wp->loadPieces(board);
             bp->loadPieces(board);
+
+            initBoardsBefore();
         }
 
         Pieces* getPieces(string color);
@@ -83,6 +70,7 @@ class Board{
         Rook* getRookToCastle(int direction, string color);
         bool isInCheckmate(King *king);
 		bool isInStalemate(King *king);
+        void moveBoardsBack();
 
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);

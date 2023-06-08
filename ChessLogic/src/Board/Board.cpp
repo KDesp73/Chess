@@ -174,8 +174,7 @@ bool Board::movePiece(Move move, Board *board) {
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
-        Board::copyBoard(board->board_1_before, board->board_2_before);
-        Board::copyBoard(board->board, board->board_1_before);
+        board->moveBoardsBack();
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -219,8 +218,7 @@ void Board::moveFreely(Move move, Board *board){
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
-        Board::copyBoard(board->board_1_before, board->board_2_before);
-        Board::copyBoard(board->board, board->board_1_before);
+        board->moveBoardsBack();
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -695,4 +693,31 @@ void Board::copyBoard(char src[8][8], char dest[8][8]){
 void Board::copyMove(Move *src, Move *dest){
     dest->from = src->from;
     dest->to = src->to;
+}
+
+void Board::initBoardsBefore(){
+    for (int i = 0; i < 5; i++){
+        this->boards_before.push_back(
+            {
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            }
+        );
+    }
+}
+
+void Board::moveBoardsBack(){
+    for (int i = this->boards_before.size()-1; i >= 0; i--){
+        if(i == 0){
+            Board::copyBoard(this->board, this->boards_before.at(i));
+        }
+
+        Board::copyBoard(this->boards_before.at(i-1), this->boards_before.at(i));
+    }
 }
