@@ -51,9 +51,9 @@ void ChessMenu(){
 
 int main(int argc, char** argv) {
 
-	//ChessMenu();
+	ChessMenu();
 
-	Game::start("3k4/8/6K1/5B2/8/8/2q5/8");
+	Game::start("8/ppk1R2p/3p4/8/2p5/6P1/P1P4P/2K5", Piece::BLACK);
 
 	return 0;
 }

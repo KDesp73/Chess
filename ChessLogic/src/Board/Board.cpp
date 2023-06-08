@@ -176,27 +176,10 @@ void Board::moveFreely(Move move, Board *board){
     Pieces *whitePieces = board->getPieces(Piece::WHITE);
     Pieces *blackPieces = board->getPieces(Piece::BLACK);
 
-    // Search white for pieces
-    for (int i = 0; i < whitePieces->pieces.size(); i++) {
-        if (move.from == whitePieces->pieces.at(i)->currentSquare && board->moveFor == "white") {
-            pieceToMove = whitePieces->pieces.at(i);
-            moveIndex = i;
-        } else if (move.to == whitePieces->pieces.at(i)->currentSquare) {
-            pieceToCapture = whitePieces->pieces.at(i);
-            captureIndex = i;
-        }
-    }
 
-    // Search black for pieces
-    for (int i = 0; i < blackPieces->pieces.size(); i++) {
-        if (move.from == blackPieces->pieces.at(i)->currentSquare && board->moveFor == "black") {
-            pieceToMove = blackPieces->pieces.at(i);
-            moveIndex = i;
-        } else if (move.to == blackPieces->pieces.at(i)->currentSquare) {
-            pieceToCapture = blackPieces->pieces.at(i);
-            captureIndex = i;
-        }
-    }
+    pieceToMove = board->findPiece(move.from);
+    pieceToCapture = board->findPiece(move.to);
+
 
     Pawn *pawn = dynamic_cast<Pawn *>(pieceToMove);
     Rook *rook = dynamic_cast<Rook *>(pieceToMove);
@@ -214,7 +197,7 @@ void Board::moveFreely(Move move, Board *board){
     Board::removePiece(move.to, board);
 
     // Make the move
-    bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
+    bool moveMade = makeMove(move.from, move.to, board->board);
     if (moveMade) {
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
