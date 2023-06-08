@@ -45,8 +45,10 @@ void Board::printBoard() {
         cout << "Incorrect argument" << endl;
     }
 
+    cout << endl;
+
     if(showMaterial)
-        cout << "\nMaterial Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
+        cout << "Material Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
 
 }
 
@@ -82,8 +84,10 @@ void Board::printBigBoard() {
         cout << "Incorrect argument" << endl;
     }
 
+    cout << endl;
+
     if(showMaterial)
-        cout << "\nMaterial Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
+        cout << "Material Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
 }
 
 void Board::scanBoard(vector<Piece *> whitePieces, vector<Piece *> blackPieces) {
