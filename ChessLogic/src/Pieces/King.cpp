@@ -80,7 +80,7 @@ vector<Piece*> King::isInCheck(char board[][8]) {
 }
 
 vector<Piece*> King::isInCheck(string to, char board[][8]) {
-    Board* b = new Board("white", Board::exportFEN(board));
+    Board* b = new Board(Board::exportFEN(board));
     Board::removePieceFreely(this->currentSquare, b);
 
     vector<Piece*> ret;

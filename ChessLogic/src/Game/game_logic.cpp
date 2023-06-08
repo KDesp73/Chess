@@ -17,8 +17,8 @@ namespace GameUtils {
 
 
 
-void Game::start(string starting_fen, string playing){
-	Board mainBoard ("white", starting_fen);
+void Game::start(string starting_fen, string playing, bool showMaterial){
+	Board mainBoard (starting_fen, playing, showMaterial);
 	mainBoard.printBigBoard();
 	
 	GameUtils::gameLoop(&mainBoard, playing);

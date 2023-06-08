@@ -152,6 +152,7 @@ class Pieces{
 		vector<Piece*> pieces;
 		int material;
 		string color;
+		static const int starting_material;
 		
 		virtual ~Pieces(){
 		}

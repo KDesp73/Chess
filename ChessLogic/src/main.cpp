@@ -53,9 +53,7 @@ void ChessMenu(){
 
 int main(int argc, char** argv) {
 
-	//ChessMenu();
-
-	Game::start(enpassant_fen);
+	ChessMenu();
 
 	return 0;
 }

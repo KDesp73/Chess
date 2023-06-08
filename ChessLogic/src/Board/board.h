@@ -13,8 +13,29 @@ class Board{
 
     public:
         string playingAs;
+        bool showMaterial;
         string moveFor = "white";
         char board[8][8] = {
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+        };
+        char board_1_before[8][8] = {
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+        };
+        char board_2_before[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -32,15 +53,17 @@ class Board{
             delete wp;
             delete bp;
         }
-        Board(string playingAs, string fen){
+        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true){
             this->playingAs = playingAs;
+            this->showMaterial = showMaterial;
             importFEN(fen);
             wp->loadPieces(board);
             bp->loadPieces(board);
         }
 
-        Board(string playingAs, char board[8][8]){
+        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true){
             this->playingAs = playingAs;
+            this->showMaterial = showMaterial;
             Board::copyBoard(board, this->board);
             wp->loadPieces(board);
             bp->loadPieces(board);
@@ -51,9 +74,7 @@ class Board{
         static string exportFEN(Board *board);
         static string exportFEN(char board[][8]);
         void printBoard();
-        void printBoard(string playingAs);
         void printBigBoard();
-        void printBigBoard(string playingAs);
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
         Piece *findPiece(string type, string color);
         int findPiece(Piece *);

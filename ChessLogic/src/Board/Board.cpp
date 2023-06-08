@@ -19,9 +19,7 @@ Pieces* Board::getPieces(string color){
     return nullptr;
 }
 
-void Board::printBoard() { Board::printBoard("white"); }
-
-void Board::printBoard(string playingAs) {
+void Board::printBoard() {
     Text::clearScreen();
     if (playingAs == "white") {
         cout << "   ABCDEFGH" << endl << endl;
@@ -46,11 +44,14 @@ void Board::printBoard(string playingAs) {
     } else {
         cout << "Incorrect argument" << endl;
     }
+
+    if(showMaterial)
+        cout << "\nMaterial Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
+
 }
 
-void Board::printBigBoard() { Board::printBigBoard("white"); }
 
-void Board::printBigBoard(string playingAs) {
+void Board::printBigBoard() {
     Text::clearScreen();
     if (playingAs == "white") {
         cout << "     A   B   C   D   E   F   G   H " << endl;
@@ -69,7 +70,7 @@ void Board::printBigBoard(string playingAs) {
         cout << "   +---+---+---+---+---+---+---+---+" << endl;
         for (int i = 0; i <= 7; i++) {
             cout << i + 1 << "  ";
-            for (int j = 0; j < sizeof(board[i]); j++) {
+            for (int j = sizeof(board[i])-1; j >= 0 ; j--) {
                 cout << "| " << board[i][j] << " ";
             }
             cout << "|  " << i + 1 << endl;
@@ -80,6 +81,9 @@ void Board::printBigBoard(string playingAs) {
     } else {
         cout << "Incorrect argument" << endl;
     }
+
+    if(showMaterial)
+        cout << "\nMaterial Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
 }
 
 void Board::scanBoard(vector<Piece *> whitePieces, vector<Piece *> blackPieces) {
@@ -170,6 +174,9 @@ bool Board::movePiece(Move move, Board *board) {
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
+        Board::copyBoard(board->board_1_before, board->board_2_before);
+        Board::copyBoard(board->board, board->board_1_before);
+
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
 
@@ -211,6 +218,9 @@ void Board::moveFreely(Move move, Board *board){
     if (moveMade) {
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
+
+        Board::copyBoard(board->board_1_before, board->board_2_before);
+        Board::copyBoard(board->board, board->board_1_before);
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -346,7 +356,7 @@ bool Board::isProtected(Piece *piece, Board *board) {
                   [translateSquare(opponentsKing->currentSquare).y] = ' ';
     }
 
-    Board b{Piece::WHITE, temp_board};
+    Board b{temp_board};
     
     for(Piece *p : board->getPieces(piece->color)->pieces){
         if(Board::isPinned(piece->currentSquare, piece, board)) continue;;

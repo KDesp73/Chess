@@ -7,5 +7,5 @@
 using namespace std;
 
 namespace Game{
-    void start(string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", string playing = "white");
+    void start(string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", string playing = "white", bool showMaterial = true);
 };

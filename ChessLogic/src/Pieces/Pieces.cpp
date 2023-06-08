@@ -15,6 +15,8 @@ const string Piece::BISHOP = "Bishop";
 const string Piece::KNIGHT = "Knight";
 const string Piece::PAWN = "Pawn";
 
+const int Pieces::starting_material = 39;
+
 
 void Pieces::printPieces(){
 	for(int i=0; i< pieces.size(); i++){	
@@ -35,6 +37,7 @@ int Pieces::calculateMaterial(){
 
 	int material = 0;
 	for (int i = 0; i < pieces.size(); i++){
+		if(pieces.at(i)->type == Piece::KING) continue;
 		material += pieces.at(i)->value;
 	}
 
