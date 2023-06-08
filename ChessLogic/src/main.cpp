@@ -41,6 +41,12 @@ void handleOptions(int option){
 		ChessMenu();
 		break;
 	case 4:
+		Test::testDrawDueToInsufficientMaterial(TestFens::ddtim_fens);
+		cout << "Press enter to return to menu..." << endl;
+		cin.get();
+		ChessMenu();
+		break;
+	case 5:
 		exit(0);
 	default:
 		break;
@@ -48,12 +54,13 @@ void handleOptions(int option){
 }
 
 void ChessMenu(){
-	menu(4, vector<string>{"Play", "Test Mate", "Test Check", "Test Stalemate", "Exit"}, &handleOptions);
+	menu(4, vector<string>{"Play", "Test Mate", "Test Check", "Test Stalemate", "Test DDTIM", "Exit"}, &handleOptions);
 }
 
 int main(int argc, char** argv) {
 
 	ChessMenu();
+
 
 	return 0;
 }

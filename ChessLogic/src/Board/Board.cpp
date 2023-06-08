@@ -166,7 +166,8 @@ bool Board::movePiece(Move move, Board *board) {
     ) return false;
 
     // Capture the piece
-    Board::removePiece(move.to, board);
+    if(!Board::removePiece(move.to, board)) board->increaceMovesSinceCapture();
+    else board->resetMovesSinceCapture();
 
     // Make the move
     bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
@@ -174,7 +175,7 @@ bool Board::movePiece(Move move, Board *board) {
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
-        board->moveBoardsBack();
+        board->pushBoardState(Board::exportFEN(board->board));
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -210,7 +211,8 @@ void Board::moveFreely(Move move, Board *board){
     }
 
     // Capture the piece
-    Board::removePiece(move.to, board);
+    if(!Board::removePiece(move.to, board)) board->increaceMovesSinceCapture();
+    else board->resetMovesSinceCapture();
 
     // Make the move
     bool moveMade = makeMove(move.from, move.to, board->board);
@@ -218,7 +220,7 @@ void Board::moveFreely(Move move, Board *board){
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
-        board->moveBoardsBack();
+        board->pushBoardState(Board::exportFEN(board->board));
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -695,19 +697,116 @@ void Board::copyMove(Move *src, Move *dest){
     dest->to = src->to;
 }
 
-void Board::initBoardsBefore(){
-    for (int i = 0; i < boardsToPast; i++){
-        this->boards_before.push_back(Board::exportFEN(this->board));
+
+
+
+bool Board::isThreeFoldRepetition(){
+    for (const auto& pair : past_board_states) {
+        if (pair.second == 3) {
+            return true;            
+        }
+    }
+    return false;
+}
+
+void Board::pushBoardState(string fen){
+    auto it = past_board_states.find(fen);
+    if (it != past_board_states.end()) {
+        past_board_states[fen]++; 
+    } else {
+        past_board_states.insert({fen, 1});
     }
 }
 
-void Board::moveBoardsBack(){
-    for (int i = this->boards_before.size()-1; i >= 0; i--){
-        if(i == 0){
-            boards_before.at(i) = Board::exportFEN(this->board);
-            break;
-        }
+int Board::quantityOfPiece(string type, string color){
+    Pieces *pieces = (color == Piece::WHITE) ? wp : bp;
 
-        boards_before.at(i) = boards_before.at(i-1);
+    int count = 0;
+
+    for (int i = 0; i < pieces->pieces.size(); i++){
+        if(pieces->pieces.at(i)->type == type) count++;
     }
+    return count;
+}
+
+bool Board::isDrawDueToInsufficientMaterial(){
+    // If there are pawns on the board its not a draw
+    if(this->findPiece(Piece::PAWN, Piece::WHITE) != NULL && this->findPiece(Piece::PAWN, Piece::BLACK) != NULL) return false;
+
+    
+    // King vs King
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 1 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 1 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1
+    ) return true;
+
+    // King vs King and Knight
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 1 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 2 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::KNIGHT, Piece::BLACK) == 1
+    ) return true;
+    
+    // King and Knight vs King
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 2 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 1 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::KNIGHT, Piece::WHITE) == 1
+    ) return true;
+
+    // King vs King and Bishop
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 1 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 2 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::BISHOP, Piece::BLACK) == 1
+    ) return true;
+    
+    // King and Bishop vs King
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 2 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 1 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::BISHOP, Piece::WHITE) == 1
+    ) return true;
+
+    // King vs King and 2 knights
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 1 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 3 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::KNIGHT, Piece::BLACK) == 2
+    ) return true;
+    
+    // King and 2 knights vs King
+    if(
+        this->getPieces(Piece::WHITE)->pieces.size() == 3 &&
+        this->getPieces(Piece::BLACK)->pieces.size() == 1 &&
+        quantityOfPiece(Piece::KING, Piece::WHITE) == 1 &&
+        quantityOfPiece(Piece::KING, Piece::BLACK) == 1 &&
+        quantityOfPiece(Piece::KNIGHT, Piece::WHITE) == 2
+    ) return true;
+
+    return false;
+}
+
+void Board::increaceMovesSinceCapture(){
+    moves_since_capture++;
+}
+
+void Board::resetMovesSinceCapture(){
+    moves_since_capture = 0;
+}
+
+bool Board::isFiftyMoveRule(){
+    return (moves_since_capture == 50 * 2);
 }

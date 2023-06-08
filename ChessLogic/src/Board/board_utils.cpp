@@ -138,7 +138,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
     if(piece->type != Piece::KING){
         King *kingInCheck = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
         if(!kingInCheck->isInCheck(board->board).empty()){
-            Board temp_board{"white", Board::exportFEN(board)};
+            Board temp_board{Board::exportFEN(board)};
 
             if(piece->isValidMove(move.to, temp_board.board)) Board::moveFreely(move, &temp_board);
 

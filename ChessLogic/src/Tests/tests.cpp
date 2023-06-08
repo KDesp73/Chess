@@ -18,7 +18,7 @@ bool Test::testCheckMate(vector<string> mate_fens){
 	cout << Text::b_cyan + "Testing Mate...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < mate_fens.size(); i++){
-		Board b{"white", mate_fens.at(i)};
+		Board b{mate_fens.at(i)};
 		//b.printBigBoard();
 
 		Piece *p = b.findPiece("King", "white");
@@ -52,7 +52,7 @@ bool Test::testCheck(vector<string> check_fens){
 	cout << Text::b_cyan + "Testing Checks...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < check_fens.size(); i++){
-		Board b{"white", check_fens.at(i)};
+		Board b{check_fens.at(i)};
 		//b.printBigBoard();
 
 		Piece *p = b.findPiece("King", "white");
@@ -86,7 +86,7 @@ bool Test::testNotCheck(vector<string> should_not_be_check_fens){
 	cout << Text::b_cyan + "Testing Not in Check...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < should_not_be_check_fens.size(); i++){
-		Board b{"white", should_not_be_check_fens.at(i)};
+		Board b{should_not_be_check_fens.at(i)};
 		//b.printBigBoard();
 
 		Piece *p = b.findPiece("King", "white");
@@ -119,7 +119,7 @@ bool Test::testStaleMate(vector<string> stalemate_fens){
 	cout << Text::b_cyan + "Testing Stalemate...\n" + Text::normal << endl;
 	bool passed = true;
 	for (int i = 0; i < stalemate_fens.size(); i++){
-		Board b{"white", stalemate_fens.at(i)};
+		Board b{stalemate_fens.at(i)};
 		//b.printBigBoard();
 
 		Piece *p = b.findPiece("King", "white");
@@ -144,4 +144,33 @@ bool Test::testStaleMate(vector<string> stalemate_fens){
 
 bool Test::testStaleMate(string stalemate_fen){
 	return Test::testStaleMate(vector<string>{stalemate_fen});
+}
+
+bool Test::testDrawDueToInsufficientMaterial(vector<string> ddtim_fens){
+	int passed_count = 0, failed_count = 0;
+	Text::clearScreen();
+	cout << Text::b_cyan + "Testing Draw due to insufficient material...\n" + Text::normal << endl;
+	bool passed = true;
+	for (int i = 0; i < ddtim_fens.size(); i++){
+		Board b{ddtim_fens.at(i)};
+		//b.printBigBoard();
+
+		Piece *p = b.findPiece("King", "white");
+		King *king = dynamic_cast<King *>(p);
+
+		if(b.isDrawDueToInsufficientMaterial()) {
+			passed_count++;
+			cout << Text::green + "Passed\n" + Text::normal;
+			
+		}else{
+			passed = false;
+			failed_count++;
+			cout << Text::red + "Failed" + Text::normal +" at: " + ddtim_fens.at(i) + "\n";
+		}
+	}
+
+	cout << endl << endl << Text::green + "Passed: " + to_string(passed_count) + Text::normal << endl;
+	cout << Text::red + "Failed: " + to_string(failed_count) + Text::normal << endl;
+
+	return passed;
 }

@@ -26,6 +26,7 @@ void Game::start(string starting_fen, string playing, bool showMaterial){
 
 void GameUtils::gameLoop(Board *board, string playing){
 	if(isMate(board)) return;
+	if(isDraw(board)) return;
 
 	do{
 		board->moveFor = playing;
@@ -90,6 +91,15 @@ bool GameUtils::isDraw(Board *board){
 		return true;
 	} else if(board->isInStalemate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK)))){
 		cout << endl << "Black is in stalemate" << endl << "It's a draw" << endl;
+		return true;
+	} else if(board->isThreeFoldRepetition()){
+		cout << endl << "Three fold repetition occured" << endl << "It's a draw" << endl;
+		return true;
+	} else if(board->isDrawDueToInsufficientMaterial()){
+		cout << endl << "Draw due to insufficient material" << endl << "It's a draw" << endl;
+		return true;
+	} else if(board->isFiftyMoveRule()){
+		cout << endl << "50 moves passed and no capture occured" << endl << "It's a draw" << endl;
 		return true;
 	}
 

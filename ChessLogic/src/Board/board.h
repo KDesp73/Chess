@@ -2,6 +2,7 @@
 
 #include <cstring>
 #include <string>
+#include <unordered_map>
 #include "../Pieces/Pieces.h"
 
 using namespace std;
@@ -10,8 +11,8 @@ class Board{
     private:
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
-        void initBoardsBefore();
-        int boardsToPast = 5;
+        unordered_map<string, int> past_board_states;
+        int moves_since_capture = 0;
     public:
         string playingAs;
         bool showMaterial;
@@ -27,7 +28,6 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
         
-        vector<string> boards_before;
 
         Move *move_1_before = new Move(Move{"a1", "a1"});
         Move *move_2_before = new Move(Move{"a1", "a1"});
@@ -44,7 +44,7 @@ class Board{
             wp->loadPieces(board);
             bp->loadPieces(board);
 
-            initBoardsBefore();
+            past_board_states.insert({fen, 1});
         }
 
         Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true){
@@ -54,7 +54,7 @@ class Board{
             wp->loadPieces(board);
             bp->loadPieces(board);
 
-            initBoardsBefore();
+            past_board_states.insert({Board::exportFEN(board), 1});
         }
 
         Pieces* getPieces(string color);
@@ -71,7 +71,13 @@ class Board{
         Rook* getRookToCastle(int direction, string color);
         bool isInCheckmate(King *king);
 		bool isInStalemate(King *king);
-        void moveBoardsBack();
+        bool isThreeFoldRepetition();
+        bool isDrawDueToInsufficientMaterial();
+        bool isFiftyMoveRule();
+        void pushBoardState(string fen);
+        int quantityOfPiece(string type, string color);
+        void increaceMovesSinceCapture();
+        void resetMovesSinceCapture();
 
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
