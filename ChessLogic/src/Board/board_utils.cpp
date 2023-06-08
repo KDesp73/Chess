@@ -135,6 +135,19 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
         if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
     }
 
+    if(piece->type != Piece::KING){
+        King *kingInCheck = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
+        if(!kingInCheck->isInCheck(board->board).empty()){
+            Board temp_board{"white", Board::exportFEN(board)};
+
+            if(piece->isValidMove(move.to, temp_board.board)) Board::moveFreely(move, &temp_board);
+
+            King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board.findPiece(Piece::KING, piece->color));
+
+            return kingInCheckAfterMove->isInCheck(temp_board.board).empty();
+        }
+    }
+
     return piece->isValidMove(move.to, board->board);
 }
 

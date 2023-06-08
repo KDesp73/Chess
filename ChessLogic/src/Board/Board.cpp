@@ -217,8 +217,6 @@ void Board::moveFreely(Move move, Board *board){
     // Make the move
     bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
     if (moveMade) {
-        cout << to_string(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "rook") << endl;
-        cout << to_string(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "rook") << endl;
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
 
