@@ -61,6 +61,5 @@ int main(int argc, char** argv) {
 
 	ChessMenu();
 
-
 	return 0;
 }
