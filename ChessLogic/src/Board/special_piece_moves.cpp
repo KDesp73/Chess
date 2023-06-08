@@ -97,3 +97,7 @@ Rook* Board::getRookToCastle(int direction, string color) {
 
     return dynamic_cast<Rook*>(wantedRook);
 }
+
+bool Board::enpassantPawn(string square, Pawn *pawn, Board *board){
+    return false;
+}

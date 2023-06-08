@@ -62,6 +62,7 @@ class Pawn: public Piece {
 		bool isValidCapture(string to, char board[][8]);
 		bool canPromote(string to, char board[][8]);
 		bool attacksSquare(string square, char board[][8]);
+		bool canEnpassant(string square, char boardBefore[][8], char board[][8]);
 };
 
 
