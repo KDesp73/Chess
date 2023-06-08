@@ -1,8 +1,8 @@
-/ChessLogic/ChessLogic.dev
-/ChessLogic/ChessLogic.exe
-/ChessLogic/ChessLogic.layout
-/ChessLogic/*.o
-/ChessLogic/Makefile.win
-/ChessLogic/.vscode/
+/Chess/ChessLogic.dev
+/Chess/ChessLogic.exe
+/Chess/ChessLogic.layout
+/Chess/*.o
+/Chess/Makefile.win
+/Chess/.vscode/
 /.vscode/
-/ChessLogic/build/
+/Chess/build/
