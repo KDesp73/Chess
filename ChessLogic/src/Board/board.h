@@ -24,6 +24,8 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
+        Move *move_1_before = new Move(Move{"a1", "a1"});
+        Move *move_2_before = new Move(Move{"a1", "a1"});
 
 
         ~Board(){
@@ -39,7 +41,7 @@ class Board{
 
         Board(string playingAs, char board[8][8]){
             this->playingAs = playingAs;
-            memcpy(this->board, board, 8*8*sizeof(char));
+            Board::copyBoard(board, this->board);
             wp->loadPieces(board);
             bp->loadPieces(board);
         }
@@ -61,6 +63,8 @@ class Board{
         bool isInCheckmate(King *king);
 		bool isInStalemate(King *king);
 
+        static void copyBoard(char src[8][8], char dest[8][8]);
+        static void copyMove(Move *src, Move *dest);
         static bool isProtected(Piece *piece, Board *board);
         static bool isPinned(string to, Piece *piece, Board *board);
         static vector<string> getValidMoves(Piece *piece, Board *board);

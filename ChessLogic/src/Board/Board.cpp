@@ -136,6 +136,22 @@ bool Board::movePiece(Move move, Board *board) {
 
 
 
+
+    // Special piece functionality
+    if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
+        return Board::promotePawn(move.to, pawn, board);;
+    }
+
+    // En passant
+    if(pawn != NULL && board->move_1_before != nullptr && pawn->canEnpassant(move.to, *board->move_1_before)){
+        return Board::enpassantPawn(move.to, pawn, board);
+    }
+
+    // Castle
+    if(king != NULL && kingWantsToCastle(move) && king->canCastle(move.to, board->board)){
+        return Board::castleKing(move.to, king, board);
+    }
+
     if (
         !canMove(pawn, move, board) &&
         !canMove(rook, move, board) &&
@@ -145,21 +161,15 @@ bool Board::movePiece(Move move, Board *board) {
         !canMove(king, move, board)
     ) return false;
 
-    // Special piece functionality
-    if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        return Board::promotePawn(move.to, pawn, board);;
-    }
-
-    if(king != NULL && kingWantsToCastle(move) && king->canCastle(move.to, board->board)){
-        return Board::castleKing(move.to, king, board);
-    }
-
     // Capture the piece
     Board::removePiece(move.to, board);
 
     // Make the move
     bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
     if (moveMade) {
+        Board::copyMove(board->move_1_before, board->move_2_before);
+        Board::copyMove(&move, board->move_1_before);
+
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
 
@@ -199,6 +209,9 @@ void Board::moveFreely(Move move, Board *board){
     // Make the move
     bool moveMade = makeMove(move.from, move.to, board->board);
     if (moveMade) {
+        Board::copyMove(board->move_1_before, board->move_2_before);
+        Board::copyMove(&move, board->move_1_before);
+
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
 
@@ -348,7 +361,6 @@ bool Board::isProtected(Piece *piece, Board *board) {
     
     return false;
 }
-
 
 bool Board::isPinned(string to, Piece *piece, Board *board){
     Pieces *pieces = board->getPieces(piece->color);
@@ -664,4 +676,13 @@ vector<string> Board::getValidMoves(Piece *piece, Board *board){
     }
 
     return vector<string>{};
+}
+
+void Board::copyBoard(char src[8][8], char dest[8][8]){
+    memcpy(dest, src, 8*8*sizeof(char));
+}
+
+void Board::copyMove(Move *src, Move *dest){
+    dest->from = src->from;
+    dest->to = src->to;
 }

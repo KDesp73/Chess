@@ -12,6 +12,8 @@ static string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 static string castling_testing_fen = "r3k2r/8/8/8/8/8/8/R3K2R";
 static string promoting_testing_fen = "1b6/P7/8/3k4/5K2/8/p7/1B6";
 static string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
+static string enpassant_fen = "k7/3p1p2/8/4P3/3p4/8/2P1P3/7K";
+static string side_enpassant_fen = "k7/6p1/8/7P/p7/8/1P6/7K";
 
 void ChessMenu();
 
@@ -51,9 +53,9 @@ void ChessMenu(){
 
 int main(int argc, char** argv) {
 
-	ChessMenu();
+	//ChessMenu();
 
-	Game::start("8/ppk1R2p/3p4/8/2p5/6P1/P1P4P/2K5", Piece::BLACK);
+	Game::start(enpassant_fen);
 
 	return 0;
 }

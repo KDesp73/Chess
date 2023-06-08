@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
+#include <stdio.h>
+#include <cstring>
 
-using namespace std;
 
 struct Move{
     std::string from;
@@ -15,9 +16,9 @@ struct Coords{
 };
 
 struct Square{
-    string name;
+    std::string name;
     char file = name.at(0);
-    int rank = stoi(to_string(name.at(1)));
+    int rank = std::stoi(std::to_string(name.at(1)));
     int x = rank -1;
     int y = file - 97;
 };

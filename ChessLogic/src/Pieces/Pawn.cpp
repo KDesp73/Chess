@@ -132,8 +132,7 @@ vector<string> Pawn::getPseudoValidMoves(char board[][8]) {
     // Filter invalid captures
     for (int i = 0; i < capturesToCheck.size(); i++) {
         if (!this->isValidCapture(capturesToCheck.at(i), board)) {
-            capturesToCheck.erase(capturesToCheck.begin() +
-                                  i);  // erase from vector
+            capturesToCheck.erase(capturesToCheck.begin() + i);  // erase from vector
             i--;
         }
     }
@@ -144,4 +143,46 @@ vector<string> Pawn::getPseudoValidMoves(char board[][8]) {
 	}
 
 	return movesToCheck;
+}
+
+bool Pawn::canEnpassant(string to, Move move_1_before){
+    char currentFile = this->currentSquare.at(0);
+    int currentRank = this->currentSquare.at(1) - 48;
+
+    int rankToEnpassant = (color == Piece::WHITE) ? 5 : 4;
+    int direction = (color == Piece::WHITE) ? 1 : -1;
+
+    if(currentRank != rankToEnpassant) return false;
+
+    int right  = (color == Piece::WHITE) ? 1 : -1;
+    int left  = (color == Piece::WHITE) ? -1 : 1;
+
+    string square_right = string(1, currentFile + right) + to_string(currentRank);
+    string square_left = string(1, currentFile + left) + to_string(currentRank);
+
+
+    Move move_right;
+    Move move_left;
+
+    if(isValidSquare(square_left)){
+        move_left = {string(1, currentFile + left) + to_string(currentRank - 2 * (-direction)), square_left};
+    }
+
+    if(isValidSquare(square_right)){
+        move_right = {string(1, currentFile + right) + to_string(currentRank - 2 * (-direction)), square_right};
+    }
+
+    if(move_1_before.from == move_left.from && move_1_before.to == move_left.to){
+        cout << "En passant left" << endl;
+        string squareToGo = string(1, currentFile + left) + to_string(currentRank + direction);
+        if(to == squareToGo) return true;
+    }
+
+    if(move_1_before.from == move_right.from && move_1_before.to == move_right.to){
+        cout << "En passant right" << endl;
+        string squareToGo = string(1, currentFile + right) + to_string(currentRank + direction);
+        if(to == squareToGo) return true;
+    }
+
+    return false;
 }

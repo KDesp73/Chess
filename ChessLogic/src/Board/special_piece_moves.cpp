@@ -99,5 +99,12 @@ Rook* Board::getRookToCastle(int direction, string color) {
 }
 
 bool Board::enpassantPawn(string square, Pawn *pawn, Board *board){
-    return false;
+    char toFile = square.at(0);
+    int toRank = square.at(1) - 48;
+
+    int direction = (pawn->color == Piece::WHITE) ? 1 : -1;    
+
+    Board::moveFreely(Move{pawn->currentSquare, square}, board);
+    string squareToRemove = string(1, toFile) + to_string(toRank - direction);
+    return Board::removePieceFreely(squareToRemove, board);
 }
