@@ -24,6 +24,12 @@ Two player Chess written in C++ with CLI
 - CLI only (no GUI)
 - No available moves hint
 
+## ToDo
+
+- [ ] PGN Import - Export
+- [ ] Computer opponent (Evaluation based and ML model)
+- [ ] GUI
+
 ## Author
 
 [@KDesp73](http://github.com/KDesp73)
