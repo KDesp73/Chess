@@ -11,22 +11,27 @@ namespace GameUtils {
 	bool turn(Pieces *p, Board *board);
 	bool isMate(Board *board);
 	bool isDraw(Board *board);
-	void gameLoop(Board *board, string playing);
+	void gameLoop(Board *board);
 };
 
 
 
 
-void Game::start(string starting_fen, string playing, bool showMaterial){
-	Board mainBoard (starting_fen, playing, showMaterial);
+void Game::start(string starting_fen, string playingAs, bool showMaterial){
+	Board mainBoard (starting_fen, playingAs, showMaterial);
 	mainBoard.printBigBoard();
 	
-	GameUtils::gameLoop(&mainBoard, playing);
+	GameUtils::gameLoop(&mainBoard);
+
+	cout << "\n\nPress enter to continue..." << endl;
+	cin.get();
 }
 
-void GameUtils::gameLoop(Board *board, string playing){
+void GameUtils::gameLoop(Board *board){
 	if(isMate(board)) return;
 	if(isDraw(board)) return;
+
+	string playing = "white";
 
 	do{
 		board->moveFor = playing;

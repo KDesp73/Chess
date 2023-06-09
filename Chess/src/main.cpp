@@ -50,8 +50,8 @@ void setSettings(){
 	if(p == "w" || p == "W") playingAs = Piece::WHITE;
 	if(p == "b" || p == "B") playingAs = Piece::BLACK;
 
-	if(p == "y" || p == "Y") showMaterial = true;
-	if(p == "n" || p == "N") showMaterial = false;
+	if(s == "y" || s == "Y") showMaterial = true;
+	if(s == "n" || s == "N") showMaterial = false;
 
 }
 
@@ -65,6 +65,8 @@ void handleOptions(int option){
 		break;
 	case 2:
 		setSettings();
+		cout << "\n\nPress enter to return to menu..." << endl;
+		cin.get();
 		break;
 	case 3:
 		exit(0);
@@ -72,8 +74,6 @@ void handleOptions(int option){
 		break;
 	}
 
-	cout << "Press enter to return to menu..." << endl;
-	cin.get();
 	ChessMenu();
 }
 
