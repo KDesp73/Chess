@@ -15,7 +15,7 @@ set(SOURCES
     src/Board/board_utils.h
     src/Board/Board.cpp
     src/Board/board.h
-    src/Board/chess_notation.cpp
+    src/Board/fen.cpp
     src/Board/special_piece_moves.cpp
     src/Board/king_checks.cpp
     src/Board/structs.h
