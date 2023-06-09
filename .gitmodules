@@ -1,6 +1,6 @@
 [submodule "Ansi-Text-Manipulation-Library"]
 	path = Ansi-Text-Manipulation-Library
 	url = git@github.com:KDesp73/Ansi-Text-Manipulation-Library.git
-[submodule "ChessLogic/Ansi-Text-Manipulation-Library"]
-	path = ChessLogic/Ansi-Text-Manipulation-Library
+[submodule "Chess/Ansi-Text-Manipulation-Library"]
+	path = Chess/Ansi-Text-Manipulation-Library
 	url = git@github.com:KDesp73/Ansi-Text-Manipulation-Library.git
