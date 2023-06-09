@@ -108,31 +108,26 @@ void ChessMenu(){
 
 int main(int argc, char** argv) {
 
-	ChessMenu();
+	//ChessMenu();
 
-	Board b{starting_fen};
+	Board b{"r1bqk2r/1pppbppp/p1n2n2/4p3/B7/3P1N2/PPP1PPPP/RNBQK2R"};
 
 	b.printBigBoard();
-	Board::movePiece(Move{"e2", "e4"}, &b);
-	b.moveFor = Piece::BLACK;
+	Board::movePiece(Move{"f3", "d2"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"e7", "e5"}, &b);
-	b.moveFor = Piece::WHITE;
+	Board::movePiece(Move{"d2", "f3"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"d1", "h5"}, &b);
-	b.moveFor = Piece::BLACK;
+	Board::movePiece(Move{"b1", "d2"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"b8", "c6"}, &b);
-	b.moveFor = Piece::WHITE;
+	Board::movePiece(Move{"d2", "f1"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"f1", "c4"}, &b);
-	b.moveFor = Piece::BLACK;
+	Board::movePiece(Move{"f3", "d2"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"g8", "f6"}, &b);
-	b.moveFor = Piece::WHITE;
+	Board::movePiece(Move{"d2", "f3"}, &b);
 	b.printBigBoard();
-	Board::movePiece(Move{"h5", "f7"}, &b);
-	b.moveFor = Piece::BLACK;
+	Board::movePiece(Move{"f1", "d2"}, &b);
+	b.printBigBoard();
+	Board::movePiece(Move{"d2", "f1"}, &b);
 	b.printBigBoard();
 
 	cout << b.exportPGN() << endl;
