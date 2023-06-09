@@ -80,3 +80,11 @@ string Board::exportPGN(){
     
     return this->pgn + outcome;
 }
+
+Move Board::pgnMoveToMove(string algebraicNotation, Board *board){
+    cerr << "Not yet implemented" << endl;
+}
+
+void importPGN(string pgn){
+    cerr << "Not yet implemented" << endl;
+}

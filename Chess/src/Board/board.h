@@ -64,6 +64,7 @@ class Board{
         static string exportFEN(Board *board);
         static string exportFEN(char board[][8]);
         string exportPGN();
+        void importPGN(string pgn);
         void printBoard();
         void printBigBoard();
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
@@ -84,6 +85,7 @@ class Board{
         void setOutcome(string outcome);
         
         static string moveToPGNMove(Move m, Board *board);
+        static Move pgnMoveToMove(string algebraicNotation, Board *board);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
         static bool isProtected(Piece *piece, Board *board);
