@@ -118,5 +118,5 @@ bool GameUtils::isDraw(Board *board){
 		board->setOutcome("1/2-1/2");
 	}
 
-	return false;
+	return draw;
 }
