@@ -17,6 +17,7 @@ Two player Chess written in C++ with CLI
 - 50 move rule
 - Pawn promotions
 - Material advantage
+- Export PGN of game
 
 ## Limitations
 
@@ -25,7 +26,7 @@ Two player Chess written in C++ with CLI
 
 ## ToDo
 
-- [ ] PGN Import - Export
+- [ ] PGN Import
 - [ ] Computer opponent (Evaluation based and ML model)
 - [ ] GUI
 - [ ] Check if position is valid
