@@ -17,14 +17,15 @@ namespace GameUtils {
 
 
 
-void Game::start(string starting_fen, string playingAs, bool showMaterial){
+Board Game::start(string starting_fen, string playingAs, bool showMaterial){
 	Board mainBoard (starting_fen, playingAs, showMaterial);
 	mainBoard.printBigBoard();
 	
 	GameUtils::gameLoop(&mainBoard);
 
-	cout << "\n\nPress enter to continue..." << endl;
 	cin.get();
+
+	return mainBoard;
 }
 
 void GameUtils::gameLoop(Board *board){
@@ -81,9 +82,11 @@ Move GameUtils::prompt(Pieces* p, char board[][8]){
 bool GameUtils::isMate(Board *board){
 	if(board->isInCheckmate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::WHITE)))){
 		cout << endl << "White is in checkmate" << endl << "Black Wins!" << endl;
+		board->setOutcome("0-1");
 		return true;
 	} else if(board->isInCheckmate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK)))){
 		cout << endl << "Black is in checkmate" << endl << "White Wins!" << endl;
+		board->setOutcome("1-0");
 		return true;
 	}
 
@@ -91,21 +94,28 @@ bool GameUtils::isMate(Board *board){
 }
 
 bool GameUtils::isDraw(Board *board){
+	bool draw = false;
+
 	if(board->isInStalemate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::WHITE)))){
-		cout << endl << "White is in stalemate" << endl << "It's a draw" << endl;
-		return true;
+		cout << endl << "White is in stalemate";
+		draw =  true;
 	} else if(board->isInStalemate(dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK)))){
-		cout << endl << "Black is in stalemate" << endl << "It's a draw" << endl;
-		return true;
+		cout << endl << "Black is in stalemate";
+		draw =  true;
 	} else if(board->isThreeFoldRepetition()){
-		cout << endl << "Three fold repetition occured" << endl << "It's a draw" << endl;
-		return true;
+		cout << endl << "Three fold repetition occured";
+		draw =  true;
 	} else if(board->isDrawDueToInsufficientMaterial()){
-		cout << endl << "Draw due to insufficient material" << endl << "It's a draw" << endl;
-		return true;
+		cout << endl << "Draw due to insufficient material";
+		draw =  true;
 	} else if(board->isFiftyMoveRule()){
-		cout << endl << "50 moves passed and no capture occured" << endl << "It's a draw" << endl;
-		return true;
+		cout << endl << "50 moves passed and no capture occured";
+		draw =  true;
+	}
+
+	if(draw){
+		cout << endl << "It's a draw" << endl;
+		board->setOutcome("1/2-1/2");
 	}
 
 	return false;

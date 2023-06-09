@@ -166,14 +166,16 @@ bool BoardUtils::contains(vector<string> moves, string move){
     return false;
 }
 
-bool BoardUtils::kingWantsToCastle(Move move){
+int BoardUtils::kingWantsToCastle(Move move){
     Coords fromCoords = translateSquare(move.from);
     Coords toCoords = translateSquare(move.to);
 
     int fromRow = fromCoords.x, fromCol = fromCoords.y;
     int toRow = toCoords.x, toCol = toCoords.y;
 
-    return abs(fromCol - toCol) == 2;
+    if(abs(fromCol - toCol) != 2) return 0;
+
+    return fromCol - toCol;
 }
 
 int BoardUtils::calcDirection(King *king, string square){

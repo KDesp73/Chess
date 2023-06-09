@@ -12,11 +12,14 @@ class Board{
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
         unordered_map<string, int> past_board_states;
+        string outcome;
         int moves_since_capture = 0;
     public:
         string playingAs;
         bool showMaterial;
         string moveFor = "white";
+        Move *move_1_before = new Move(Move{"a1", "a1"});
+        Move *move_2_before = new Move(Move{"a1", "a1"});
         char board[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -27,16 +30,15 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
+        string pgn;
+        vector<string> pgn_moves;
         
 
-        Move *move_1_before = new Move(Move{"a1", "a1"});
-        Move *move_2_before = new Move(Move{"a1", "a1"});
 
 
         ~Board(){
-            delete wp;
-            delete bp;
         }
+        Board(){};
         Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true){
             this->playingAs = playingAs;
             this->showMaterial = showMaterial;
@@ -61,6 +63,7 @@ class Board{
         void importFEN(string fen);
         static string exportFEN(Board *board);
         static string exportFEN(char board[][8]);
+        string exportPGN();
         void printBoard();
         void printBigBoard();
         void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
@@ -78,7 +81,9 @@ class Board{
         int quantityOfPiece(string type, string color);
         void increaceMovesSinceCapture();
         void resetMovesSinceCapture();
-
+        void setOutcome(string outcome);
+        
+        static string moveToPGNMove(Move m, Board *board);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
         static bool isProtected(Piece *piece, Board *board);

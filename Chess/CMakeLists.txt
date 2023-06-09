@@ -16,6 +16,7 @@ set(SOURCES
     src/Board/Board.cpp
     src/Board/board.h
     src/Board/fen.cpp
+    src/Board/pgn.cpp
     src/Board/special_piece_moves.cpp
     src/Board/king_checks.cpp
     src/Board/structs.h

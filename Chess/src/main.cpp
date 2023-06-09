@@ -29,6 +29,24 @@ string getUserFEN(){
 	return user_fen;
 }
 
+string exportGamePGN(Board board){
+	string choice;
+	cout << "\nExport PGN? (y/n)" << endl;
+	do{
+		cout << "> ";
+		getline(cin, choice);
+	} while(choice != "y" && choice != "n" && choice != "Y" && choice != "N");
+
+	if(choice == "n" || choice == "N") return "";
+	
+	if(choice == "y" || choice == "Y"){
+		cout << endl << board.exportPGN() << endl << endl;
+		return board.exportPGN();
+	}
+
+	return "";
+}
+
 void setSettings(){
 	cout << Text::blue + "-Settings-" + Text::normal << endl << endl; 
 	string p;
@@ -56,22 +74,29 @@ void setSettings(){
 }
 
 void handleOptions(int option){
+	Board b;
 	switch (option){
-	case 0:
-		Game::start(starting_fen, playingAs, showMaterial);
-		break;
-	case 1:
-		Game::start(getUserFEN(), playingAs, showMaterial);
-		break;
-	case 2:
-		setSettings();
-		cout << "\n\nPress enter to return to menu..." << endl;
-		cin.get();
-		break;
-	case 3:
-		exit(0);
-	default:
-		break;
+		case 0:
+			b = Game::start(starting_fen, playingAs, showMaterial);
+			exportGamePGN(b);
+			cout << "\n\nPress enter to return to menu..." << endl;
+			cin.get();
+			break;
+		case 1:
+			b = Game::start(getUserFEN(), playingAs, showMaterial);
+			exportGamePGN(b);
+			cout << "\n\nPress enter to return to menu..." << endl;
+			cin.get();
+			break;
+		case 2:
+			setSettings();
+			cout << "\n\nPress enter to return to menu..." << endl;
+			cin.get();
+			break;
+		case 3:
+			exit(0);
+		default:
+			break;
 	}
 
 	ChessMenu();
@@ -84,6 +109,33 @@ void ChessMenu(){
 int main(int argc, char** argv) {
 
 	ChessMenu();
+
+	Board b{starting_fen};
+
+	b.printBigBoard();
+	Board::movePiece(Move{"e2", "e4"}, &b);
+	b.moveFor = Piece::BLACK;
+	b.printBigBoard();
+	Board::movePiece(Move{"e7", "e5"}, &b);
+	b.moveFor = Piece::WHITE;
+	b.printBigBoard();
+	Board::movePiece(Move{"d1", "h5"}, &b);
+	b.moveFor = Piece::BLACK;
+	b.printBigBoard();
+	Board::movePiece(Move{"b8", "c6"}, &b);
+	b.moveFor = Piece::WHITE;
+	b.printBigBoard();
+	Board::movePiece(Move{"f1", "c4"}, &b);
+	b.moveFor = Piece::BLACK;
+	b.printBigBoard();
+	Board::movePiece(Move{"g8", "f6"}, &b);
+	b.moveFor = Piece::WHITE;
+	b.printBigBoard();
+	Board::movePiece(Move{"h5", "f7"}, &b);
+	b.moveFor = Piece::BLACK;
+	b.printBigBoard();
+
+	cout << b.exportPGN() << endl;
 
 	return 0;
 }

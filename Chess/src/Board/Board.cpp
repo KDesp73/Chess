@@ -107,6 +107,7 @@ void Board::scanBoard(vector<Piece *> whitePieces, vector<Piece *> blackPieces) 
 }
 
 bool Board::movePiece(Move move, Board *board) {
+    string current_fen = Board::exportFEN(board);
     int moveIndex, captureIndex;
     Piece *pieceToMove = nullptr;
     Piece *pieceToCapture = nullptr;
@@ -156,7 +157,7 @@ bool Board::movePiece(Move move, Board *board) {
     }
 
     // Castle
-    if(king != NULL && kingWantsToCastle(move) && king->canCastle(move.to, board->board)){
+    if(king != NULL && kingWantsToCastle(move) != 0 && king->canCastle(move.to, board->board)){
         return Board::castleKing(move.to, king, board);
     }
 
@@ -174,12 +175,14 @@ bool Board::movePiece(Move move, Board *board) {
     else board->resetMovesSinceCapture();
 
     // Make the move
-    bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);;
+    bool moveMade = makeMove(pieceToMove->currentSquare, move.to, board->board);
     if (moveMade) {
         Board::copyMove(board->move_1_before, board->move_2_before);
         Board::copyMove(&move, board->move_1_before);
 
         board->pushBoardState(Board::exportFEN(board->board));
+
+        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;
@@ -813,4 +816,8 @@ void Board::resetMovesSinceCapture(){
 
 bool Board::isFiftyMoveRule(){
     return (moves_since_capture == 50 * 2);
+}
+
+void Board::setOutcome(string outcome){
+    this->outcome = outcome;
 }
