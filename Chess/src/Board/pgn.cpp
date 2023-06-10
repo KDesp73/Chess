@@ -78,7 +78,9 @@ string Board::exportPGN(){
         this->pgn +=  to_string(i / 2 + 1) + ". " + pgn_moves[i] + " " + pgn_moves[i + 1] + " ";
     }
     
-    return this->pgn + outcome;
+    this->pgn += outcome;
+
+    return this->pgn;
 }
 
 Move Board::pgnMoveToMove(string algebraicNotation, Board *board){

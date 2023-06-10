@@ -148,16 +148,34 @@ bool Board::movePiece(Move move, Board *board) {
 
     // Special piece functionality
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
+        Board::copyMove(board->move_1_before, board->move_2_before);
+        Board::copyMove(&move, board->move_1_before);
+
+        board->pushBoardState(Board::exportFEN(board->board));
+
+        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
         return Board::promotePawn(move.to, pawn, board);;
     }
 
     // En passant
     if(pawn != NULL && board->move_1_before != nullptr && pawn->canEnpassant(move.to, *board->move_1_before)){
+        Board::copyMove(board->move_1_before, board->move_2_before);
+        Board::copyMove(&move, board->move_1_before);
+
+        board->pushBoardState(Board::exportFEN(board->board));
+
+        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
         return Board::enpassantPawn(move.to, pawn, board);
     }
 
     // Castle
     if(king != NULL && kingWantsToCastle(move) != 0 && king->canCastle(move.to, board->board)){
+        Board::copyMove(board->move_1_before, board->move_2_before);
+        Board::copyMove(&move, board->move_1_before);
+
+        board->pushBoardState(Board::exportFEN(board->board));
+
+        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
         return Board::castleKing(move.to, king, board);
     }
 

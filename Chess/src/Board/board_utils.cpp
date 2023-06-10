@@ -124,9 +124,9 @@ bool BoardUtils::isValidSquare(string square){
 }
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
-    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
-
     if(piece == NULL || piece == nullptr) return false;
+
+    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
 
     King *king = dynamic_cast<King *>(piece);
     if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;

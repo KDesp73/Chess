@@ -30,7 +30,7 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
-        string pgn;
+        string pgn = "";
         vector<string> pgn_moves;
         
 
