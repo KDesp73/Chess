@@ -173,13 +173,11 @@ bool Pawn::canEnpassant(string to, Move move_1_before){
     }
 
     if(move_1_before.from == move_left.from && move_1_before.to == move_left.to){
-        cout << "En passant left" << endl;
         string squareToGo = string(1, currentFile + left) + to_string(currentRank + direction);
         if(to == squareToGo) return true;
     }
 
     if(move_1_before.from == move_right.from && move_1_before.to == move_right.to){
-        cout << "En passant right" << endl;
         string squareToGo = string(1, currentFile + right) + to_string(currentRank + direction);
         if(to == squareToGo) return true;
     }

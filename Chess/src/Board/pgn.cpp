@@ -83,6 +83,7 @@ string Board::exportPGN(){
 
 Move Board::pgnMoveToMove(string algebraicNotation, Board *board){
     cerr << "Not yet implemented" << endl;
+    return Move{};
 }
 
 void importPGN(string pgn){

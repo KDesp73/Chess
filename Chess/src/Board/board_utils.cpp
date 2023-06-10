@@ -124,6 +124,8 @@ bool BoardUtils::isValidSquare(string square){
 }
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
+    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
+
     if(piece == NULL || piece == nullptr) return false;
 
     King *king = dynamic_cast<King *>(piece);
@@ -133,6 +135,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board) {
 
     if(piece->type == Piece::PAWN){
         if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
+        if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), *board->move_1_before)) return true;
     }
 
     if(piece->type != Piece::KING){

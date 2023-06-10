@@ -107,6 +107,16 @@ void ChessMenu(){
 }
 
 int main(int argc, char** argv) {
+	// Test::testCheckMate(TestFens::mate_fens);
+	// cin.get();
+	// Test::testStaleMate(TestFens::stalemate_fens);
+	// cin.get();
+	// Test::testDrawDueToInsufficientMaterial(TestFens::ddtim_fens);
+	// cin.get();
+	// Test::testCheck(TestFens::check_fens);
+	// cin.get();
+	// Test::testNotCheck(TestFens::should_not_be_check_fens);
+	// cin.get();
 
 	ChessMenu();
 
@@ -114,23 +124,32 @@ int main(int argc, char** argv) {
 
 	b.printBigBoard();
 	Board::movePiece(Move{"f3", "d2"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f3"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"b1", "d2"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f1"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"f3", "d2"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f3"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"f1", "d2"}, &b);
+	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f1"}, &b);
+	cin.get();
 	b.printBigBoard();
 
 	cout << b.exportPGN() << endl;
+	cin.get();
 
 	return 0;
 }

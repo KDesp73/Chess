@@ -72,8 +72,8 @@ static vector<string> check_fens = {
 
 static vector<string> should_not_be_check_fens = {
     "8/8/2q2RK1/8/8/8/8/5b2",
-    "5R2/k7/8/5r2/R3qK2/8/8/8",
-    "5R2/k7/8/5r2/R3qK2/8/8/8",
+    "5R2/K7/8/5r2/R3qk2/8/8/8",
+    "5r2/k7/8/5R2/r3QK2/8/8/8"
 };
 
 static vector<string> stalemate_fens = {
