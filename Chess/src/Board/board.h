@@ -12,12 +12,14 @@ class Board{
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
         unordered_map<string, int> past_board_states;
-        string outcome;
+        string outcome = "";
         int moves_since_capture = 0;
     public:
         string playingAs;
         bool showMaterial;
-        string moveFor = "white";
+        bool showMoves;
+        string moveFor;
+
         Move *move_1_before = new Move(Move{"a1", "a1"});
         Move *move_2_before = new Move(Move{"a1", "a1"});
         char board[8][8] = {
@@ -39,9 +41,10 @@ class Board{
         ~Board(){
         }
         Board(){};
-        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true){
+        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
             this->playingAs = playingAs;
             this->showMaterial = showMaterial;
+            this->showMoves = showMoves;
             importFEN(fen);
             wp->loadPieces(board);
             bp->loadPieces(board);
@@ -49,9 +52,10 @@ class Board{
             past_board_states.insert({fen, 1});
         }
 
-        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true){
+        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
             this->playingAs = playingAs;
             this->showMaterial = showMaterial;
+            this->showMoves = showMoves;
             Board::copyBoard(board, this->board);
             wp->loadPieces(board);
             bp->loadPieces(board);

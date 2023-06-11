@@ -86,6 +86,9 @@ void Board::printBigBoard() {
 
     cout << endl;
 
+    if(showMoves)
+        cout << exportPGN() << endl;
+
     if(showMaterial)
         cout << "Material Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
 }
@@ -205,7 +208,8 @@ bool Board::movePiece(Move move, Board *board) {
 
         board->pushBoardState(Board::exportFEN(board->board));
 
-        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
+        string algebraic_notation = Board::moveToPGNMove(move, new Board(current_fen));
+        board->pgn_moves.push_back(algebraic_notation);
 
         if(translateSquare(pieceToMove->currentSquare).y == 0 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->a_rook_moved = true;
         if(translateSquare(pieceToMove->currentSquare).y == 7 && pieceToMove->type == "Rook") dynamic_cast<King *>(board->findPiece("King", pieceToMove->color))->h_rook_moved = true;

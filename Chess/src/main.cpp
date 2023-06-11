@@ -19,7 +19,9 @@ static string absured_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2
 
 
 static bool showMaterial = true;
+static bool showMoves = true;
 static string playingAs = "white";
+
 void ChessMenu();
 
 string getUserFEN(){
@@ -50,27 +52,37 @@ string exportGamePGN(Board board){
 
 void setSettings(){
 	cout << Text::blue + "-Settings-" + Text::normal << endl << endl; 
-	string p;
-	string s;
+	string perspective;
+	string material;
+	string moves;
 
 	cout << "Play from the perspective of white or black? (w/b)" << endl;
 	do{
 		cout << "> ";
-		getline(cin, p);
-	} while(p != "w" && p != "b" && p != "W" && p != "B");
+		getline(cin, perspective);
+	} while(perspective != "w" && perspective != "b" && perspective != "W" && perspective != "B");
 
 	cout << "\nShow material advantage? (y/n)" << endl;
 	do{
 		cout << "> ";
-		getline(cin, s);
-	} while(s != "y" && s != "n" && s != "Y" && s != "N");
+		getline(cin, material);
+	} while(material != "y" && material != "n" && material != "Y" && material != "N");
+
+	cout << "\nShow moves? (y/n)" << endl;
+	do{
+		cout << "> ";
+		getline(cin, moves);
+	} while(moves != "y" && moves != "n" && moves != "Y" && moves != "N");
 
 
-	if(p == "w" || p == "W") playingAs = Piece::WHITE;
-	if(p == "b" || p == "B") playingAs = Piece::BLACK;
+	if(perspective == "w" || perspective == "W") playingAs = Piece::WHITE;
+	if(perspective == "b" || perspective == "B") playingAs = Piece::BLACK;
 
-	if(s == "y" || s == "Y") showMaterial = true;
-	if(s == "n" || s == "N") showMaterial = false;
+	if(material == "y" || material == "Y") showMaterial = true;
+	if(material == "n" || material == "N") showMaterial = false;
+	
+	if(moves == "y" || moves == "Y") showMoves = true;
+	if(moves == "n" || moves == "N") showMoves = false;
 
 }
 

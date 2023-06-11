@@ -8,5 +8,5 @@
 using namespace std;
 
 namespace Game{
-    Board start(string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", string playing = "white", bool showMaterial = true);
+    Board start(string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", string playing = "white", bool showMaterial = true, bool showMoves = true);
 };
