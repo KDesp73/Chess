@@ -32,27 +32,30 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     temp_board = new Board(Board::exportFEN(board));
 
     // Check if there is a need to specify the piece
-    Piece *piece1 = temp_board->findPiece(piece->type, piece->color);
-    Coords firstPieceCoords;
-    bool canMoveToSquare1 = false, canMoveToSquare2 = false;
-    if(piece1 != NULL){
-        firstPieceCoords = translateSquare(piece1->currentSquare);
-        canMoveToSquare1 = BoardUtils::canMove(piece1, Move{piece1->currentSquare, move.to}, temp_board);
-        Board::removePieceFreely(piece1->currentSquare, temp_board);
+    if(piece->type != Piece::PAWN && piece->type != Piece::KING){
+        Piece *piece1 = temp_board->findPiece(piece->type, piece->color);
+        Coords firstPieceCoords;
+        bool canMoveToSquare1 = false, canMoveToSquare2 = false;
+        if(piece1 != NULL){
+            firstPieceCoords = translateSquare(piece1->currentSquare);
+            canMoveToSquare1 = BoardUtils::canMove(piece1, Move{piece1->currentSquare, move.to}, temp_board);
+            Board::removePieceFreely(piece1->currentSquare, temp_board);
+        }
+        
+        Piece *piece2 = temp_board->findPiece(piece->type, piece->color);
+        Coords secondPieceCoords;
+        if(piece2 != NULL){
+            secondPieceCoords = translateSquare(temp_board->findPiece(piece->type, piece->color)->currentSquare);
+            canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(piece->type, piece->color), Move{piece2->currentSquare, move.to}, temp_board);
+        }
+
+        int piece1Row = firstPieceCoords.x, piece1Col = firstPieceCoords.y;
+        int piece2Row = secondPieceCoords.x, piece2Col = secondPieceCoords.y;
+
+        if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col != piece2Col)) specifyPieceRank = true;
+        if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col == piece2Col)) specifyPieceFile = true;
     }
     
-    Piece *piece2 = temp_board->findPiece(piece->type, piece->color);
-    Coords secondPieceCoords;
-    if(piece2 != NULL){
-        secondPieceCoords = translateSquare(temp_board->findPiece(piece->type, piece->color)->currentSquare);
-        canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(piece->type, piece->color), Move{piece2->currentSquare, move.to}, temp_board);
-    }
-
-    int piece1Row = firstPieceCoords.x, piece1Col = firstPieceCoords.y;
-    int piece2Row = secondPieceCoords.x, piece2Col = secondPieceCoords.y;
-
-    if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col != piece2Col)) specifyPieceRank = true;
-    if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col == piece2Col)) specifyPieceFile = true;
 
     string algebraicNotation = "";
 
