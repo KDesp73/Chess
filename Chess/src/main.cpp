@@ -116,7 +116,7 @@ void handleOptions(int option){
 }
 
 void ChessMenu(){
-	menu(4, vector<string>{"Play", "Play from FEN", "Settings", "Exit"}, &handleOptions);
+	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Settings", "Exit"}, &handleOptions);
 }
 
 int main(int argc, char** argv) {
@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
 	// cin.get();
 
 	
-	//ChessMenu();
+	ChessMenu();
 
 	//Board b{"r1bqk2r/1pppbppp/p1n2n2/4p3/B7/3P1N2/PPP1PPPP/RNBQK2R"};
 	Board b{"2k5/8/8/R6R/8/8/8/2K5"};
