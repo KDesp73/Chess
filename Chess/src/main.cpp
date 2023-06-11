@@ -132,38 +132,36 @@ int main(int argc, char** argv) {
 	// cin.get();
 
 	
-	ChessMenu();
+	//ChessMenu();
 
-	Board b{"r1bqk2r/1pppbppp/p1n2n2/4p3/B7/3P1N2/PPP1PPPP/RNBQK2R"};
+	//Board b{"r1bqk2r/1pppbppp/p1n2n2/4p3/B7/3P1N2/PPP1PPPP/RNBQK2R"};
+	Board b{"2k5/8/8/R6R/8/8/8/2K5"};
+	Board::movePiece(Move{"a5", "e5"}, &b);
+	Board::movePiece(Move{"e5", "a5"}, &b);
+	Board::movePiece(Move{"h5", "e5"}, &b);
+	Board::movePiece(Move{"e5", "h5"}, &b);
 
+/*
 	b.printBigBoard();
 	Board::movePiece(Move{"f3", "d2"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f3"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"b1", "d2"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f1"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"f3", "d2"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f3"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"f1", "d2"}, &b);
-	cin.get();
 	b.printBigBoard();
 	Board::movePiece(Move{"d2", "f1"}, &b);
-	cin.get();
 	b.printBigBoard();
+*/
 
 	cout << b.exportPGN() << endl;
-	cin.get();
 
 	return 0;
 }

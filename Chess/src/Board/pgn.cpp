@@ -10,8 +10,8 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     bool isMate = false;
     bool isCastles = false;
     bool isCastlesLong = false;
-    bool specifyKnightRank = false;
-    bool specifyKnightFile = false;
+    bool specifyPieceRank = false;
+    bool specifyPieceFile = false;
 
     Board *temp_board = new Board(Board::exportFEN(board));
     Board::moveFreely(move, temp_board, promoteTo);
@@ -31,28 +31,28 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
 
     temp_board = new Board(Board::exportFEN(board));
 
-    // Check if there is a need to specify the knight
-    Piece *knight1 = temp_board->findPiece(Piece::KNIGHT, piece->color);
-    Coords firstKnightCoords;
+    // Check if there is a need to specify the piece
+    Piece *piece1 = temp_board->findPiece(piece->type, piece->color);
+    Coords firstPieceCoords;
     bool canMoveToSquare1 = false, canMoveToSquare2 = false;
-    if(knight1 != NULL){
-        firstKnightCoords = translateSquare(knight1->currentSquare);
-        canMoveToSquare1 = BoardUtils::canMove(knight1, Move{knight1->currentSquare, move.to}, temp_board);
-        Board::removePieceFreely(knight1->currentSquare, temp_board);
+    if(piece1 != NULL){
+        firstPieceCoords = translateSquare(piece1->currentSquare);
+        canMoveToSquare1 = BoardUtils::canMove(piece1, Move{piece1->currentSquare, move.to}, temp_board);
+        Board::removePieceFreely(piece1->currentSquare, temp_board);
     }
     
-    Piece *knight2 = temp_board->findPiece(Piece::KNIGHT, piece->color);
-    Coords secondKnightCoords;
-    if(knight2 != NULL){
-        secondKnightCoords = translateSquare(temp_board->findPiece(Piece::KNIGHT, piece->color)->currentSquare);
-        canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(Piece::KNIGHT, piece->color), Move{knight2->currentSquare, move.to}, temp_board);
+    Piece *piece2 = temp_board->findPiece(piece->type, piece->color);
+    Coords secondPieceCoords;
+    if(piece2 != NULL){
+        secondPieceCoords = translateSquare(temp_board->findPiece(piece->type, piece->color)->currentSquare);
+        canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(piece->type, piece->color), Move{piece2->currentSquare, move.to}, temp_board);
     }
 
-    int knight1Row = firstKnightCoords.x, knight1Col = firstKnightCoords.y;
-    int knight2Row = secondKnightCoords.x, knight2Col = secondKnightCoords.y;
+    int piece1Row = firstPieceCoords.x, piece1Col = firstPieceCoords.y;
+    int piece2Row = secondPieceCoords.x, piece2Col = secondPieceCoords.y;
 
-    if(canMoveToSquare1 && canMoveToSquare2 && (knight1Col != knight2Col)) specifyKnightRank = true;
-    if(canMoveToSquare1 && canMoveToSquare2 && (knight1Col == knight2Col)) specifyKnightFile = true;
+    if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col != piece2Col)) specifyPieceRank = true;
+    if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col == piece2Col)) specifyPieceFile = true;
 
     string algebraicNotation = "";
 
@@ -61,8 +61,8 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     if(!addPieceChar && isCapture)algebraicNotation += move.from.at(0);
     
     if(isCapture) algebraicNotation += "x";
-    if(specifyKnightFile) algebraicNotation += move.from.at(1);
-    if(specifyKnightRank) algebraicNotation += move.from.at(0);
+    if(specifyPieceFile) algebraicNotation += move.from.at(1);
+    if(specifyPieceRank) algebraicNotation += move.from.at(0);
     
     algebraicNotation += move.to;
 
