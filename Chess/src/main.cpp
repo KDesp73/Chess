@@ -119,6 +119,7 @@ int main(int argc, char** argv) {
 	// Test::testNotCheck(TestFens::should_not_be_check_fens);
 	// cin.get();
 
+	
 	ChessMenu();
 
 	Board b{"r1bqk2r/1pppbppp/p1n2n2/4p3/B7/3P1N2/PPP1PPPP/RNBQK2R"};

@@ -3,7 +3,7 @@
 
 using namespace BoardUtils;
 
-string Board::moveToPGNMove(Move move, Board *board){
+string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     bool addPieceChar = true;
     bool isCheck = false;
     bool isCapture = false;
@@ -14,7 +14,7 @@ string Board::moveToPGNMove(Move move, Board *board){
     bool specifyKnightFile = false;
 
     Board *temp_board = new Board(Board::exportFEN(board));
-    Board::moveFreely(move, temp_board);
+    Board::moveFreely(move, temp_board, promoteTo);
 
     Piece *piece = board->findPiece(move.from);
     char pieceChar = board->board[translateSquare(move.from).x][translateSquare(move.from).y];
@@ -63,7 +63,10 @@ string Board::moveToPGNMove(Move move, Board *board){
     if(isCapture) algebraicNotation += "x";
     if(specifyKnightFile) algebraicNotation += move.from.at(1);
     if(specifyKnightRank) algebraicNotation += move.from.at(0);
+    
     algebraicNotation += move.to;
+
+    if(promoteTo != '-') algebraicNotation += "=" + string(1, toupper(promoteTo));
     if(isCheck && !isMate) algebraicNotation += "+";
     if(isMate) algebraicNotation += "#";
 

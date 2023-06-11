@@ -1,9 +1,24 @@
 #include "board.h"
 #include "board_utils.h"
 
+#include <iostream>
+#include <limits>
+
 using namespace BoardUtils;
 
-bool Board::promotePawn(string square, Pawn *pawn, Board *board){
+char Board::promoteTo(){
+    char promoteTo = '-';
+    do {
+        printf("Promote to (q, r, b, n): ");
+        cin >> promoteTo;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        printf("\n");
+    } while (promoteTo != 'q' && promoteTo != 'r' && promoteTo != 'b' && promoteTo != 'n');
+
+    return promoteTo;
+}
+
+bool Board::promotePawn(string square, Pawn *pawn, Board *board, char promoteTo){
     int promotionRank, direction;
     if (pawn->color == "white") {
         promotionRank = 7;
@@ -11,36 +26,27 @@ bool Board::promotePawn(string square, Pawn *pawn, Board *board){
     } else{
         promotionRank = 0;
         direction = -1;
-
     }
 
     Coords currentCoords = translateSquare(pawn->currentSquare);
     if (currentCoords.x != promotionRank - direction) return false;
 
-    char promoteTo;
-    do {
-        cout << "Promote to (q, r, b, n): ";
-        cin >> promoteTo;
-        cout << endl;
-    } while (promoteTo != 'q' && promoteTo != 'r' && promoteTo != 'b' &&
-             promoteTo != 'n');
-
     Piece* promoted;
-
+    string color = pawn->color;
     Board::removePieceFreely(pawn->currentSquare, board);
 
     switch (promoteTo) {
         case 'q':
-            promoted = new Queen(square, pawn->color);
+            promoted = new Queen(square, color);
             break;
         case 'r':
-            promoted = new Rook(square, pawn->color);
+            promoted = new Rook(square, color);
             break;
         case 'b':
-            promoted = new Bishop(square, pawn->color);
+            promoted = new Bishop(square, color);
             break;
         case 'n':
-            promoted = new Knight(square, pawn->color);
+            promoted = new Knight(square, color);
             break;
         default:
             return false;

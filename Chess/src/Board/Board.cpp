@@ -144,17 +144,21 @@ bool Board::movePiece(Move move, Board *board) {
     King *king = dynamic_cast<King *>(pieceToMove);
 
 
+    char promoteTo = '-';
 
+    
 
-    // Special piece functionality
+    // Pawn Promotion
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        Board::copyMove(board->move_1_before, board->move_2_before);
-        Board::copyMove(&move, board->move_1_before);
-
-        board->pushBoardState(Board::exportFEN(board->board));
-
-        board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen)));
-        return Board::promotePawn(move.to, pawn, board);;
+        char promoteTo = Board::promoteTo();
+        if(BoardUtils::canMove(pawn, move, board, promoteTo) && promoteTo != '-'){
+            Board::copyMove(board->move_1_before, board->move_2_before);
+            Board::copyMove(&move, board->move_1_before);
+            board->pushBoardState(Board::exportFEN(board->board));
+            board->pgn_moves.push_back(Board::moveToPGNMove(move, new Board(current_fen), promoteTo));
+            return Board::promotePawn(move.to, pawn, board, promoteTo);
+        }
+        return false;
     }
 
     // En passant
@@ -179,8 +183,9 @@ bool Board::movePiece(Move move, Board *board) {
         return Board::castleKing(move.to, king, board);
     }
 
+
     if (
-        !canMove(pawn, move, board) &&
+        !canMove(pawn, move, board, promoteTo) &&
         !canMove(rook, move, board) &&
         !canMove(knight, move, board) &&
         !canMove(bishop, move, board) &&
@@ -211,7 +216,8 @@ bool Board::movePiece(Move move, Board *board) {
     return moveMade;
 }
 
-void Board::moveFreely(Move move, Board *board){
+void Board::moveFreely(Move move, Board *board, char promoteTo){
+    string current_fen = Board::exportFEN(board);
     int moveIndex, captureIndex;
     Piece *pieceToMove = NULL;
     Piece *pieceToCapture = NULL;
@@ -232,7 +238,7 @@ void Board::moveFreely(Move move, Board *board){
 
     // Special piece functionality
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        Board::promotePawn(move.to, pawn, board);;
+        Board::promotePawn(move.to, pawn, board, promoteTo);
     }
 
     // Capture the piece

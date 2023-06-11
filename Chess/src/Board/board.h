@@ -84,7 +84,7 @@ class Board{
         void resetMovesSinceCapture();
         void setOutcome(string outcome);
         
-        static string moveToPGNMove(Move m, Board *board);
+        static string moveToPGNMove(Move m, Board *board, char promoteTo = '-');
         static Move pgnMoveToMove(string algebraicNotation, Board *board);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
@@ -92,11 +92,12 @@ class Board{
         static bool isPinned(string to, Piece *piece, Board *board);
         static vector<string> getValidMoves(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
-        static void moveFreely(Move move, Board *board);
+        static void moveFreely(Move move, Board *board, char promoteTo = '-');
         static bool removePiece(string square, Board *board);
         static bool removePieceFreely(string square, Board *board);
 
-        static bool promotePawn(string square, Pawn *pawn, Board *board);
+        static bool promotePawn(string square, Pawn *pawn, Board *board, char promoteTo = '-');
+        static char promoteTo();
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
 };
