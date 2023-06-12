@@ -29,7 +29,7 @@ Two player Chess written in C++ with CLI
 - [ ] PGN Import
 - [ ] Computer opponent (Evaluation based and ML model)
 - [ ] GUI
-- [ ] Check if position is valid
+- [x] Check if position is valid
 - [x] Better FEN strings (include movefor, castling rights, enpassant etc)
 
 ## Author
