@@ -140,6 +140,11 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
         if(isKingInCheck){
             Board *temp_board = new Board(Board::exportFEN(board));
 
+            if(piece->type == Piece::PAWN){
+                if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
+                if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), *board->move_1_before)) return true;
+            }
+
             if(piece->isValidMove(move.to, temp_board->board)) Board::moveFreely(move, temp_board, promoteTo);
 
             King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board->findPiece(Piece::KING, piece->color));
