@@ -26,8 +26,11 @@ void ChessMenu();
 
 string getUserFEN(){
 	string user_fen;
-	cout << "Enter FEN: ";
-	getline(cin, user_fen);
+	do{
+		cout << "Enter FEN: ";
+		getline(cin, user_fen);
+		cout << endl;
+	} while(!Board::isValidFEN(user_fen));
 
 	return user_fen;
 }

@@ -72,8 +72,6 @@ class Board{
 
         Pieces* getPieces(string color);
         void importFEN(string fen);
-        static string exportFEN(Board *board);
-        static string exportFEN(char board[][8]);
         string exportPGN();
         void importPGN(string pgn);
         void printBoard();
@@ -112,4 +110,8 @@ class Board{
         static char promoteTo();
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
+        
+        static bool isValidFEN(string fen);
+        static string exportFEN(Board *board);
+        static string exportFEN(char board[][8]);
 };

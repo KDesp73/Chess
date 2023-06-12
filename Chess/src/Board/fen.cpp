@@ -21,6 +21,8 @@ std::vector<std::string> splitString(const std::string& input, char delimiter);
 
 int findMove(Move move, vector<Move> moves);
 
+int characterQuantity(char c, string str);
+
 /*================{ /Utils }================*/
 
 
@@ -156,6 +158,65 @@ string Board::exportFEN(char board[][8]){
 	return fen;
 }
 
+
+
+
+bool Board::isValidFEN(string fen_string){
+	string accepted_fen_characters = "rnbkqpRNBKQP/12345678";
+	string accepted_castling_characters = "KkQq";
+
+	vector<string> fields = splitString(fen_string, ' ');
+	
+	string fen = fen_string;
+	string move_for = "w";
+	string castling_rights = "KQkq";
+	string enpassant_square = "-";
+
+	fen = fields.at(0);
+	if(fields.size() > 1)
+		move_for = fields.at(1);
+	if(fields.size() > 2)
+		castling_rights = fields.at(2);
+	if(fields.size() > 3)
+		enpassant_square = fields.at(3);
+
+	
+	for (size_t i = 0; i < fen.size(); i++){
+		if(characterQuantity(fen.at(i), accepted_fen_characters) == 0) return false;
+	}
+	
+
+	if(characterQuantity('/', fen) != 7) return false;
+	if(characterQuantity('K', fen) != 1) return false;
+	if(characterQuantity('k', fen) != 1) return false;
+
+	if(move_for != "w" && move_for != "b") return false;
+
+	for (size_t i = 0; i < castling_rights.size(); i++){
+		if(characterQuantity(castling_rights.at(i), accepted_castling_characters) == 0) return false;
+	}
+
+	if(enpassant_square.size() != 2 && enpassant_square != "-") return false;
+
+
+	string active_color = (move_for == "w") ? Piece::WHITE : Piece::BLACK;
+
+	Board board{fen_string};
+	if(!dynamic_cast<King *>(board.findPiece(Piece::KING, active_color))->isInCheck(board.board).empty()) return false;
+
+	return true;
+}
+
+
+
+
+int characterQuantity(char c, string str){
+	int count = 0;
+	for (size_t i = 0; i < str.size(); i++){
+		if(str.at(i) == c) count++;
+	}
+	return count;
+}
 
 string addSpaces(int index, int num, string fen){
 	fen[index] = ' ';
