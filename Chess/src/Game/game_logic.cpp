@@ -7,7 +7,7 @@
 
 
 namespace GameUtils {
-	Move prompt(Pieces* p, char board[][8]);
+	Move prompt(Pieces* p, Board *board);
 	bool turn(Pieces *p, Board *board);
 	bool isMate(Board *board);
 	bool isDraw(Board *board);
@@ -52,7 +52,7 @@ void GameUtils::gameLoop(Board *board){
 }
 
 bool GameUtils::turn(Pieces *p, Board *board){
-	Move move = GameUtils::prompt(p, board->board);
+	Move move = GameUtils::prompt(p, board);
 	if(sizeof(move) == 0) {
 		return false;
 	}
@@ -63,12 +63,27 @@ bool GameUtils::turn(Pieces *p, Board *board){
 	return moveMade;
 }
 
-Move GameUtils::prompt(Pieces* p, char board[][8]){
+Move GameUtils::prompt(Pieces* p, Board *board){
 	string from, to;
+	
 	cout << "From: ";
 	cin >> from;
+	
+	if(from == "~end"){
+		cout << "FEN: " << Board::exportFEN(board) << endl;
+		cout << "PGN: " << board->exportPGN() << endl;
+		exit(0);
+	}
+	
 	cout << "To: ";
 	cin >> to;
+
+	if(to == "~end"){
+		cout << "FEN: " << Board::exportFEN(board) << endl;
+		cout << "PGN: " << board->exportPGN() << endl;
+		exit(0);
+	}
+
 	cout << endl;
 
 	if(!BoardUtils::isValidSquare(from) || !BoardUtils::isValidSquare(to)) {
