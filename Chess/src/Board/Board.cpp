@@ -152,7 +152,7 @@ bool Board::movePiece(Move move, Board *board) {
 
     char promoteTo = '-';
 
-    
+    if(pieceToMove->color != board->moveFor) return false;
 
     // Pawn Promotion
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
@@ -856,4 +856,20 @@ bool Board::isFiftyMoveRule(){
 
 void Board::setOutcome(string outcome){
     this->outcome = outcome;
+}
+
+void Board::setKingsCastlingRights(King *king){
+    if(king == NULL) return;
+    
+    if(king->color == Piece::WHITE){
+        if(castling_rights.find('K') == string::npos) 
+            king->h_rook_moved = true;
+        if(castling_rights.find('Q') == string::npos) 
+            king->a_rook_moved = true;
+    } else if(king->color == Piece::BLACK){
+        if(castling_rights.find('k') == string::npos) 
+            king->h_rook_moved = true;
+        if(castling_rights.find('q') == string::npos) 
+            king->a_rook_moved = true;
+    }
 }

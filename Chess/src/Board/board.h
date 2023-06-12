@@ -14,6 +14,7 @@ class Board{
         unordered_map<string, int> past_board_states;
         string outcome = "";
         int moves_since_capture = 0;
+        string castling_rights;
     public:
         string playingAs;
         bool showMaterial;
@@ -49,6 +50,9 @@ class Board{
             wp->loadPieces(board);
             bp->loadPieces(board);
 
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::WHITE)));
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::BLACK)));
+
             past_board_states.insert({fen, 1});
         }
 
@@ -59,6 +63,9 @@ class Board{
             Board::copyBoard(board, this->board);
             wp->loadPieces(board);
             bp->loadPieces(board);
+
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::WHITE)));
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::BLACK)));
 
             past_board_states.insert({Board::exportFEN(board), 1});
         }
@@ -87,6 +94,7 @@ class Board{
         void increaceMovesSinceCapture();
         void resetMovesSinceCapture();
         void setOutcome(string outcome);
+        void setKingsCastlingRights(King *king);
         
         static string moveToPGNMove(Move m, Board *board, char promoteTo = '-');
         static Move pgnMoveToMove(string algebraicNotation, Board *board);

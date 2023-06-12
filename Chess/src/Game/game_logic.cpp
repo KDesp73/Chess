@@ -32,10 +32,9 @@ void GameUtils::gameLoop(Board *board){
 	if(isMate(board)) return;
 	if(isDraw(board)) return;
 
-	string playing = "white";
+	string playing = board->moveFor;
 
 	do{
-		board->moveFor = playing;
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
@@ -48,6 +47,7 @@ void GameUtils::gameLoop(Board *board){
 			if(moveMade)
 				playing = "white";
 		}
+		board->moveFor = playing;
 	} while(!GameUtils::isMate(board) && !GameUtils::isDraw(board));
 }
 
@@ -69,8 +69,8 @@ Move GameUtils::prompt(Pieces* p, Board *board){
 	cout << "From: ";
 	cin >> from;
 	
-	if(from == "~end"){
-		cout << "FEN: " << Board::exportFEN(board) << endl;
+	if(from == "#end"){
+		cout << "\nFEN: " << Board::exportFEN(board) << endl;
 		cout << "PGN: " << board->exportPGN() << endl;
 		exit(0);
 	}
@@ -78,8 +78,8 @@ Move GameUtils::prompt(Pieces* p, Board *board){
 	cout << "To: ";
 	cin >> to;
 
-	if(to == "~end"){
-		cout << "FEN: " << Board::exportFEN(board) << endl;
+	if(to == "#end"){
+		cout << "\nFEN: " << Board::exportFEN(board) << endl;
 		cout << "PGN: " << board->exportPGN() << endl;
 		exit(0);
 	}

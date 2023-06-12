@@ -1,8 +1,11 @@
 #include <string>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include<ctype.h>
 
 #include "board.h"
+#include "board_utils.h"
 
 using namespace std;
 
@@ -14,14 +17,44 @@ string addSpaces(int index, int num, string fen);
 
 string replaceSpaces(string fen);
 
+std::vector<std::string> splitString(const std::string& input, char delimiter);
+
+int findMove(Move move, vector<Move> moves);
+
 /*================{ /Utils }================*/
 
 
 void Board::importFEN(string fen){
-	//cout << fen << endl << endl;
+	vector<string> fields = splitString(fen, ' ');
 	
+	string move_for = "w";
+	string castling_rights = "KQkq";
+	string enpassant_square = "-";
+
+	fen = fields.at(0);
+
+	if(fields.size() > 1)
+		move_for = fields.at(1);
+	if(fields.size() > 2)
+		castling_rights = fields.at(2);
+	if(fields.size() > 3)
+		enpassant_square = fields.at(3);
+	
+
+	this->moveFor = (move_for == "w") ? Piece::WHITE : Piece::BLACK;
+	this->castling_rights = castling_rights;	
+
+	if(enpassant_square != "-"){
+		if(BoardUtils::isValidSquare(enpassant_square)){
+			char file = enpassant_square.at(0);
+			int rank = int(enpassant_square.at(1)) - 48;
+			int direction = (rank == 3) ? 1 : -1;
+
+			this->move_1_before = new Move{string(1, file) + to_string(rank - 1 * direction), string(1, file) + to_string(rank + 1 * direction)};
+		} else enpassant_square = "-";
+	}
+
 	string rows[8];
-	
 	int count = 0;
 	string temp = "";
 	for(int i=0; i < fen.length(); i++){
@@ -59,6 +92,47 @@ string Board::exportFEN(Board *board){
 	}
 	
 	string fen = replaceSpaces(temp_fen);
+
+	string move_for = (board->moveFor == Piece::WHITE) ? "w" : "b";
+	string castling_rights;
+	string enpassant_square = "-";
+
+	if(!dynamic_cast<King * >(board->findPiece(Piece::KING, Piece::WHITE))->h_rook_moved) castling_rights += "K";
+	if(!dynamic_cast<King * >(board->findPiece(Piece::KING, Piece::WHITE))->a_rook_moved) castling_rights += "Q";
+	if(!dynamic_cast<King * >(board->findPiece(Piece::KING, Piece::BLACK))->h_rook_moved) castling_rights += "k";
+	if(!dynamic_cast<King * >(board->findPiece(Piece::KING, Piece::BLACK))->a_rook_moved) castling_rights += "q";
+
+	vector<Move> enpassant_moves = {
+		{"a2", "a4"},	
+		{"b2", "b4"},	
+		{"c2", "c4"},	
+		{"d2", "d4"},	
+		{"e2", "e4"},	
+		{"f2", "f4"},	
+		{"g2", "g4"},	
+		{"h2", "h4"},
+		{"a7", "a5"},	
+		{"b7", "b5"},	
+		{"c7", "c5"},	
+		{"d7", "d5"},	
+		{"e7", "e5"},	
+		{"f7", "f5"},	
+		{"g7", "g5"},	
+		{"h7", "h5"}	
+	};
+
+	if(findMove(*board->move_1_before, enpassant_moves) > 0){
+		char file = board->move_1_before->from.at(0);
+		int rank = int(board->move_1_before->from.at(1)) - 48;
+
+		int direction = (rank == 2) ? 1 : -1;
+
+		enpassant_square = string(1, file) + to_string(rank + direction);
+	}
+
+	fen += " " + move_for;
+	fen += " " + castling_rights;
+	fen += " " + enpassant_square;
 
 	return fen;
 }
@@ -121,4 +195,30 @@ string replaceSpaces(string fen){
 		}
 	}
 	return fen;
+}
+
+std::vector<std::string> splitString(const std::string& input, char delimiter) {
+    std::vector<std::string> result;
+    std::size_t startPos = 0;
+    std::size_t foundPos = input.find(delimiter);
+
+    while (foundPos != std::string::npos) {
+        std::string token = input.substr(startPos, foundPos - startPos);
+        result.push_back(token);
+        startPos = foundPos + 1;
+        foundPos = input.find(delimiter, startPos);
+    }
+
+    // Adding the remaining part of the string after the last delimiter
+    std::string lastToken = input.substr(startPos);
+    result.push_back(lastToken);
+
+    return result;
+}
+
+int findMove(Move move, vector<Move> moves){
+	for (size_t i = 0; i < moves.size(); i++){
+		if(move.from == moves.at(i).from && move.to == moves.at(i).to) return i;
+	}
+	return -1;
 }
