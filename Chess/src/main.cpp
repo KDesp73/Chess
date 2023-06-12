@@ -90,13 +90,13 @@ void handleOptions(int option){
 	Board b;
 	switch (option){
 		case 0:
-			b = Game::start(starting_fen, playingAs, showMaterial);
+			b = Game::start(starting_fen, playingAs, showMaterial, showMoves);
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
 			break;
 		case 1:
-			b = Game::start(getUserFEN(), playingAs, showMaterial);
+			b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves);
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();

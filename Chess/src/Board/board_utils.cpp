@@ -130,6 +130,9 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
 
     King *king = dynamic_cast<King *>(piece);
     
+    if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
+
+    if(king == NULL && Board::isPinned(move.to, piece, board)) return false;
 
     if(piece->type != Piece::KING){
         King *kingInCheck = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
@@ -144,10 +147,6 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
             return !isKingInCheckAfter;
         }
     }
-
-    if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
-
-    if(king == NULL && Board::isPinned(move.to, piece, board)) return false;
 
     if(piece->type == Piece::PAWN){
         if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;

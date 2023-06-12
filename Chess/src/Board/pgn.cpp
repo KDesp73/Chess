@@ -30,7 +30,6 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     if(temp_board->isInCheckmate(dynamic_cast<King *>(temp_board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE)))) isMate = true;
 
     temp_board = new Board(Board::exportFEN(board));
-
     // Check if there is a need to specify the piece
     if(piece->type != Piece::PAWN && piece->type != Piece::KING){
         Piece *piece1 = temp_board->findPiece(piece->type, piece->color);
