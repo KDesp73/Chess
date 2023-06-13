@@ -2,8 +2,8 @@
 #include <string>
 
 #include "chess_lib.h"
-#include "Tests/tests.h"
-#include "Tests/test_fens.h"
+#include "../tests/tests.h"
+#include "../tests/test_fens.h"
 #include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
 using namespace AnsiTextLib;
@@ -15,7 +15,7 @@ static string promoting_testing_fen = "1b6/P7/8/3k4/5K2/8/p7/1B6";
 static string random_fen = "r3kb1r/1pp5/p1b2p1p/4p3/8/2N2N2/PPP2PPP/3RR1K1";
 static string enpassant_fen = "k7/3p1p2/8/4P3/3p4/8/2P1P3/7K";
 static string side_enpassant_fen = "k7/6p1/8/7P/p7/8/1P6/7K";
-static string absured_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2BQ/QQQRPKQQ/QQQQBQQQ"; 
+static string absurd_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2BQ/QQQRPKQQ/QQQQBQQQ"; 
 
 
 static bool showMaterial = true;

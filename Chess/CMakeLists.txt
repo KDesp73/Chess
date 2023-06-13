@@ -34,12 +34,13 @@ set(SOURCES
     src/Pieces/Pieces.cpp
     src/Pieces/Queen.cpp
     src/Pieces/Rook.cpp
-
-    src/Tests/tests.h
-    src/Tests/test_fens.h
-    src/Tests/tests.cpp
 )
 
+set(TESTS
+    tests/tests.h
+    tests/test_fens.h
+    tests/tests.cpp
+)
 
 add_executable(Chess ${SOURCES})
 
