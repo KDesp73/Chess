@@ -221,14 +221,14 @@ Piece* Board::findPiece(string square){
     return this->findPiece(translateSquare(square));
 }
 
-bool Board::isProtected(Piece *piece, Board *board) {
+bool Board::isProtected(Piece *piece) {
     if (piece == NULL) return false;
     char temp_board[8][8];
-    memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
+    memcpy(temp_board, this->board, 8 * 8 * sizeof(char));
     temp_board[translateSquare(piece->currentSquare).x]
               [translateSquare(piece->currentSquare).y] = ' ';
 
-    King *opponentsKing = dynamic_cast<King *>(board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE));
+    King *opponentsKing = dynamic_cast<King *>(this->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE));
 
     if(opponentsKing != NULL){
         temp_board[translateSquare(opponentsKing->currentSquare).x]
@@ -237,12 +237,12 @@ bool Board::isProtected(Piece *piece, Board *board) {
 
     Board b{temp_board};
     
-    for(Piece *p : board->getPieces(piece->color)->pieces){
-        if(Board::isPinned(piece->currentSquare, piece, board)) continue;;
+    for(Piece *p : this->getPieces(piece->color)->pieces){
+        if(this->isPinned(piece->currentSquare, piece)) continue;;
         if(!p->isValidMove(piece->currentSquare, temp_board)) continue;
 
         if(piece->type == Piece::PAWN){
-            if(dynamic_cast<Pawn *>(piece)->isValidCapture(piece->currentSquare, board->board)) return true;
+            if(dynamic_cast<Pawn *>(piece)->isValidCapture(piece->currentSquare, this->board)) return true;
         }
 
         return true;
@@ -251,17 +251,17 @@ bool Board::isProtected(Piece *piece, Board *board) {
     return false;
 }
 
-bool Board::isPinned(string to, Piece *piece, Board *board){
-    Pieces *pieces = board->getPieces(piece->color);
-    King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
+bool Board::isPinned(string to, Piece *piece){
+    Pieces *pieces = this->getPieces(piece->color);
+    King *king = dynamic_cast<King *>(this->findPiece(Piece::KING, piece->color));
 
     if(piece->type == Piece::KING) return false;
 
-    vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(board->board);
+    vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(this->board);
 
     // if removing the piece causes the king to be in check then it's pinned
     char temp_board[8][8];
-    std::memcpy(temp_board, board->board, 8 * 8 * sizeof(char));
+    std::memcpy(temp_board, this->board, 8 * 8 * sizeof(char));
     
     BoardUtils::makeMove(piece->currentSquare, to, temp_board);
 

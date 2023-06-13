@@ -30,6 +30,8 @@ class Board{
         bool isThreeFoldRepetition();
         bool isDrawDueToInsufficientMaterial();
         bool isFiftyMoveRule();
+        bool isProtected(Piece *piece);
+        bool isPinned(string to, Piece *piece);
 
         void resetMovesSinceCapture();
         Pieces* getPieces(string color);
@@ -60,8 +62,6 @@ class Board{
         static Move pgnMoveToMove(string algebraicNotation, Board *board);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
-        static bool isProtected(Piece *piece, Board *board);
-        static bool isPinned(string to, Piece *piece, Board *board);
         static vector<string> getValidMoves(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board, char promoteTo = '-');

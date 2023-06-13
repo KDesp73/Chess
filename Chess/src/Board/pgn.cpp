@@ -13,23 +13,32 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     bool specifyPieceRank = false;
     bool specifyPieceFile = false;
 
+    Piece *piece = board->findPiece(move.from);
+    char pieceChar = toupper(board->board[translateSquare(move.from).x][translateSquare(move.from).y]);
+    char pieceToCaptureChar = board->board[translateSquare(move.to).x][translateSquare(move.to).y];
+
+    // Make the move to check if it's check or mate
     Board *temp_board = new Board(Board::exportFEN(board));
     Board::moveFreely(move, temp_board, promoteTo);
 
-    Piece *piece = board->findPiece(move.from);
-    char pieceChar = board->board[translateSquare(move.from).x][translateSquare(move.from).y];
-    pieceChar = toupper(pieceChar);
-    char pieceToCaptureChar = board->board[translateSquare(move.to).x][translateSquare(move.to).y];
 
     if(piece->type == Piece::PAWN) addPieceChar = false;
+
     if(!dynamic_cast<King *>(temp_board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE))->isInCheck(temp_board->board).empty()) isCheck = true;
-    if(pieceToCaptureChar != ' ') isCapture = true;
+    
+    if(pieceToCaptureChar != ' ') isCapture = true;    
     if(dynamic_cast<Pawn *>(piece) != NULL && dynamic_cast<Pawn *>(piece)->canEnpassant(move.to, board->getMove1Before())) isCapture = true;
-    if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) < 0) isCastles = true;
-    if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) > 0) isCastlesLong = true;
+    
+    if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) > 0) isCastles = true;
+    if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) < 0) isCastlesLong = true;
+    
     if(temp_board->isInCheckmate(dynamic_cast<King *>(temp_board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE)))) isMate = true;
 
+    
+    // Reset the board before the move
     temp_board = new Board(Board::exportFEN(board));
+
+
     // Check if there is a need to specify the piece
     if(piece->type != Piece::PAWN && piece->type != Piece::KING){
         Piece *piece1 = temp_board->findPiece(piece->type, piece->color);
@@ -55,7 +64,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
         if(canMoveToSquare1 && canMoveToSquare2 && (piece1Col == piece2Col)) specifyPieceFile = true;
     }
     
-
+    // Build the algebraic notation 
     string algebraicNotation = "";
 
     if(addPieceChar) algebraicNotation += pieceChar;

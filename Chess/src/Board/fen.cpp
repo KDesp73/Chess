@@ -159,8 +159,6 @@ string Board::exportFEN(char board[][8]){
 }
 
 
-
-
 bool Board::isValidFEN(string fen_string){
 	string accepted_fen_characters = "rnbkqpRNBKQP/12345678";
 	string accepted_castling_characters = "KkQq";

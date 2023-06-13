@@ -152,7 +152,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
 
     if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
 
-    if(king == NULL && Board::isPinned(move.to, piece, board)) return false;
+    if(king == NULL && board->isPinned(move.to, piece)) return false;
 
     // If the King in check, see if the move resolves the check
     if(piece->type != Piece::KING){

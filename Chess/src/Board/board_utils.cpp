@@ -139,7 +139,7 @@ int BoardUtils::kingWantsToCastle(Move move){
 
     if(abs(fromCol - toCol) != 2) return 0;
 
-    return fromCol - toCol;
+    return toCol - fromCol;
 }
 
 int BoardUtils::calcDirection(King *king, string square){
@@ -173,7 +173,7 @@ bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
         }
     }
 
-    return !(pieceToCapture != NULL && Board::isProtected(pieceToCapture, board));
+    return !(pieceToCapture != NULL && board->isProtected(pieceToCapture));
 }
 
 bool BoardUtils::canRookBeBlocked(Rook *rook, King *king, Board *board){
