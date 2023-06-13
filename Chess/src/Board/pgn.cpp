@@ -24,7 +24,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     if(piece->type == Piece::PAWN) addPieceChar = false;
     if(!dynamic_cast<King *>(temp_board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE))->isInCheck(temp_board->board).empty()) isCheck = true;
     if(pieceToCaptureChar != ' ') isCapture = true;
-    if(dynamic_cast<Pawn *>(piece) != NULL && dynamic_cast<Pawn *>(piece)->canEnpassant(move.to, *board->move_1_before)) isCapture = true;
+    if(dynamic_cast<Pawn *>(piece) != NULL && dynamic_cast<Pawn *>(piece)->canEnpassant(move.to, board->getMove1Before())) isCapture = true;
     if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) < 0) isCastles = true;
     if(dynamic_cast<King *>(piece) != NULL && kingWantsToCastle(move) > 0) isCastlesLong = true;
     if(temp_board->isInCheckmate(dynamic_cast<King *>(temp_board->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE)))) isMate = true;
@@ -100,6 +100,6 @@ Move Board::pgnMoveToMove(string algebraicNotation, Board *board){
     return Move{};
 }
 
-void importPGN(string pgn){
+void Board::importPGN(string pgn){
     cerr << "Not yet implemented" << endl;
 }

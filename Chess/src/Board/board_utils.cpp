@@ -123,53 +123,6 @@ bool BoardUtils::isValidSquare(string square){
     return true;
 }
 
-bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) {
-    if(piece == NULL || piece == nullptr) return false;
-
-    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
-
-    King *king = dynamic_cast<King *>(piece);
-    
-    if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
-
-    if(king == NULL && Board::isPinned(move.to, piece, board)) return false;
-
-    if(piece->type != Piece::KING){
-        King *kingInCheck = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
-        bool isKingInCheck = !kingInCheck->isInCheck(board->board).empty();
-        if(isKingInCheck){
-            Board *temp_board = new Board(Board::exportFEN(board));
-
-            if(piece->type == Piece::PAWN){
-                if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
-                if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), *board->move_1_before)) return true;
-            }
-
-            if(piece->isValidMove(move.to, temp_board->board)) Board::moveFreely(move, temp_board, promoteTo);
-
-            King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board->findPiece(Piece::KING, piece->color));
-            bool isKingInCheckAfter = !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
-            return !isKingInCheckAfter;
-        }
-    }
-
-    if(piece->type == Piece::PAWN){
-        if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
-        if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), *board->move_1_before)) return true;
-        if(dynamic_cast<Pawn *>(piece)->canPromote(move.to, board->board)) return true;
-    }
-
-    return piece->isValidMove(move.to, board->board);
-}
-
-bool BoardUtils::canMove(string color, string square, Board *board) {
-    Pieces *pieces = board->getPieces(color);
-    for (int i = 0; i < pieces->pieces.size(); i++)    {
-        if(BoardUtils::canMove(pieces->pieces.at(i), Move{pieces->pieces.at(i)->currentSquare, square}, board)) return true;
-    }
-    return false;
-}
-
 bool BoardUtils::contains(vector<string> moves, string move){
     for (int i = 0; i < moves.size(); i++){
         if(moves.at(i) == move) return true;
@@ -480,4 +433,21 @@ bool BoardUtils::canPieceBeBlocked(Piece *piece, King *king, Board *board){
         }
     }
     return false;
+}
+
+Rook* BoardUtils::getRookToCastle(int direction, string color, Board *board) {
+    Piece* wantedRook;
+    if (direction > 0 && color == "white") {
+        wantedRook = board->findPiece(Coords{0, 7});
+    } else if (direction < 0 && color == "white") {
+        wantedRook = board->findPiece(Coords{0, 0});
+    } else if (direction > 0 && color == "black") {
+        wantedRook = board->findPiece(Coords{7, 7});
+    } else if (direction < 0 && color == "black") {
+        wantedRook = board->findPiece(Coords{7, 0});
+    } else {
+        cout << "Something went wrong" << endl;
+    }
+
+    return dynamic_cast<Rook*>(wantedRook);
 }

@@ -74,7 +74,7 @@ bool Board::castleKing(string square, King *king, Board *board){
     int direction = toCol - fromCol;
     direction = (direction > 0) ? 1 : -1;
 
-    Rook* wantedRook = board->getRookToCastle(direction, king->color);
+    Rook* wantedRook = BoardUtils::getRookToCastle(direction, king->color, board);
 
     if (wantedRook == NULL) return false;
     wantedRook->printPiece();
@@ -85,23 +85,6 @@ bool Board::castleKing(string square, King *king, Board *board){
     Board::moveFreely(Move{wantedRook->currentSquare, targetRookSquare}, board);
 
     return true;
-}
-
-Rook* Board::getRookToCastle(int direction, string color) {
-    Piece* wantedRook;
-    if (direction > 0 && color == "white") {
-        wantedRook = this->findPiece(Coords{0, 7});
-    } else if (direction < 0 && color == "white") {
-        wantedRook = this->findPiece(Coords{0, 0});
-    } else if (direction > 0 && color == "black") {
-        wantedRook = this->findPiece(Coords{7, 7});
-    } else if (direction < 0 && color == "black") {
-        wantedRook = this->findPiece(Coords{7, 0});
-    } else {
-        cout << "Something went wrong" << endl;
-    }
-
-    return dynamic_cast<Rook*>(wantedRook);
 }
 
 bool Board::enpassantPawn(string square, Pawn *pawn, Board *board){
