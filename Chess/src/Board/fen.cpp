@@ -201,8 +201,10 @@ bool Board::isValidFEN(string fen_string){
 
 	string active_color = (move_for == "w") ? Piece::WHITE : Piece::BLACK;
 
-	Board board{fen_string};
-	if(!dynamic_cast<King *>(board.findPiece(Piece::KING, active_color))->isInCheck(board.board).empty()) return false;
+	Board *board = new Board(fen_string);
+	if(!dynamic_cast<King *>(board->findPiece(Piece::KING, active_color))->isInCheck(board->board).empty()) return false;
+
+	delete board;
 
 	return true;
 }
