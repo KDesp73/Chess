@@ -43,6 +43,6 @@ set(TESTS
     tests/tests.cpp
 )
 
-add_executable(Chess ${SOURCES})
+add_executable(Chess ${SOURCES} ${TESTS})
 
 target_link_libraries(Chess AnsiTextManipulationLibrary)

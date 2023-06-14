@@ -1,8 +1,8 @@
 # include "tests.h"
 
-#include "../chess_lib.h"
-#include "../Board/board_utils.h"
-#include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
+#include "../src/chess_lib.h"
+#include "../src/Board/board_utils.h"
+#include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
 #include <iostream>
 #include <vector>

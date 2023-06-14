@@ -6,6 +6,8 @@
 #include "../tests/test_fens.h"
 #include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
+#define TESTS false
+
 using namespace AnsiTextLib;
 using namespace std;
 
@@ -134,6 +136,20 @@ void ChessMenu(){
 }
 
 int main(int argc, char** argv) {
+	if(TESTS){
+		Test::testCheckMate(TestFens::mate_fens);
+		cin.get();
+		Test::testCheck(TestFens::check_fens);
+		cin.get();
+		Test::testDrawDueToInsufficientMaterial(TestFens::ddtim_fens);
+		cin.get();
+		Test::testStaleMate(TestFens::stalemate_fens);
+		cin.get();
+		Test::testNotCheck(TestFens::should_not_be_check_fens);
+		cin.get();
+
+		exit(0);
+	}
 
 	ChessMenu();
 
