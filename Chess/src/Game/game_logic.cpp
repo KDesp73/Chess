@@ -51,7 +51,7 @@ void GameUtils::gameLoop(Board *board){
 
 bool GameUtils::turn(Pieces *p, Board *board){
 	Move move = GameUtils::prompt(p, board, board->prompt_type);
-	if(sizeof(move) == 0) {
+	if(move.from == "" || move.to == "" || sizeof(move) == 0) {
 		return false;
 	}
 	bool moveMade = Board::movePiece(move, board);
