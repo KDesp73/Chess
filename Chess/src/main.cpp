@@ -21,6 +21,7 @@ static string absurd_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2B
 static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
+static string prompt_type = "seperate";
 
 void ChessMenu();
 
@@ -58,6 +59,7 @@ void setSettings(){
 	string perspective;
 	string material;
 	string moves;
+	string prompt_t;
 
 	cout << "Play from the perspective of white or black? (w/b)" << endl;
 	do{
@@ -77,6 +79,12 @@ void setSettings(){
 		getline(cin, moves);
 	} while(moves != "y" && moves != "n" && moves != "Y" && moves != "N");
 
+	cout << "\nInput move in seperate lines or in one line? (s/o)" << endl;
+	do{
+		cout << "> ";
+		getline(cin, prompt_t);
+	} while(prompt_t != "s" && prompt_t != "S" && prompt_t != "o" && prompt_t != "O");
+
 
 	if(perspective == "w" || perspective == "W") playingAs = Piece::WHITE;
 	if(perspective == "b" || perspective == "B") playingAs = Piece::BLACK;
@@ -87,19 +95,22 @@ void setSettings(){
 	if(moves == "y" || moves == "Y") showMoves = true;
 	if(moves == "n" || moves == "N") showMoves = false;
 
+	if(prompt_t == "s" || prompt_t == "S") prompt_type = Board::SEPERATE;
+	if(prompt_t == "o" || prompt_t == "O") prompt_type = Board::ONELINE;
+
 }
 
 void handleOptions(int option){
 	Board b;
 	switch (option){
 		case 0:
-			b = Game::start(starting_fen, playingAs, showMaterial, showMoves);
+			b = Game::start(starting_fen, playingAs, showMaterial, showMoves, prompt_type);
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
 			break;
 		case 1:
-			b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves);
+			b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves, prompt_type);
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();

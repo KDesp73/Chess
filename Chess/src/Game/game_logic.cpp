@@ -7,7 +7,7 @@
 
 
 namespace GameUtils {
-	Move prompt(Pieces* p, Board *board);
+	Move prompt(Pieces* p, Board *board, string type);
 	bool turn(Pieces *p, Board *board);
 	bool isMate(Board *board);
 	bool isDraw(Board *board);
@@ -15,10 +15,8 @@ namespace GameUtils {
 };
 
 
-
-
-Board Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves){
-	Board mainBoard (starting_fen, playingAs, showMaterial, showMoves);
+Board Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, string prompt_type){
+	Board mainBoard (starting_fen, playingAs, showMaterial, showMoves, prompt_type);
 	mainBoard.printBigBoard();
 	
 	GameUtils::gameLoop(&mainBoard);
@@ -28,13 +26,13 @@ Board Game::start(string starting_fen, string playingAs, bool showMaterial, bool
 	return mainBoard;
 }
 
+
+
 void GameUtils::gameLoop(Board *board){
-	if(isMate(board)) return;
-	if(isDraw(board)) return;
 
 	string playing = board->moveFor;
-
-	do{
+	
+	while(!GameUtils::isMate(board) && !GameUtils::isDraw(board)){
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
@@ -48,11 +46,11 @@ void GameUtils::gameLoop(Board *board){
 				playing = "white";
 		}
 		board->moveFor = playing;
-	} while(!GameUtils::isMate(board) && !GameUtils::isDraw(board));
+	}
 }
 
 bool GameUtils::turn(Pieces *p, Board *board){
-	Move move = GameUtils::prompt(p, board);
+	Move move = GameUtils::prompt(p, board, board->prompt_type);
 	if(sizeof(move) == 0) {
 		return false;
 	}
@@ -63,26 +61,44 @@ bool GameUtils::turn(Pieces *p, Board *board){
 	return moveMade;
 }
 
-Move GameUtils::prompt(Pieces* p, Board *board){
+Move GameUtils::prompt(Pieces* p, Board *board, string type){
 	string from, to;
+	string end_keycode = "#end";
 	
-	cout << "From: ";
-	cin >> from;
-	
-	if(from == "#end"){
-		cout << "\nFEN: " << Board::exportFEN(board) << endl;
-		cout << "PGN: " << board->exportPGN() << endl;
-		exit(0);
-	}
-	
-	cout << "To: ";
-	cin >> to;
+	if(type == Board::SEPERATE){
+		cout << "From: ";
+		cin >> from;
+		
+		if(from == end_keycode){
+			cout << "\nFEN: " << Board::exportFEN(board) << endl;
+			cout << "PGN: " << board->exportPGN() << endl;
+			exit(0);
+		}
+		
+		cout << "To: ";
+		cin >> to;
 
-	if(to == "#end"){
-		cout << "\nFEN: " << Board::exportFEN(board) << endl;
-		cout << "PGN: " << board->exportPGN() << endl;
-		exit(0);
-	}
+		if(to == end_keycode){
+			cout << "\nFEN: " << Board::exportFEN(board) << endl;
+			cout << "PGN: " << board->exportPGN() << endl;
+			exit(0);
+		}
+	} else if(type == Board::ONELINE){
+		string move;
+		cout << "Move: ";
+		cin >> move;
+
+		if(move == end_keycode){
+			cout << "\nFEN: " << Board::exportFEN(board) << endl;
+			cout << "PGN: " << board->exportPGN() << endl;
+			exit(0);
+		}
+
+		if(move.size() != 4) return {};
+
+		from = move.substr(0, 2);
+		to = move.substr(2, 2);
+	} else cerr << "Something went wrong" << endl;
 
 	cout << endl;
 

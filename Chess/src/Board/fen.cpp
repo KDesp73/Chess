@@ -52,7 +52,7 @@ void Board::importFEN(string fen){
 			int rank = int(enpassant_square.at(1)) - 48;
 			int direction = (rank == 3) ? 1 : -1;
 
-			this->move_1_before = new Move{string(1, file) + to_string(rank - 1 * direction), string(1, file) + to_string(rank + 1 * direction)};
+			this->setMove1Before(Move{string(1, file) + to_string(rank - 1 * direction), string(1, file) + to_string(rank + 1 * direction)});
 		} else enpassant_square = "-";
 	}
 
@@ -123,9 +123,9 @@ string Board::exportFEN(Board *board){
 		{"h7", "h5"}	
 	};
 
-	if(findMove(*board->move_1_before, enpassant_moves) > 0){
-		char file = board->move_1_before->from.at(0);
-		int rank = int(board->move_1_before->from.at(1)) - 48;
+	if(findMove(board->getMove1Before(), enpassant_moves) > 0){
+		char file = board->getMove1Before().from.at(0);
+		int rank = int(board->getMove1Before().from.at(1)) - 48;
 
 		int direction = (rank == 2) ? 1 : -1;
 
@@ -157,8 +157,6 @@ string Board::exportFEN(char board[][8]){
 
 	return fen;
 }
-
-
 
 
 bool Board::isValidFEN(string fen_string){
@@ -199,10 +197,10 @@ bool Board::isValidFEN(string fen_string){
 	if(enpassant_square.size() != 2 && enpassant_square != "-") return false;
 
 
-	string active_color = (move_for == "w") ? Piece::WHITE : Piece::BLACK;
+	string non_active_color = (move_for == "w") ? Piece::BLACK : Piece::WHITE;
 
 	Board *board = new Board(fen_string);
-	if(!dynamic_cast<King *>(board->findPiece(Piece::KING, active_color))->isInCheck(board->board).empty()) return false;
+	if(!dynamic_cast<King *>(board->findPiece(Piece::KING, non_active_color))->isInCheck(board->board).empty()) return false;
 
 	delete board;
 

@@ -19,6 +19,7 @@ set(SOURCES
     src/Board/pgn.cpp
     src/Board/special_piece_moves.cpp
     src/Board/king_checks.cpp
+    src/Board/movement.cpp
     src/Board/structs.h
     
     src/Game/game_logic.cpp

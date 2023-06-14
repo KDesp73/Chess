@@ -8,21 +8,13 @@
 using namespace std;
 
 class Board{
-    private:
-        Pieces *wp = new WhitePieces();
-        Pieces *bp = new BlackPieces();
-        unordered_map<string, int> past_board_states;
-        string outcome = "";
-        int moves_since_capture = 0;
-        string castling_rights;
     public:
         string playingAs;
         bool showMaterial;
         bool showMoves;
         string moveFor;
+        string prompt_type;
 
-        Move *move_1_before = new Move(Move{"a1", "a1"});
-        Move *move_2_before = new Move(Move{"a1", "a1"});
         char board[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -33,73 +25,44 @@ class Board{
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
-        string pgn = "";
-        vector<string> pgn_moves;
         
-
-
-
-        ~Board(){
-        }
-        Board(){};
-        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
-            this->playingAs = playingAs;
-            this->showMaterial = showMaterial;
-            this->showMoves = showMoves;
-            importFEN(fen);
-            wp->loadPieces(board);
-            bp->loadPieces(board);
-
-            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::WHITE)));
-            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::BLACK)));
-
-            past_board_states.insert({fen, 1});
-        }
-
-        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
-            this->playingAs = playingAs;
-            this->showMaterial = showMaterial;
-            this->showMoves = showMoves;
-            Board::copyBoard(board, this->board);
-            wp->loadPieces(board);
-            bp->loadPieces(board);
-
-            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::WHITE)));
-            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::BLACK)));
-
-            past_board_states.insert({Board::exportFEN(board), 1});
-        }
-
-        Pieces* getPieces(string color);
-        void importFEN(string fen);
-        string exportPGN();
-        void importPGN(string pgn);
-        void printBoard();
-        void printBigBoard();
-        void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
-        Piece *findPiece(string type, string color);
-        int findPiece(Piece *);
-        Piece* findPiece(Coords coords);
-        Piece*findPiece(string square);
-        Rook* getRookToCastle(int direction, string color);
         bool isInCheckmate(King *king);
 		bool isInStalemate(King *king);
         bool isThreeFoldRepetition();
         bool isDrawDueToInsufficientMaterial();
         bool isFiftyMoveRule();
-        void pushBoardState(string fen);
-        int quantityOfPiece(string type, string color);
-        void increaceMovesSinceCapture();
+        bool isProtected(Piece *piece);
+        bool isPinned(string to, Piece *piece);
+
         void resetMovesSinceCapture();
+        Pieces* getPieces(string color);
         void setOutcome(string outcome);
         void setKingsCastlingRights(King *king);
+        void increaceMovesSinceCapture();
+        void setMove1Before(Move move);
+        Move getMove1Before();
+
+        void importFEN(string fen);
+        void importPGN(string pgn);
+        string exportPGN();
+        
+        void printBoard();
+        void printBigBoard();
+        void scanBoard(vector<Piece*> whitePieces, vector<Piece*> blackPieces);
+
+        Piece *findPiece(string type, string color);
+        int findPiece(Piece *piece);
+        Piece* findPiece(Coords coords);
+        Piece*findPiece(string square);
+        
+        void pushBoardState(string fen);
+        void pushMove(string move);
+        int quantityOfPiece(string type, string color);
         
         static string moveToPGNMove(Move m, Board *board, char promoteTo = '-');
         static Move pgnMoveToMove(string algebraicNotation, Board *board);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
-        static bool isProtected(Piece *piece, Board *board);
-        static bool isPinned(string to, Piece *piece, Board *board);
         static vector<string> getValidMoves(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
         static void moveFreely(Move move, Board *board, char promoteTo = '-');
@@ -114,4 +77,43 @@ class Board{
         static bool isValidFEN(string fen);
         static string exportFEN(Board *board);
         static string exportFEN(char board[][8]);
+
+
+        ~Board(){}
+        Board(){};
+        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE){
+            this->playingAs = playingAs;
+            this->showMaterial = showMaterial;
+            this->showMoves = showMoves;
+            this->prompt_type = prompt_type;
+
+            importFEN(fen);
+            wp->loadPieces(board);
+            bp->loadPieces(board);
+
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::WHITE)));
+            setKingsCastlingRights(dynamic_cast<King *>(findPiece(Piece::KING, Piece::BLACK)));
+
+            past_board_states.insert({fen, 1});
+        }
+
+        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE){
+            Board(Board::exportFEN(board), playingAs, showMaterial, showMoves, prompt_type);
+        }
+
+
+    private:
+        Pieces *wp = new WhitePieces();
+        Pieces *bp = new BlackPieces();
+        Move move_1_before{"a1", "a1"};
+        unordered_map<string, int> past_board_states;
+        string outcome = "";
+        int moves_since_capture = 0;
+        string castling_rights;
+        string pgn = "";
+        vector<string> pgn_moves;
+
+    public:
+        static const string ONELINE;
+        static const string SEPERATE;
 };

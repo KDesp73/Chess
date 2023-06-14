@@ -33,13 +33,9 @@ bool Board::isInCheckmate(King *king) {
     }
 
     if (!kingsValidMoves.empty()) return false;
-
     if (piecesThatCheckTheKing.size() > 1) return true;
-
     // Check if piece that checks the king can be captured
-    if(BoardUtils::canMove(king->color, piecesThatCheckTheKing.at(0)->currentSquare, this)) {
-        return false;
-    }
+    if(BoardUtils::canMove(king->color, piecesThatCheckTheKing.at(0)->currentSquare, this)) return false;
 
     // Check if check can be blocked
     Pawn *pawn = dynamic_cast<Pawn *>(piecesThatCheckTheKing.at(0));
@@ -165,7 +161,6 @@ bool Board::isInCheckmate(King *king) {
             } else if(rowDiff < 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 + i);
-                    if (BoardUtils::canMove(king->color, squareToCheck, this))
                         return true;
                 }
             }
