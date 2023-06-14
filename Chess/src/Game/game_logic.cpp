@@ -98,7 +98,7 @@ Move GameUtils::prompt(Pieces* p, Board *board, string type){
 
 		from = move.substr(0, 2);
 		to = move.substr(2, 2);
-	}
+	} else cerr << "Something went wrong" << endl;
 
 	cout << endl;
 

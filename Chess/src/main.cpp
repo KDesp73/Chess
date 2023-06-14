@@ -20,8 +20,8 @@ static string absurd_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2B
 
 static bool showMaterial = true;
 static bool showMoves = true;
-static string playingAs = Piece::WHITE;
-static string prompt_type = Board::SEPERATE;
+static string playingAs = "white";
+static string prompt_type = "seperate";
 
 void ChessMenu();
 
