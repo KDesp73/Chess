@@ -12,6 +12,9 @@ using namespace std;
 using namespace BoardUtils;
 using namespace AnsiTextLib;
 
+const string Board::ONELINE = "oneline";
+const string Board::SEPERATE = "seperate";
+
 Pieces* Board::getPieces(string color){
     if(color == Piece::WHITE) return wp;
     if(color == Piece::BLACK) return bp;

@@ -13,6 +13,7 @@ class Board{
         bool showMaterial;
         bool showMoves;
         string moveFor;
+        string prompt_type;
 
         char board[8][8] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -80,10 +81,12 @@ class Board{
 
         ~Board(){}
         Board(){};
-        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
+        Board(string fen, string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE){
             this->playingAs = playingAs;
             this->showMaterial = showMaterial;
             this->showMoves = showMoves;
+            this->prompt_type = prompt_type;
+
             importFEN(fen);
             wp->loadPieces(board);
             bp->loadPieces(board);
@@ -94,8 +97,8 @@ class Board{
             past_board_states.insert({fen, 1});
         }
 
-        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true){
-            Board(Board::exportFEN(board), playingAs, showMaterial, showMoves);
+        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE){
+            Board(Board::exportFEN(board), playingAs, showMaterial, showMoves, prompt_type);
         }
 
 
@@ -109,4 +112,8 @@ class Board{
         string castling_rights;
         string pgn = "";
         vector<string> pgn_moves;
+
+    public:
+        static const string ONELINE;
+        static const string SEPERATE;
 };
