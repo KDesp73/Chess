@@ -24,6 +24,32 @@ Two player Chess written in C++ with CLI
 - No computer opponent
 - CLI only (no GUI)
 
+## Basic API
+
+### Create a board
+
+```cpp
+Board *board = new Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE);
+```
+
+### Make a move
+
+```cpp
+Board::movePiece(Move move, Board *board);
+```
+
+### Export FEN
+
+```cpp
+Board::exportFEN(Board *board);
+```
+
+### Export PGN
+
+```cpp
+board->exportPGN();
+```
+
 ## ToDo
 
 - [ ] PGN Import
