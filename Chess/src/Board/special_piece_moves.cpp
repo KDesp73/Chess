@@ -31,6 +31,11 @@ bool Board::promotePawn(string square, Pawn *pawn, Board *board, char promoteTo)
     Coords currentCoords = translateSquare(pawn->currentSquare);
     if (currentCoords.x != promotionRank - direction) return false;
 
+    Piece *pieceToCapture = board->findPiece(square);
+    if(pieceToCapture != NULL){
+        Board::removePieceFreely(square, board);
+    }
+
     Piece* promoted;
     string color = pawn->color;
     Board::removePieceFreely(pawn->currentSquare, board);

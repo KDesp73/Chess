@@ -32,12 +32,12 @@ bool Board::movePiece(Move move, Board *board) {
 
     // Pawn Promotion
     if(pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        char promoteTo = Board::promoteTo();
+        promoteTo = Board::promoteTo();
         if(BoardUtils::canMove(pawn, move, board, promoteTo) && promoteTo != '-'){
             board->setMove1Before(move); 
             board->pushBoardState(Board::exportFEN(board->board));
 
-            string algebraic_notation = Board::moveToPGNMove(move, new Board(current_fen));
+            string algebraic_notation = Board::moveToPGNMove(move, new Board(current_fen), promoteTo);
             board->pgn_moves.push_back(algebraic_notation);
 
             return Board::promotePawn(move.to, pawn, board, promoteTo);
