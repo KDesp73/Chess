@@ -1,18 +1,13 @@
 #include <iostream>
 
 #include "game_logic.h"
+#include "game_utils.h"
 #include "../Pieces/Pieces.h"
 #include "../Board/board.h"
 #include "../Board/board_utils.h"
 
 
-namespace GameUtils {
-	Move prompt(Pieces* p, Board *board, string type);
-	bool turn(Pieces *p, Board *board);
-	bool isMate(Board *board);
-	bool isDraw(Board *board);
-	void gameLoop(Board *board);
-};
+
 
 
 Board Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, string prompt_type){
@@ -36,29 +31,29 @@ void GameUtils::gameLoop(Board *board){
 		if(playing == "white"){
 			cout << "White's turn" << endl;
 
-			bool moveMade = GameUtils::turn(board->getPieces(Piece::WHITE), board);
-			if(moveMade)
+			Move moveMade = GameUtils::turn(board->getPieces(Piece::WHITE), board);
+			if(moveMade.from != "" && moveMade.to != "")
 				playing = "black";
 		} else {
 			cout << "Black's turn" << endl;
-			bool moveMade = GameUtils::turn(board->getPieces(Piece::BLACK), board);
-			if(moveMade)
+			Move moveMade = GameUtils::turn(board->getPieces(Piece::BLACK), board);
+			if(moveMade.from != "" && moveMade.to != "")
 				playing = "white";
 		}
 		board->moveFor = playing;
 	}
 }
 
-bool GameUtils::turn(Pieces *p, Board *board){
+Move GameUtils::turn(Pieces *p, Board *board){
 	Move move = GameUtils::prompt(p, board, board->prompt_type);
 	if(move.from == "" || move.to == "" || sizeof(move) == 0) {
-		return false;
+		return {};
 	}
 	bool moveMade = Board::movePiece(move, board);
 	if(moveMade)
 		board->printBigBoard();
 
-	return moveMade;
+	return move;
 }
 
 Move GameUtils::prompt(Pieces* p, Board *board, string type){

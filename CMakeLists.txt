@@ -38,6 +38,7 @@ set(SOURCES
     
     src/Game/game_logic.cpp
     src/Game/game_logic.h
+    src/Game/game_utils.h
 
 
     src/Pieces/Bishop.cpp
@@ -52,7 +53,6 @@ set(SOURCES
 
     src/GUI/gui.cpp
     src/GUI/gui.h
-    src/GUI/Board/board.h
     src/GUI/Board/board.cpp
     src/GUI/Rendering/rendering.h
     src/GUI/Rendering/rendering.cpp

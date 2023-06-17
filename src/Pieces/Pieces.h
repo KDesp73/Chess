@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "../Board/structs.h"
+#include "../GUI/Rendering/rendering.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ class Piece {
 		static const string KNIGHT;
 		static const string PAWN;
 
+		Image image;
 		string currentSquare;
 		string color;
 		char boardChar;

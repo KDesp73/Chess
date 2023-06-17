@@ -1,22 +1,22 @@
 #include "rendering.h"
-#include <iostream>
+#include "../gui.h"
 
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "SDL_image.h"
 
 using namespace std;
 
-void Rendering::drawBoard(int squareSize, SDL_Color white, SDL_Color black, string playingAs, SDL_Renderer *renderer){
+void Rendering::drawBoard(SDL_Color white, SDL_Color black, string playingAs, SDL_Renderer *renderer){
     int rows = 8;
     int columns = 8;
     SDL_Color color;
+    int size = GUI::size;
 
-    SDL_RenderClear(renderer);
-
-     for (int i = 0; i < rows; i++) {
+    for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            int x = j * squareSize;
-            int y = i * squareSize;
+            int x = j * GUI::size;
+            int y = i * GUI::size;
 
             // Set the color based on the position
             if(playingAs == "white") color = (i + j) % 2 == 0 ? white : black;
@@ -25,19 +25,18 @@ void Rendering::drawBoard(int squareSize, SDL_Color white, SDL_Color black, stri
 
             SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
-            SDL_Rect square = {x, y, squareSize, squareSize};
+            SDL_Rect square = {x, y, GUI::size, GUI::size};
             SDL_RenderFillRect(renderer, &square);
         }
     }
-
-    SDL_RenderPresent(renderer);
 }
 
-void Rendering::renderImage(string path, int x, int y, int size, SDL_Renderer* renderer) {
+Image Rendering::renderImage(string path, int x, int y, SDL_Renderer* renderer) {
+    int size = GUI::size;
     SDL_Surface* imageSurface = IMG_Load(path.c_str());
     if (!imageSurface) {
         printf("Failed to load image: %s\n", IMG_GetError());
-        return;
+        return {};
     }
 
     // Create a new surface with the desired dimensions for the resized image
@@ -47,7 +46,7 @@ void Rendering::renderImage(string path, int x, int y, int size, SDL_Renderer* r
     if (!resizedSurface) {
         printf("Failed to create resized surface: %s\n", SDL_GetError());
         SDL_FreeSurface(imageSurface);
-        return;
+        return {};
     }
 
     // Resize the original image onto the new surface
@@ -55,7 +54,7 @@ void Rendering::renderImage(string path, int x, int y, int size, SDL_Renderer* r
         printf("Failed to resize image: %s\n", SDL_GetError());
         SDL_FreeSurface(imageSurface);
         SDL_FreeSurface(resizedSurface);
-        return;
+        return {};
     }
 
     // Create the texture from the resized surface
@@ -64,7 +63,7 @@ void Rendering::renderImage(string path, int x, int y, int size, SDL_Renderer* r
         printf("Failed to create texture: %s\n", SDL_GetError());
         SDL_FreeSurface(imageSurface);
         SDL_FreeSurface(resizedSurface);
-        return;
+        return {};
     }
 
     // Get the dimensions of the image
@@ -84,6 +83,5 @@ void Rendering::renderImage(string path, int x, int y, int size, SDL_Renderer* r
     // Render the texture onto the renderer
     SDL_RenderCopy(renderer, texture, nullptr, &imageRect);
 
-    // Destroy the texture to avoid memory leaks
-    SDL_DestroyTexture(texture);
+    return Image{texture, imageRect};
 }

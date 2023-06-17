@@ -1,10 +1,15 @@
+#pragma once
 
 #include <iostream>
 #include "SDL.h"
 
 #include "Rendering/rendering.h"
-#include "Board/board.h"
+#include "../chess_lib.h"
 
-namespace GUI{
-    void init(int size, string fen, string playingAs);
+class GUI{
+    public:
+        static int size;
+        static void init(int size, Board *board);
+        static void loadPosition(Board *board, SDL_Renderer *renderer);
+        static void moveImage(Move move, Board *board, SDL_Renderer *renderer);
 };

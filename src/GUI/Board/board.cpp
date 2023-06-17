@@ -1,5 +1,4 @@
-#include "./board.h"
-
+#include "../gui.h"
 #include "../../chess_lib.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -38,26 +37,56 @@ string getPath(char pieceChar){
     return "";
 }
 
-void loadPosition(string fen, int size, string playingAs, SDL_Renderer *renderer){
-    if(!Board::isValidFEN(fen)){
-        cerr << "Invalid FEN" << endl;
-        return;
-    }
 
-    Board board = {fen};
+void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
+    int size = GUI::size;
 
     for (size_t i = 0; i < 8; i++){
         for (size_t j = 0; j < 8; j++){
-            string path = getPath(board.board[i][j]);
+            string path = getPath(board->board[i][j]);
             if(path == "") continue;
-            cout << path << endl;
 
+            Image image;
+            int x, y;
+            if(board->playingAs == "white") {
+                x = j;
+                y = (7-i);
+            } else if(board->playingAs == "black") {
+                x = j;
+                y = i;
+            } else return;
+            string abs_path = SDL_GetBasePath();
+            if(abs_path.find("build") != string::npos){
+                abs_path.replace(abs_path.find("build"), 5, "assets");
+            } else abs_path += "assets/";
 
-            if(playingAs == "white") Rendering::renderImage("../assets/" + path, j * size, (7-i) * size, size, renderer);   
-            else if(playingAs == "black") Rendering::renderImage("../assets/" + path, j * size, i * size, size, renderer);   
-            else return;
+            image = Rendering::renderImage(abs_path + path, x * size, y * size, renderer);   
+            
+            for(int k = 0; k < board->getPieces("white")->pieces.size(); k++){
+                Coords coords = BoardUtils::translateSquare(board->getPieces("white")->pieces.at(k)->currentSquare);
+                if(coords.x == x && coords.y == y){
+                    board->getPieces("white")->pieces.at(k)->image = image;
+                }
+            }
+        
+            for(int k = 0; k < board->getPieces("black")->pieces.size(); k++){
+                Coords coords = BoardUtils::translateSquare(board->getPieces("black")->pieces.at(k)->currentSquare);
+                if(coords.x == x && coords.y == y){
+                    board->getPieces("black")->pieces.at(k)->image = image;
+                }
+            }
         }
     }
-    SDL_RenderPresent(renderer);
     IMG_Quit();
+}
+
+void GUI::moveImage(Move move, Board *board, SDL_Renderer *renderer){
+    Piece *piece = board->findPiece(move.from);
+
+    SDL_DestroyTexture(piece->image.texture);
+    SDL_RenderCopy(renderer, piece->image.texture, nullptr, &piece->image.rect);
+    
+    Coords toCoords = BoardUtils::translateSquare(move.to);
+    piece->image.rect.x = toCoords.x * GUI::size;
+    piece->image.rect.y = toCoords.y * GUI::size;   
 }
