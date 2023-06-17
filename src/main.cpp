@@ -151,7 +151,10 @@ int main(int argc, char** argv) {
 		exit(0);
 	}
 
-	ChessMenu();
+    int squareSize = 60;
+	GUI::init(squareSize);
+
+	// ChessMenu();
 
 	return 0;
 }

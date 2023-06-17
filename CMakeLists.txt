@@ -4,6 +4,20 @@ project(Chess)
 
 include("./Ansi-Text-Manipulation-Library/AnsiTextLibrary/CMakeLists.txt")
 
+# Add SDL
+# sudo apt install cmake libsdl2-dev g++
+# sudo apt install cmake libsdl2-image-dev
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+INCLUDE(FindPkgConfig)
+
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
+
 set(CMAKE_CXX_STANDARD 11)
 
 # Add source files
@@ -35,6 +49,14 @@ set(SOURCES
     src/Pieces/Pieces.cpp
     src/Pieces/Queen.cpp
     src/Pieces/Rook.cpp
+
+    src/GUI/gui.cpp
+    src/GUI/gui.h
+    src/GUI/Board/board.h
+    src/GUI/Board/board.cpp
+    src/GUI/Rendering/rendering.h
+    src/GUI/Rendering/rendering.cpp
+
 )
 
 set(TESTS
@@ -46,3 +68,5 @@ set(TESTS
 add_executable(Chess ${SOURCES} ${TESTS})
 
 target_link_libraries(Chess AnsiTextManipulationLibrary)
+target_link_libraries(Chess ${SDL2_LIBRARIES})
+target_link_libraries(Chess ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
