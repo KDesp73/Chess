@@ -22,36 +22,87 @@ void GUI::init(int size, Board *board){
 
     bool quit = false;
     SDL_Event event;
+    string previousFEN;
     while (!quit) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 quit = true;
             }
-        }
-        string previousFEN = Board::exportFEN(board);
+        
+            previousFEN = Board::exportFEN(board);
+            string playing = board->moveFor;
+        
+            if(!GameUtils::isMate(board) && !GameUtils::isDraw(board)){
+                Board *prev_board = new Board(Board::exportFEN(board));
+                Move moveMade;
+                if(playing == "white"){
+                    int mouseX, mouseY;
 
-        string playing = board->moveFor;
-	
-        if(!GameUtils::isMate(board) && !GameUtils::isDraw(board)){
-            Board *prev_board = new Board(Board::exportFEN(board));
-            if(playing == "white"){
-                cout << "White's turn" << endl;
+                    Coords fromCoords, toCoords;
 
-                Move moveMade = GameUtils::turn(board->getPieces(Piece::WHITE), board);
-                if(moveMade.from != "" && moveMade.to != ""){
-                    playing = "black";
+                    if(event.type == SDL_MOUSEBUTTONDOWN){
+                        if(event.button.button == SDL_BUTTON_LEFT){
+                            cout << "Mouse clicked" << endl;
+                            mouseX = event.button.x;
+                            mouseY = event.button.y;
+                        
+                            if(sizeof(fromCoords) == 0){
+                                fromCoords = {mouseX / GUI::size, mouseY / GUI::size};
+                                BoardUtils::printCoords(fromCoords);
+                            } else {
+                                toCoords = {mouseX / GUI::size, mouseY / GUI::size};
+                                BoardUtils::printCoords(toCoords);
+                            }
+                            
+                        
+                            if(board->findPiece(BoardUtils::translateSquare(fromCoords))->color == "white"){
+                                Move move = {BoardUtils::translateSquare(fromCoords), BoardUtils::translateSquare(toCoords)};
+                                if(Board::movePiece(move, board)){
+                                    moveMade = move;
+                                } else toCoords = {};
+                            } else fromCoords = {};
+                        }
+                    }
+
+                    if(moveMade.from != "" && moveMade.to != ""){
+                        playing = "black";
+                    }
+                } else {
+                    int mouseX, mouseY;
+
+                    Coords fromCoords, toCoords;
+
+                    if(event.type == SDL_MOUSEBUTTONDOWN){
+                        if(event.button.button == SDL_BUTTON_LEFT){
+                            cout << "Mouse clicked" << endl;
+                            mouseX = event.button.x;
+                            mouseY = event.button.y;
+                        
+                            if(sizeof(fromCoords) == 0){
+                                fromCoords = {mouseX / GUI::size, mouseY / GUI::size};
+                            } else {
+                                toCoords = {mouseX / GUI::size, mouseY / GUI::size};
+                            }
+                            
+                        
+                            if(board->findPiece(BoardUtils::translateSquare(fromCoords))->color == "black"){
+                                Move move = {BoardUtils::translateSquare(fromCoords), BoardUtils::translateSquare(toCoords)};
+                                if(Board::movePiece(move, board)){
+                                    moveMade = move;
+                                } else toCoords = {};
+                            } else fromCoords = {};
+                        }
+                    }
+
+                    if(moveMade.from != "" && moveMade.to != ""){
+                        playing = "white";
+                    }
                 }
-            } else {
-                cout << "Black's turn" << endl;
-                Move moveMade = GameUtils::turn(board->getPieces(Piece::BLACK), board);
-                if(moveMade.from != "" && moveMade.to != ""){
-                    playing = "white";
-                }
+                board->moveFor = playing;
             }
-            board->moveFor = playing;
-        } else {
-            return;
         }
+
+        
 
         if(previousFEN == Board::exportFEN(board)) continue;
         Rendering::drawBoard(white, black, board->playingAs, renderer);
@@ -60,8 +111,48 @@ void GUI::init(int size, Board *board){
     }
 
 
+    
+
     // Clean up and quit SDL
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+Move GUI::turn(){
+    SDL_Event event;
+    int mouseXFROM, mouseYFROM;
+    int mouseXTO, mouseYTO;
+    int time = 0;
+    bool clicked = false;
+
+    while (!clicked && time != 2){
+
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_LEFT) {
+                        if(time == 0){
+                            mouseXFROM = event.button.x;
+                            mouseYFROM = event.button.y;
+                            time++;
+                            clicked = true;
+                            break;
+                        } else if(time == 1){
+                            mouseXTO = event.button.x;
+                            mouseYTO = event.button.y;
+                            time++;
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    Coords from = {mouseXFROM / GUI::size, mouseYFROM / GUI::size};
+    Coords to = {mouseXTO / GUI::size, mouseYTO / GUI::size};
+    Move move = {BoardUtils::translateSquare(from), BoardUtils::translateSquare(from)};
+
+    return move;
 }
