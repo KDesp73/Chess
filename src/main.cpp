@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
 	}
 
 	
-	GUI::init(60, new Board(starting_fen));
+	GUI::init(60, new Board(castling_testing_fen));
 
 	//ChessMenu();
 
