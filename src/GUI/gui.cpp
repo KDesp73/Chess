@@ -49,8 +49,6 @@ void GUI::init(int size, Board *board){
                 }
             }
             board->moveFor = playing;
-        } else {
-            return;
         }
 
         if(previousFEN == Board::exportFEN(board)) continue;
