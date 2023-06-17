@@ -116,4 +116,6 @@ class Board{
     public:
         static const string ONELINE;
         static const string SEPERATE;
+        static const string GUI;
+        static const string CLI;
 };

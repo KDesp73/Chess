@@ -14,6 +14,8 @@ using namespace AnsiTextLib;
 
 const string Board::ONELINE = "oneline";
 const string Board::SEPERATE = "seperate";
+const string Board::GUI = "gui";
+const string Board::CLI = "cli";
 
 Pieces* Board::getPieces(string color){
     if(color == Piece::WHITE) return wp;

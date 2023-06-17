@@ -18,6 +18,8 @@ bool Board::movePiece(Move move, Board *board) {
     pieceToMove = board->findPiece(move.from);
     pieceToCapture = board->findPiece(move.to);
 
+    if(pieceToMove == NULL) return false;
+
     Pawn *pawn = dynamic_cast<Pawn *>(pieceToMove);
     Rook *rook = dynamic_cast<Rook *>(pieceToMove);
     Knight *knight = dynamic_cast<Knight *>(pieceToMove);
