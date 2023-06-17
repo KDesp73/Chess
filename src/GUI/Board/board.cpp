@@ -38,7 +38,7 @@ string getPath(char pieceChar){
     return "";
 }
 
-void loadPosition(string fen, int size, SDL_Renderer *renderer){
+void loadPosition(string fen, int size, string playingAs, SDL_Renderer *renderer){
     if(!Board::isValidFEN(fen)){
         cerr << "Invalid FEN" << endl;
         return;
@@ -53,7 +53,9 @@ void loadPosition(string fen, int size, SDL_Renderer *renderer){
             cout << path << endl;
 
 
-            Rendering::renderImage("../assets/" + path, j * size, (7-i) * size, size, renderer);   
+            if(playingAs == "white") Rendering::renderImage("../assets/" + path, j * size, (7-i) * size, size, renderer);   
+            else if(playingAs == "black") Rendering::renderImage("../assets/" + path, j * size, i * size, size, renderer);   
+            else return;
         }
     }
     SDL_RenderPresent(renderer);

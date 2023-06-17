@@ -1,3 +1,3 @@
 #include "../Rendering/rendering.h"
 
-void loadPosition(string fen, int size, SDL_Renderer *renderer);
+void loadPosition(string fen, int size, string playingAs, SDL_Renderer *renderer);

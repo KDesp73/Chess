@@ -6,5 +6,5 @@
 #include "Board/board.h"
 
 namespace GUI{
-    void init(int size);
+    void init(int size, string fen, string playingAs);
 };

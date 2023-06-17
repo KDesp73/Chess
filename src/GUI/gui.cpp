@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void GUI::init(int squareSize){
+void GUI::init(int squareSize, string fen, string playingAs){
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Color white = {236, 202, 165};
@@ -11,11 +11,12 @@ void GUI::init(int squareSize){
     SDL_Window* window = SDL_CreateWindow("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, squareSize * 8, squareSize * 8, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Rendering::drawBoard(squareSize, white, black, renderer);
+    Rendering::drawBoard(squareSize, white, black, playingAs, renderer);
     // Rendering::renderImage("../assets/rook_b.png", 0, 0, squareSize, renderer);
     // Rendering::renderImage("../assets/knight_b.png", 1 * squareSize, 0, squareSize, renderer);
     // Rendering::renderImage("../assets/bishop_b.png", 2 * squareSize, 0, squareSize, renderer);
-    loadPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", squareSize, renderer);
+    // loadPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", squareSize, renderer);
+    loadPosition(fen, squareSize, playingAs, renderer);
 
     bool quit = false;
     SDL_Event event;

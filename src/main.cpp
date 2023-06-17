@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
 	}
 
     int squareSize = 60;
-	GUI::init(squareSize);
+	GUI::init(squareSize, "1b6/P7/8/3k4/5K2/8/p7/1B6", "black");
 
 	// ChessMenu();
 
