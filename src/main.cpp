@@ -24,6 +24,7 @@ static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
 static string prompt_type = "seperate";
+static string interface = "gui";
 
 void ChessMenu();
 
@@ -135,6 +136,10 @@ void ChessMenu(){
 	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Settings", "Exit"}, &handleOptions);
 }
 
+void SettingsMenu(){
+	
+}
+
 int main(int argc, char** argv) {
 	if(TESTS){
 		Test::testCheckMate(TestFens::mate_fens);
@@ -152,7 +157,7 @@ int main(int argc, char** argv) {
 	}
 
 	
-	GUI::init(60, new Board(castling_testing_fen));
+	GUI::init(60, new Board(absurd_mate));
 
 	//ChessMenu();
 
