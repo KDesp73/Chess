@@ -49,6 +49,18 @@ Board::exportFEN(Board *board);
 board->exportPGN();
 ```
 
+### Start CLI Game
+
+```cpp
+Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, std::string prompt_type);
+```
+
+### Start GUI Game
+
+```cpp
+GUI::init(int size, Board *board);
+```
+
 ## ToDo
 
 - [ ] PGN Import
