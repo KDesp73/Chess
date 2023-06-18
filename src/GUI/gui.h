@@ -11,6 +11,4 @@ class GUI{
         static int size;
         static void init(int size, Board *board);
         static void loadPosition(Board *board, SDL_Renderer *renderer);
-        static void moveImage(Move move, Board *board, SDL_Renderer *renderer);
-        static Move turn();
 };
