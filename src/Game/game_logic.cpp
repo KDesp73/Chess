@@ -17,7 +17,6 @@ void Game::start(Board *board, string interface){
 	} else if(interface == Board::GUI){
 		GUI::init(60, board);
 	}
-	cin.get();
 }
 
 
