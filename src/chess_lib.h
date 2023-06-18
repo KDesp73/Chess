@@ -7,3 +7,4 @@
 #include "Game/game_utils.h"
 #include "Pieces/Pieces.h"
 #include "GUI/gui.h"
+#include "Menu/menu.h"

@@ -79,14 +79,3 @@ void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
     }
     IMG_Quit();
 }
-
-void GUI::moveImage(Move move, Board *board, SDL_Renderer *renderer){
-    Piece *piece = board->findPiece(move.from);
-
-    SDL_DestroyTexture(piece->image.texture);
-    SDL_RenderCopy(renderer, piece->image.texture, nullptr, &piece->image.rect);
-    
-    Coords toCoords = BoardUtils::translateSquare(move.to);
-    piece->image.rect.x = toCoords.x * GUI::size;
-    piece->image.rect.y = toCoords.y * GUI::size;   
-}

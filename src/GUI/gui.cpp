@@ -79,6 +79,10 @@ void GUI::init(int size, Board* board) {
                             isPieceSelected = false;
                         }
                     }
+                } else{
+                    cout << "Press enter to return to menu..." << endl;
+                    cin.get();
+                    return;
                 }
 
                 if (previousFEN == Board::exportFEN(board)) continue;
@@ -95,43 +99,3 @@ void GUI::init(int size, Board* board) {
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
-/*
-Move GUI::turn(){
-    SDL_Event event;
-    int mouseXFROM, mouseYFROM;
-    int mouseXTO, mouseYTO;
-    int time = 0;
-    bool clicked = false;
-
-    while (!clicked && time != 2){
-
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_MOUSEBUTTONDOWN:
-                    if (event.button.button == SDL_BUTTON_LEFT) {
-                        if(time == 0){
-                            mouseXFROM = event.button.x;
-                            mouseYFROM = event.button.y;
-                            time++;
-                            clicked = true;
-                            break;
-                        } else if(time == 1){
-                            mouseXTO = event.button.x;
-                            mouseYTO = event.button.y;
-                            time++;
-                            break;
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-
-    Coords from = {mouseXFROM / GUI::size, mouseYFROM / GUI::size};
-    Coords to = {mouseXTO / GUI::size, mouseYTO / GUI::size};
-    Move move = {BoardUtils::translateSquare(from),
-BoardUtils::translateSquare(from)};
-
-    return move;
-}
-*/

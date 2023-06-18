@@ -57,6 +57,9 @@ set(SOURCES
     src/GUI/Rendering/rendering.h
     src/GUI/Rendering/rendering.cpp
 
+    src/Menu/menu.h
+    src/Menu/menu.cpp
+
 )
 
 set(TESTS

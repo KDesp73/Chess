@@ -24,9 +24,8 @@ static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
 static string prompt_type = "seperate";
-static string interface = "gui";
+static string interface = "cli";
 
-void ChessMenu();
 
 string getUserFEN(){
 	string user_fen;
@@ -103,25 +102,111 @@ void setSettings(){
 
 }
 
-void handleOptions(int option){
+void MenuHandles::handleInputOptions(int option){
+	switch (option){
+	case 0:
+		prompt_type = Board::SEPERATE;
+		break;
+	case 1:
+		prompt_type = Board::ONELINE;
+		break;
+	case 2:
+		Menu::SettingsSubMenu();
+	default:
+		break;
+	}
+}
+
+void MenuHandles::handlePerspectiveOptions(int option){
+	switch (option){
+	case 0: 
+		playingAs = Piece::WHITE;
+		break;
+	case 1: 
+		playingAs = Piece::BLACK;
+		break;
+	case 2:
+		Menu::SettingsSubMenu();
+	default:
+		break;
+	}
+}
+
+void MenuHandles::handleMovesOptions(int option){
+	switch (option){
+	case 0:
+		showMoves = true;
+		break;
+	case 1:
+		showMoves = false;
+		break;
+	case 2:
+		Menu::SettingsSubMenu();
+		break;
+	default:
+		break;
+	}
+}
+
+void MenuHandles::handleMaterialOptions(int option){
+	switch (option){
+	case 0:
+		showMaterial = true;
+		break;
+	case 1:
+		showMaterial = false;
+		break;
+	case 2:
+		Menu::SettingsSubMenu();
+		break;
+	default:
+		break;
+	}
+}
+
+void MenuHandles::handleInterfaceOptions(int option){
+	switch (option){
+	case 0:
+		interface = Board::CLI;
+		break;
+	case 1:
+		interface = Board::GUI;
+		break;
+	case 2:
+		Menu::SettingsSubMenu();
+		break;
+	default:
+		break;
+	}
+}
+
+void MenuHandles::handleMenuOptions(int option){
 	Board b;
 	switch (option){
 		case 0:
-			b = Game::start(starting_fen, playingAs, showMaterial, showMoves, prompt_type);
+			if(interface != Board::GUI){
+				b = Game::start(starting_fen, playingAs, showMaterial, showMoves, prompt_type);
+			} else{
+				b = {starting_fen, playingAs, showMaterial, showMoves, prompt_type};
+				GUI::init(60, &b);
+			}
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
 			break;
 		case 1:
-			b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves, prompt_type);
+			if(interface != Board::GUI){
+				b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves, prompt_type);
+			} else{
+				b = {getUserFEN(), playingAs, showMaterial, showMoves, prompt_type};
+				GUI::init(60, &b);
+			}
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
 			break;
 		case 2:
-			setSettings();
-			cout << "\n\nPress enter to return to menu..." << endl;
-			cin.get();
+			Menu::SettingsSubMenu();
 			break;
 		case 3:
 			exit(0);
@@ -129,15 +214,33 @@ void handleOptions(int option){
 			break;
 	}
 
-	ChessMenu();
+	Menu::ChessMenu();
 }
 
-void ChessMenu(){
-	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Settings", "Exit"}, &handleOptions);
-}
-
-void SettingsMenu(){
-	
+void MenuHandles::handleSettingsOptions(int option){
+	switch (option){
+	case 0:
+		Menu::InterfaceTypeSettingsSubMenu();
+		break;
+	case 1:
+		Menu::MaterialSettingsSubMenu();
+		break;
+	case 2:
+		Menu::MovesSettingsSubMenu();
+		break;
+	case 3:
+		Menu::PlayingAsSettingsSubMenu();
+		break;
+	case 4:
+		Menu::PromptTypeSettingsSubMenu();
+		break;
+	case 5:
+		Menu::ChessMenu();
+		break;
+	default:
+		break;
+	}
+	Menu::SettingsSubMenu();
 }
 
 int main(int argc, char** argv) {
@@ -157,9 +260,9 @@ int main(int argc, char** argv) {
 	}
 
 	
-	GUI::init(60, new Board(absurd_mate));
+	//GUI::init(60, new Board(absurd_mate));
 
-	//ChessMenu();
+	Menu::ChessMenu();
 
 	return 0;
 }
