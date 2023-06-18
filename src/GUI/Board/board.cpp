@@ -52,7 +52,7 @@ void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
                 x = j;
                 y = (7-i);
             } else if(board->playingAs == "black") {
-                x = j;
+                x = 7-j;
                 y = i;
             } else return;
             string abs_path = SDL_GetBasePath();

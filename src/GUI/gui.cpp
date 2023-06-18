@@ -6,11 +6,19 @@ using namespace std;
 
 int GUI::size = 0;
 
-std::string getBoardCoordinates(int x, int y) {
+std::string getBoardCoordinates(int x, int y, string playingAs) {
     int file = x / GUI::size;
     int rank = y / GUI::size;
-    std::string fileStr = std::string(1, 'a' + file);
-    std::string rankStr = std::to_string(rank+1);
+
+    string fileStr, rankStr;
+
+    if(playingAs == "white"){
+        fileStr = std::string(1, 'a' + file);
+        rankStr = std::to_string(8-rank);
+    } else {
+        fileStr = std::string(1, 'h' - file);
+        rankStr = std::to_string(rank+1);
+    }
     return fileStr + rankStr;
 }
 
@@ -54,8 +62,7 @@ void GUI::init(int size, Board* board) {
 
                     // Check if a valid square is clicked
                     if (x < 8 * GUI::size && y < 8 * GUI::size) {
-                        string clickedSquare;
-                        (board->playingAs == Piece::WHITE) ? clickedSquare = getBoardCoordinates(7-x, y) : clickedSquare = getBoardCoordinates(x, y);
+                        string clickedSquare = getBoardCoordinates(x, y, board->playingAs);
 
                         if (!isPieceSelected) {
                             // Select a piece
@@ -80,9 +87,7 @@ void GUI::init(int size, Board* board) {
                         }
                     }
                 } else{
-                    cout << "Press enter to return to menu..." << endl;
-                    cin.get();
-                    return;
+                    quit = true;
                 }
 
                 if (previousFEN == Board::exportFEN(board)) continue;
