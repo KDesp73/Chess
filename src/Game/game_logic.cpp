@@ -10,15 +10,14 @@
 
 
 
-Board Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, string prompt_type){
-	Board mainBoard (starting_fen, playingAs, showMaterial, showMoves, prompt_type);
-	mainBoard.printBigBoard();
-	
-	GameUtils::gameLoop(&mainBoard);
-
+void Game::start(Board *board, string interface){
+	if(interface == Board::CLI){
+		board->printBigBoard();
+		GameUtils::gameLoop(board);
+	} else if(interface == Board::GUI){
+		GUI::init(60, board);
+	}
 	cin.get();
-
-	return mainBoard;
 }
 
 

@@ -71,7 +71,7 @@ void GUI::init(int size, Board* board) {
                         } else {
                             // Release the piece and make the move
                             Move move = {fromSquare, clickedSquare};
-                            cout << "From: " << move.from << " to " << move.to << endl;
+                            // cout << "From: " << move.from << " to " << move.to << endl;
 
                             if (Board::movePiece(move, board)) {
                                 SDL_RenderClear(renderer);

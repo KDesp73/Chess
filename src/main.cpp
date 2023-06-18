@@ -184,23 +184,17 @@ void MenuHandles::handleMenuOptions(int option){
 	Board b;
 	switch (option){
 		case 0:
-			if(interface != Board::GUI){
-				b = Game::start(starting_fen, playingAs, showMaterial, showMoves, prompt_type);
-			} else{
-				b = {starting_fen, playingAs, showMaterial, showMoves, prompt_type};
-				GUI::init(60, &b);
-			}
+			b = {starting_fen, playingAs, showMaterial, showMoves, prompt_type};
+			Game::start(&b, interface);
+
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
 			break;
 		case 1:
-			if(interface != Board::GUI){
-				b = Game::start(getUserFEN(), playingAs, showMaterial, showMoves, prompt_type);
-			} else{
-				b = {getUserFEN(), playingAs, showMaterial, showMoves, prompt_type};
-				GUI::init(60, &b);
-			}
+			b = {getUserFEN(), playingAs, showMaterial, showMoves, prompt_type};
+			Game::start(&b, interface);
+			
 			exportGamePGN(b);
 			cout << "\n\nPress enter to return to menu..." << endl;
 			cin.get();
