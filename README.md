@@ -34,7 +34,8 @@ Two player Chess written in C++ with CLI and GUI
 ### Create a board
 
 ```cpp
-Board *board = new Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE);
+// Constructor
+Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE);
 ```
 
 ### Make a move
@@ -58,13 +59,13 @@ board->exportPGN();
 ### Start CLI Game
 
 ```cpp
-Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, std::string prompt_type);
+Game::start(board, Board::CLI);
 ```
 
 ### Start GUI Game
 
 ```cpp
-GUI::init(int size, Board *board);
+Game::start(board, Board::GUI);
 ```
 
 ## ToDo
