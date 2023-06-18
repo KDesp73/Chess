@@ -22,7 +22,6 @@ Two player Chess written in C++ with CLI
 ## Limitations
 
 - No computer opponent
-- CLI only (no GUI)
 
 ## Basic API
 
@@ -54,7 +53,7 @@ board->exportPGN();
 
 - [ ] PGN Import
 - [ ] Computer opponent (Evaluation based and ML model)
-- [ ] GUI
+- [x] GUI
 - [x] Check if position is valid
 - [x] Better FEN strings (include movefor, castling rights, enpassant etc)
 
