@@ -238,7 +238,11 @@ void MenuHandles::handleSettingsOptions(int option){
 }
 
 int main(int argc, char** argv) {
-	if(TESTS){
+	if(argv[argc-1][0] == 't' &&
+		argv[argc-1][1] == 'e' &&
+		argv[argc-1][2] == 's' &&
+		argv[argc-1][3] == 't'
+	){
 		Test::testCheckMate(TestFens::mate_fens);
 		cin.get();
 		Test::testCheck(TestFens::check_fens);
@@ -252,9 +256,6 @@ int main(int argc, char** argv) {
 
 		exit(0);
 	}
-
-	
-	//GUI::init(60, new Board(absurd_mate));
 
 	Menu::ChessMenu();
 
