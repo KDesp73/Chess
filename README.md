@@ -22,7 +22,6 @@ Two player Chess written in C++ with CLI
 ## Limitations
 
 - No computer opponent
-- CLI only (no GUI)
 
 ## Basic API
 
@@ -50,11 +49,23 @@ Board::exportFEN(Board *board);
 board->exportPGN();
 ```
 
+### Start CLI Game
+
+```cpp
+Game::start(string starting_fen, string playingAs, bool showMaterial, bool showMoves, std::string prompt_type);
+```
+
+### Start GUI Game
+
+```cpp
+GUI::init(int size, Board *board);
+```
+
 ## ToDo
 
 - [ ] PGN Import
 - [ ] Computer opponent (Evaluation based and ML model)
-- [ ] GUI
+- [x] GUI
 - [x] Check if position is valid
 - [x] Better FEN strings (include movefor, castling rights, enpassant etc)
 

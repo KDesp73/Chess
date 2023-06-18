@@ -11,7 +11,7 @@ include("./Ansi-Text-Manipulation-Library/AnsiTextLibrary/CMakeLists.txt")
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-INCLUDE(FindPkgConfig)
+include(FindPkgConfig)
 
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
@@ -56,6 +56,9 @@ set(SOURCES
     src/GUI/Board/board.cpp
     src/GUI/Rendering/rendering.h
     src/GUI/Rendering/rendering.cpp
+
+    src/Menu/menu.h
+    src/Menu/menu.cpp
 
 )
 

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "SDL_image.h"
+#include <SDL2/SDL_image.h>
 
 using namespace std;
 
@@ -19,9 +19,7 @@ void Rendering::drawBoard(SDL_Color white, SDL_Color black, string playingAs, SD
             int y = i * GUI::size;
 
             // Set the color based on the position
-            if(playingAs == "white") color = (i + j) % 2 == 0 ? white : black;
-            else if(playingAs == "black") color = (i + j) % 2 != 0 ? white : black;
-            else return;
+            color = (i + j) % 2 == 0 ? white : black;
 
             SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
