@@ -1,6 +1,11 @@
 # Chess
 
-Two player Chess written in C++ with CLI
+Two player Chess written in C++ with CLI and GUI
+
+![image](https://github.com/KDesp73/Chess/assets/63654361/94eb8637-c78f-4b82-81f8-93fcb1218316)
+
+![image](https://github.com/KDesp73/Chess/assets/63654361/9cd93404-066b-4218-92b2-d377c0c6b5d0)
+
 
 ## Implementations
 
@@ -18,6 +23,7 @@ Two player Chess written in C++ with CLI
 - Pawn promotions
 - Material advantage
 - Export PGN of game
+- GUI
 
 ## Limitations
 
