@@ -10,7 +10,7 @@ std::string getBoardCoordinates(int x, int y) {
     int file = x / GUI::size;
     int rank = y / GUI::size;
     std::string fileStr = std::string(1, 'a' + file);
-    std::string rankStr = std::to_string(8 - rank);
+    std::string rankStr = std::to_string(rank+1);
     return fileStr + rankStr;
 }
 
@@ -54,7 +54,8 @@ void GUI::init(int size, Board* board) {
 
                     // Check if a valid square is clicked
                     if (x < 8 * GUI::size && y < 8 * GUI::size) {
-                        std::string clickedSquare = getBoardCoordinates(x, y);
+                        string clickedSquare;
+                        (board->playingAs == Piece::WHITE) ? clickedSquare = getBoardCoordinates(7-x, y) : clickedSquare = getBoardCoordinates(x, y);
 
                         if (!isPieceSelected) {
                             // Select a piece
@@ -63,6 +64,7 @@ void GUI::init(int size, Board* board) {
                         } else {
                             // Release the piece and make the move
                             Move move = {fromSquare, clickedSquare};
+                            cout << "From: " << move.from << " to " << move.to << endl;
 
                             if (Board::movePiece(move, board)) {
                                 SDL_RenderClear(renderer);
