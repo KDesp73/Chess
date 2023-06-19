@@ -83,3 +83,14 @@ Image Rendering::renderImage(string path, int x, int y, SDL_Renderer* renderer) 
 
     return Image{texture, imageRect};
 }
+
+void Rendering::colorSquares(vector<string> squares, string playingAs, SDL_Color red_w, SDL_Color red_b, SDL_Renderer *renderer){
+    SDL_Color color;
+    for (size_t i = 0; i < squares.size(); i++){
+        Coords boardCoords = GUI::getBoardCoordinates(squares.at(i), playingAs);
+        color = (boardCoords.x / GUI::size + boardCoords.y / GUI::size) % 2 == 0 ? red_w : red_b;
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+        SDL_Rect square = {boardCoords.x, boardCoords.y, GUI::size, GUI::size};
+        SDL_RenderFillRect(renderer, &square);
+    }
+}

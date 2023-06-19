@@ -297,6 +297,10 @@ vector<string> Board::getValidMoves(Piece *piece, Board *board){
         };
 
 
+        for(string move : capturesToCheck){
+            movesToCheck.push_back(move);
+        }
+
         // Filter invalid moves
         for (int i = 0; i < movesToCheck.size(); i++) {
             if (!BoardUtils::canMove(pawn, Move{pawn->currentSquare, movesToCheck.at(i)}, board)) {

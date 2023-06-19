@@ -23,8 +23,8 @@ static string absurd_mate = "QQQQQQQQ/QQQQQQQQ/QQQQpppQ/QQRQpkpQ/QQQp1bbQ/QQQP2B
 static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
-static string prompt_type = "seperate";
-static string interface = "cli";
+static string prompt_type = "oneline";
+static string interface = "gui";
 
 
 string getUserFEN(){
@@ -236,7 +236,7 @@ void MenuHandles::handleSettingsOptions(int option){
 	}
 	Menu::SettingsSubMenu();
 }
-
+//			  $#
 int main(int argc, char** argv) {
 	if(argv[argc-1][0] == 't' &&
 		argv[argc-1][1] == 'e' &&
