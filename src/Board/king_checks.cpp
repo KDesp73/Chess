@@ -60,13 +60,13 @@ bool Board::isInCheckmate(King *king) {
             for (int i = 1; i <= abs(rookCol - kingCol); i++) {
                 string squareToCheck = letters[i] + to_string(rookRow + 1);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else if (rookCol == kingCol) {
             for (int i = 1; i <= abs(rookRow - kingRow); i++) {
-                string squareToCheck = letters[rookCol - 1] + to_string(i + 1);
+                string squareToCheck = letters[rookCol + 1] + to_string(i + 1);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         }
     }
@@ -87,25 +87,25 @@ bool Board::isInCheckmate(King *king) {
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y - i] + to_string(bishopCoords.x + 1 - i);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else if(rowDiff < 0 && colDiff > 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y - i] + to_string(bishopCoords.x + 1 + i);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else if(rowDiff > 0 && colDiff < 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y + i] + to_string(bishopCoords.x + 1 - i);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else if(rowDiff < 0 && colDiff < 0){
             for (int i = 1; i <= abs(rowDiff); i++){
                 string squareToCheck = letters[bishopCoords.y + i] + to_string(bishopCoords.x + 1 + i);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         }
     }
@@ -128,14 +128,14 @@ bool Board::isInCheckmate(King *king) {
             for (int i = 1; i < abs(queenCol - kingCol); i++) {
                 string squareToCheck = letters[queenCol + i*direction] + to_string(queenRow + 1);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else if (queenCol == kingCol) {
             int direction = (rowDiff < 0) ? 1 : -1;
             for (int i = 1; i < abs(queenRow - kingRow); i++) {
                 string squareToCheck = letters[queenCol - 1] + to_string(queenRow - 1 + i*direction);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
-                    return true;
+                    return false;
             }
         } else {
             // Bishop check
@@ -144,24 +144,25 @@ bool Board::isInCheckmate(King *king) {
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 - i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                        return true;
+                        return false;
                 }
             } else if(rowDiff < 0 && colDiff > 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y - i] + to_string(queenCoords.x + 1 + i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                        return true;
+                        return false;
                 }
             } else if(rowDiff > 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 - i);
                     if (BoardUtils::canMove(king->color, squareToCheck, this))
-                        return true;
+                        return false;
                 }
             } else if(rowDiff < 0 && colDiff < 0){
                 for (int i = 1; i <= abs(rowDiff); i++){
                     string squareToCheck = letters[queenCoords.y + i] + to_string(queenCoords.x + 1 + i);
-                        return true;
+                    if (BoardUtils::canMove(king->color, squareToCheck, this))
+                        return false;
                 }
             }
         }
