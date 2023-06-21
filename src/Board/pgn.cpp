@@ -98,7 +98,7 @@ string Board::exportPGN(){
         this->pgn +=  to_string(1) + ". " + pgn_moves[0] + " ";
     else{
         for (int i = 0; i < pgn_moves.size(); i += 2){
-            this->pgn +=  to_string(i / 2 + 1) + ". " + pgn_moves[i] + " " + ((i+1 < pgn_moves.size()) ? pgn_moves[i + 1] : " ") + " ";
+            this->pgn +=  to_string(i / 2 + 1) + ". " + pgn_moves[i] + " " + ((i+1 < pgn_moves.size()) ? pgn_moves[i + 1] : "") + " ";
         }
     }
     
