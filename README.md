@@ -24,6 +24,7 @@ Two player Chess written in C++ with CLI and GUI
 - Material advantage
 - Export PGN of game
 - GUI
+- Multiple piece sets
 
 ## Limitations
 
