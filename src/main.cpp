@@ -25,6 +25,8 @@ static bool showMoves = true;
 static string playingAs = "white";
 static string prompt_type = "oneline";
 static string interface = "gui";
+static int window_size = 60;
+static string piece_theme = "wiki";
 
 
 string getUserFEN(){
@@ -184,7 +186,7 @@ void MenuHandles::handleMenuOptions(int option){
 	Board b;
 	switch (option){
 		case 0:
-			b = {starting_fen, playingAs, showMaterial, showMoves, prompt_type};
+			b = {starting_fen, playingAs, showMaterial, showMoves, prompt_type, window_size, piece_theme};
 			Game::start(&b, interface);
 
 			exportGamePGN(b);
@@ -192,7 +194,7 @@ void MenuHandles::handleMenuOptions(int option){
 			cin.get();
 			break;
 		case 1:
-			b = {getUserFEN(), playingAs, showMaterial, showMoves, prompt_type};
+			b = {getUserFEN(), playingAs, showMaterial, showMoves, prompt_type, window_size, piece_theme};
 			Game::start(&b, interface);
 			
 			exportGamePGN(b);
@@ -209,6 +211,63 @@ void MenuHandles::handleMenuOptions(int option){
 	}
 
 	Menu::ChessMenu();
+}
+
+void MenuHandles::handleSizeOptions(int option){
+	switch (option){
+		case 0:
+			window_size = 30;
+			break;
+		case 1:
+			window_size = 40;
+			break;
+		case 2:
+			window_size = 50;
+			break;
+		case 3:
+			window_size = 60;
+			break;
+		case 4:
+			window_size = 70;
+			break;
+		case 5:
+			window_size = 60;
+			break;
+		case 6:
+			window_size = 70;
+			break;
+		case 7:
+			window_size = 80;
+			break;
+		case 8:
+			window_size = 90;
+			break;
+		case 9:
+			window_size = 100;
+			break;
+		case 10:
+			Menu::SettingsSubMenu();
+		default:
+			break;
+	}
+}
+
+void MenuHandles::handleThemeOptions(int option){
+	switch (option){
+	case 0:
+		piece_theme = Board::WIKI;
+		break;
+	case 1:
+		piece_theme = Board::STAUNTY;
+		break;
+	case 2:
+		piece_theme = Board::MERIDA;
+		break;
+	case 3:
+		Menu::SettingsSubMenu();
+	default:
+		break;
+	}
 }
 
 void MenuHandles::handleSettingsOptions(int option){
@@ -229,6 +288,12 @@ void MenuHandles::handleSettingsOptions(int option){
 		Menu::PromptTypeSettingsSubMenu();
 		break;
 	case 5:
+		Menu::WindowSizeSettingsSubMenu();
+		break;
+	case 6:
+		Menu::PieceThemeSettingsSubMenu();
+		break;
+	case 7:
 		Menu::ChessMenu();
 		break;
 	default:
@@ -236,7 +301,9 @@ void MenuHandles::handleSettingsOptions(int option){
 	}
 	Menu::SettingsSubMenu();
 }
-//			  $#
+
+
+
 int main(int argc, char** argv) {
 	if(argv[argc-1][0] == 't' &&
 		argv[argc-1][1] == 'e' &&

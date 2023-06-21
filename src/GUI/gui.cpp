@@ -78,7 +78,7 @@ void GUI::init(int size, string pieceTheme, Board* board) {
 
                     // Check if a valid square is clicked
                     if (x < 8 * GUI::size && y < 8 * GUI::size) {
-                        string clickedSquare = getBoardCoordinates(x, y, board->playingAs);
+                        string clickedSquare = getBoardCoordinates(x, y, board->getPlayingAs());
 
                         if (!isPieceSelected) {
                             // Select a piece
@@ -107,7 +107,7 @@ void GUI::init(int size, string pieceTheme, Board* board) {
                                 isPieceSelected = true;
                                 SDL_RenderClear(renderer);
                                 Rendering::drawBoard(white, black, renderer);
-                                Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->playingAs, red_w, red_b, renderer);
+                                Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->getPlayingAs(), red_w, red_b, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
                             }
@@ -142,7 +142,7 @@ void GUI::init(int size, string pieceTheme, Board* board) {
                                     isPieceSelected = true;
                                     SDL_RenderClear(renderer);
                                     Rendering::drawBoard(white, black, renderer);
-                                    Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->playingAs, red_w, red_b, renderer);
+                                    Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->getPlayingAs(), red_w, red_b, renderer);
                                     loadPosition(board, renderer);
                                     SDL_RenderPresent(renderer);
                                 }

@@ -53,10 +53,10 @@ void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
 
             Image image;
             int x, y;
-            if(board->playingAs == "white") {
+            if(board->getPlayingAs() == "white") {
                 x = j;
                 y = (7-i);
-            } else if(board->playingAs == "black") {
+            } else if(board->getPlayingAs() == "black") {
                 x = 7-j;
                 y = i;
             } else return;

@@ -9,7 +9,7 @@ void Menu::ChessMenu(){
 }
 
 void Menu::SettingsSubMenu(){
-    menu(Text::blue + "Settings" + Text::normal, 4, vector<string>{"Interface", "Material", "Moves", "Perspective", "Input", "Return"}, &MenuHandles::handleSettingsOptions);
+    menu(Text::blue + "Settings" + Text::normal, 4, vector<string>{"Interface", "Material", "Moves", "Perspective", "Input", "Window Size", "Themes", "Return"}, &MenuHandles::handleSettingsOptions);
 }
 
 void Menu::InterfaceTypeSettingsSubMenu(){
@@ -30,4 +30,12 @@ void Menu::PlayingAsSettingsSubMenu(){
 
 void Menu::PromptTypeSettingsSubMenu(){
     menu(Text::blue + "Prompt Type" + Text::normal, 4, vector<string>{"Seperate lines", "One line", "Return"}, &MenuHandles::handleInputOptions);
+}
+
+void Menu::WindowSizeSettingsSubMenu(){
+    menu(Text::blue + "Window Size" + Text::normal, 4, vector<string>{"30", "40", "50", "60", "70", "80", "90", "100", "Return"}, &MenuHandles::handleSizeOptions);
+}
+
+void Menu::PieceThemeSettingsSubMenu(){
+    menu(Text::blue + "Piece Themes" + Text::normal, 4, vector<string>{"Wiki", "Staunty", "Merida", "Return"}, &MenuHandles::handleThemeOptions);
 }

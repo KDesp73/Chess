@@ -15,10 +15,9 @@ void Game::start(Board *board, string interface){
 		board->printBigBoard();
 		GameUtils::gameLoop(board);
 	} else if(interface == Board::GUI){
-		GUI::init(100, "merida", board);
+		GUI::init(board->getSize(), board->getTheme(), board);
 	}
 }
-
 
 
 void GameUtils::gameLoop(Board *board){
@@ -43,7 +42,7 @@ void GameUtils::gameLoop(Board *board){
 }
 
 Move GameUtils::turn(Pieces *p, Board *board){
-	Move move = GameUtils::prompt(p, board, board->prompt_type);
+	Move move = GameUtils::prompt(p, board, board->getPromptType());
 	if(move.from == "" || move.to == "" || sizeof(move) == 0) {
 		return {};
 	}

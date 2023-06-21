@@ -8,6 +8,8 @@ namespace Menu{
     void PlayingAsSettingsSubMenu();
     void PromptTypeSettingsSubMenu();
     void InterfaceTypeSettingsSubMenu();
+    void WindowSizeSettingsSubMenu();
+    void PieceThemeSettingsSubMenu();
 };
 
 namespace MenuHandles{
@@ -18,4 +20,6 @@ namespace MenuHandles{
     void handlePerspectiveOptions(int option);
     void handleInputOptions(int option);
     void handleInterfaceOptions(int option);
+    void handleSizeOptions(int option);
+    void handleThemeOptions(int option);
 };

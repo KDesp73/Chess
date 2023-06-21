@@ -16,6 +16,33 @@ const string Board::ONELINE = "oneline";
 const string Board::SEPERATE = "seperate";
 const string Board::GUI = "gui";
 const string Board::CLI = "cli";
+const string Board::WIKI = "wiki";
+const string Board::STAUNTY = "staunty";
+const string Board::MERIDA = "merida";
+
+string Board::getTheme(){
+    return this->theme;
+}
+
+string Board::getPlayingAs(){
+    return this->playingAs;
+}
+
+int Board::getSize(){
+    return this->window_size;
+}
+
+void Board::setTheme(string theme){
+    this->theme = theme;
+} 
+
+void Board::setSize(int size){
+    this->window_size = size;
+}
+
+string Board::getPromptType(){
+    return this->prompt_type;
+}
 
 Pieces* Board::getPieces(string color){
     if(color == Piece::WHITE) return wp;
