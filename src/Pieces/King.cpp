@@ -56,6 +56,11 @@ bool King::canCastle(string to, char board[][8]) {
     // is the space between the king and the rook empty?
     if(board[fromRow][fromCol + (direction)] != ' ') return false;
     if(board[fromRow][fromCol + (direction*2)] != ' ') return false;
+   
+    // if long castles check one more square
+    if(to.at(0) == 'c'){
+        if(board[fromRow][fromCol + (direction*3)] != ' ') return false;
+    }
 
     // is the king in check?
     if(!this->isInCheck(board).empty()) return false;
