@@ -186,6 +186,8 @@ bool Board::isInCheckmate(King *king) {
  * @return false 
  */
 bool Board::isInStalemate(King *king) {
+    if(king->color != moveFor) return false;
+    
     vector<Piece *> piecesThatCheckTheKing = king->isInCheck(this->board);
 
     if(!piecesThatCheckTheKing.empty()) return false;

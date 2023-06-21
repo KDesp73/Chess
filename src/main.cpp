@@ -231,21 +231,15 @@ void MenuHandles::handleSizeOptions(int option){
 			window_size = 70;
 			break;
 		case 5:
-			window_size = 60;
-			break;
-		case 6:
-			window_size = 70;
-			break;
-		case 7:
 			window_size = 80;
 			break;
-		case 8:
+		case 6:
 			window_size = 90;
 			break;
-		case 9:
+		case 7:
 			window_size = 100;
 			break;
-		case 10:
+		case 8:
 			Menu::SettingsSubMenu();
 		default:
 			break;
