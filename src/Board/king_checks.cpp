@@ -203,3 +203,22 @@ bool Board::isInStalemate(King *king) {
     return true;
 };
 
+bool Board::kingTouchesKing(string to, string color){
+    King *opponent_king = dynamic_cast<King *>(this->findPiece(Piece::KING, (color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE));
+
+    if(opponent_king == NULL) {
+        //cerr << "Opponent king not found" << endl;
+        return false;
+    }
+
+    Coords kingCoords = translateSquare(to);
+    Coords opponentCoords = translateSquare(opponent_king->currentSquare);
+
+    int kingRow = kingCoords.x, kingCol = kingCoords.y;
+    int oppnentRow = opponentCoords.x, opponentCol = opponentCoords.y;
+
+    int rowDiff = oppnentRow - kingRow;
+    int colDiff = opponentCol - kingCol;
+
+    return (abs(rowDiff) <= 1 && abs(colDiff) <= 1);
+}
