@@ -173,7 +173,7 @@ bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
         }
     }
 
-    return !(pieceToCapture != NULL && board->isProtected(pieceToCapture));
+    return !(pieceToCapture != NULL && board->isProtected(pieceToCapture->currentSquare, pieceToCapture->color));
 }
 
 bool BoardUtils::canRookBeBlocked(Rook *rook, King *king, Board *board){

@@ -215,8 +215,10 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
 
 bool BoardUtils::canMove(string color, string square, Board *board) {
     Pieces *pieces = board->getPieces(color);
-    for (int i = 0; i < pieces->pieces.size(); i++)    {
-        if(BoardUtils::canMove(pieces->pieces.at(i), Move{pieces->pieces.at(i)->currentSquare, square}, board)) return true;
+    for (int i = 0; i < pieces->pieces.size(); i++) {
+        Piece *piece = pieces->pieces.at(i);
+        Move move = {piece->currentSquare, square};
+        if(BoardUtils::canMove(piece, move, board)) return true;
     }
     return false;
 }

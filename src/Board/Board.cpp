@@ -227,32 +227,35 @@ Piece* Board::findPiece(string square){
 }
 
 bool Board::isProtected(Piece *piece) {
-    if (piece == NULL) return false;
-    char temp_board[8][8];
-    memcpy(temp_board, this->board, 8 * 8 * sizeof(char));
-    temp_board[translateSquare(piece->currentSquare).x]
-              [translateSquare(piece->currentSquare).y] = ' ';
+    return isProtected(piece->currentSquare, piece->color);
+}
 
-    King *opponentsKing = dynamic_cast<King *>(this->findPiece(Piece::KING, (piece->color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE));
+bool Board::isProtected(string square, string color){
+    if(!BoardUtils::isValidSquare(square)) return false;
 
-    if(opponentsKing != NULL){
-        temp_board[translateSquare(opponentsKing->currentSquare).x]
-                  [translateSquare(opponentsKing->currentSquare).y] = ' ';
-    }
+    Coords coords = BoardUtils::translateSquare(square);
 
-    Board b{temp_board};
+    Board temp = {Board::exportFEN(this)};
+    temp.moveFor = this->moveFor;
+
+    Board::removePieceFreely(square, &temp);
     
-    for(Piece *p : this->getPieces(piece->color)->pieces){
-        if(this->isPinned(piece->currentSquare, piece)) continue;;
-        if(!p->isValidMove(piece->currentSquare, temp_board)) continue;
+    // Remove opponents pieces completely
+    Pieces *pieces = (color == Piece::BLACK) ? temp.wp : temp.bp;
+    pieces->pieces.clear();
 
-        if(piece->type == Piece::PAWN){
-            if(dynamic_cast<Pawn *>(piece)->isValidCapture(piece->currentSquare, this->board)) return true;
+    for (size_t i = 0; i < 8; i++){
+        for (size_t j = 0; j < 8; j++){
+            if(color == Piece::WHITE && islower(temp.board[i][j])) temp.board[i][j] = ' ';
+            if(color == Piece::BLACK && isupper(temp.board[i][j])) temp.board[i][j] = ' ';
         }
-
-        return true;
     }
     
+
+
+    if(BoardUtils::canMove(color, square, &temp))
+        return true;
+
     return false;
 }
 

@@ -21,10 +21,13 @@ bool Test::testCheckMate(vector<string> mate_fens){
 		Board b{mate_fens.at(i)};
 		//b.printBigBoard();
 
-		Piece *p = b.findPiece("King", "white");
-		King *king = dynamic_cast<King *>(p);
+		Piece *w_p = b.findPiece("King", "white");
+		King *w_king = dynamic_cast<King *>(w_p);
+		
+		Piece *b_p = b.findPiece("King", "black");
+		King *b_king = dynamic_cast<King *>(b_p);
 
-		if(b.isInCheckmate(king)) {
+		if(b.isInCheckmate(w_king) || b.isInCheckmate(b_king)) {
 			passed_count++;
 			cout << Text::green + "Passed\n" + Text::normal;
 			
