@@ -36,7 +36,7 @@ Two player Chess written in C++ with CLI and GUI
 
 ```cpp
 // Constructor
-Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE);
+Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE, int window_size = 60, string theme = Board::WIKI);
 ```
 
 ### Make a move
