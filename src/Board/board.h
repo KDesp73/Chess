@@ -60,7 +60,8 @@ class Board{
         int quantityOfPiece(string type, string color);
         
         static string moveToPGNMove(Move m, Board *board, char promoteTo = '-');
-        static Move pgnMoveToMove(string algebraicNotation, Board *board);
+        static Move pgnMoveToMove(string algebraicNotation, int size, Board *board);
+        static vector<string> pgnToMoves(string pgn);
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
         static vector<string> getValidMoves(Piece *piece, Board *board);

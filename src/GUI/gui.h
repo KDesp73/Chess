@@ -13,4 +13,6 @@ class GUI{
         static void loadPosition(Board *board, SDL_Renderer *renderer);
         static string getBoardCoordinates(int x, int y, string playingAs);
         static Coords getBoardCoordinates(string square, string playingAs);
+        static void makeMove(Move move, Board *board, SDL_Renderer *renderer);
+        static void runPGN(string pgn, Board *board, int size);
 };

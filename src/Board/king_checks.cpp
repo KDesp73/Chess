@@ -57,14 +57,16 @@ bool Board::isInCheckmate(King *king) {
         string letters = "abcdefgh";
 
         if (rookRow == kingRow) {
+            int direction = (rookCol < kingCol) ? 1 : -1;
             for (int i = 1; i <= abs(rookCol - kingCol); i++) {
-                string squareToCheck = letters[i] + to_string(rookRow + 1);
+                string squareToCheck = letters[rookCol + i * direction] + to_string(rookRow + 1);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
                     return false;
             }
         } else if (rookCol == kingCol) {
+            int direction = (rookRow < rookCol) ? 1 : -1;
             for (int i = 1; i <= abs(rookRow - kingRow); i++) {
-                string squareToCheck = letters[rookCol + 1] + to_string(i + 1);
+                string squareToCheck = letters[rookCol + 1] + to_string(rookRow + i * direction + 1);
                 if (BoardUtils::canMove(king->color, squareToCheck, this))
                     return false;
             }
