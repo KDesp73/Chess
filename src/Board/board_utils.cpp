@@ -167,6 +167,7 @@ bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
     if(pieceToCapture->color == king->color) return false;
 
     return !(board->isProtected(pieceToCapture));
+
 }
 
 bool BoardUtils::canRookBeBlocked(Rook *rook, King *king, Board *board){

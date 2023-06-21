@@ -250,6 +250,7 @@ bool Board::isProtected(string square, string color){
         for (size_t j = 0; j < 8; j++){
             if(color == Piece::WHITE && temp.board[i][j] == 'K') continue;
             if(color == Piece::BLACK && temp.board[i][j] == 'k') continue;
+
             if(color == Piece::WHITE && islower(temp.board[i][j])) temp.board[i][j] = ' ';
             if(color == Piece::BLACK && isupper(temp.board[i][j])) temp.board[i][j] = ' ';
         }
