@@ -147,61 +147,12 @@ void Board::moveFreely(Move move, Board *board, char promoteTo){
 }
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) {
-    /*
-    if(piece == NULL || piece == nullptr) return false;
-
-    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
-    King *king = dynamic_cast<King *>(piece);
-
-    if(king != NULL && !BoardUtils::canKingCapturePiece(king, move, board)) return false;
-
-    if(king == NULL && board->isPinned(move.to, piece)) return false;
-
-    // If the King in check, see if the move resolves the check
-    if(piece->type != Piece::KING){
-        King *kingInCheck = dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
-        bool isKingInCheck = !kingInCheck->isInCheck(board->board).empty();
-        if(isKingInCheck){
-            Board *temp_board = new Board(Board::exportFEN(board));
-
-            if(piece->type == Piece::PAWN){
-                if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, temp_board->board)) {
-                    Board::moveFreely(move, temp_board, promoteTo);
-                    King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board->findPiece(Piece::KING, piece->color));
-                    bool isKingInCheckAfter = !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
-                    return !isKingInCheckAfter;
-                }
-                if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), board->getMove1Before())) {
-                    Board::moveFreely(move, temp_board, promoteTo);
-                    King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board->findPiece(Piece::KING, piece->color));
-                    bool isKingInCheckAfter = !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
-                    return !isKingInCheckAfter;
-                }
-            }
-
-            if(piece->isValidMove(move.to, temp_board->board)) Board::moveFreely(move, temp_board, promoteTo);
-
-            King *kingInCheckAfterMove = dynamic_cast<King *>(temp_board->findPiece(Piece::KING, piece->color));
-            bool isKingInCheckAfter = !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
-            return !isKingInCheckAfter;
-        }
-    }
-
-    // Allow special pawn moves
-    if(piece->type == Piece::PAWN){
-        if(dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board)) return true;
-        if(dynamic_cast<Pawn *>(piece)->canEnpassant(translateSquare(Coords{translateSquare(move.to).x + direction, translateSquare(move.to).y}), board->getMove1Before())) return true;
-        if(dynamic_cast<Pawn *>(piece)->canPromote(move.to, board->board)) return true;
-    }
-
-    // Pseudo-validation
-    return piece->isValidMove(move.to, board->board);
-
-    */
     if (piece == NULL || piece == nullptr) return false;
 
     int direction = (piece->color == Piece::WHITE) ? 1 : -1;
     King *king = dynamic_cast<King *>(piece);
+
+    if(king != NULL && board->kingTouchesKing(move.to, piece->color)) return false;
 
     if (king != NULL && !BoardUtils::canKingCapturePiece(king, move, board))
         return false;

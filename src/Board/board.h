@@ -34,6 +34,7 @@ class Board{
         bool isProtected(Piece *piece);
         bool isProtected(string square, string color);
         bool isPinned(string to, Piece *piece);
+        bool kingTouchesKing(string to, string color);
 
         void resetMovesSinceCapture();
         Pieces* getPieces(string color);
