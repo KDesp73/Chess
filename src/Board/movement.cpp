@@ -147,6 +147,7 @@ void Board::moveFreely(Move move, Board *board, char promoteTo){
 }
 
 bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) {
+    /*
     if(piece == NULL || piece == nullptr) return false;
 
     int direction = (piece->color == Piece::WHITE) ? 1 : -1;
@@ -195,12 +196,97 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
 
     // Pseudo-validation
     return piece->isValidMove(move.to, board->board);
+
+    */
+    if (piece == NULL || piece == nullptr) return false;
+
+    int direction = (piece->color == Piece::WHITE) ? 1 : -1;
+    King *king = dynamic_cast<King *>(piece);
+
+    if (king != NULL && !BoardUtils::canKingCapturePiece(king, move, board))
+        return false;
+
+    if (king == NULL && board->isPinned(move.to, piece)) return false;
+
+    // If the King in check, see if the move resolves the check
+    if (piece->type != Piece::KING) {
+        King *kingInCheck =
+            dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
+        bool isKingInCheck = !kingInCheck->isInCheck(board->board).empty();
+        if (isKingInCheck) {
+            Board *temp_board = new Board(Board::exportFEN(board));
+
+            if (piece->type == Piece::PAWN) {
+                if (dynamic_cast<Pawn *>(piece)->isValidCapture(
+                        move.to, temp_board->board)) {
+                    Board::moveFreely(move, temp_board, promoteTo);
+                    King *kingInCheckAfterMove = dynamic_cast<King *>(
+                        temp_board->findPiece(Piece::KING, piece->color));
+                    bool isKingInCheckAfter =
+                        !kingInCheckAfterMove->isInCheck(temp_board->board)
+                             .empty();
+                    return !isKingInCheckAfter;
+                }
+                // string enpassant_square = BoardUtils::offsetSquare(move.to, direction, 0);
+                if (dynamic_cast<Pawn *>(piece)->canEnpassant(
+                        move.to, board->getMove1Before())) {
+                    /*
+                     */
+
+                    Board::enpassantPawn(
+                        move.to,
+                        dynamic_cast<Pawn *>(
+                            temp_board->findPiece(piece->currentSquare)),
+                        temp_board);
+
+                    King *kingInCheckAfterMove = dynamic_cast<King *>(
+                        temp_board->findPiece(Piece::KING, piece->color));
+                    bool isKingInCheckAfter =
+                        !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
+                    return !isKingInCheckAfter;
+                }
+            }
+
+            if (piece->isValidMove(move.to, temp_board->board))
+                Board::moveFreely(move, temp_board, promoteTo);
+
+            King *kingInCheckAfterMove = dynamic_cast<King *>(
+                temp_board->findPiece(Piece::KING, piece->color));
+            bool isKingInCheckAfter =
+                !kingInCheckAfterMove->isInCheck(temp_board->board).empty();
+            return !isKingInCheckAfter;
+        }
+    }
+
+    // Allow special pawn moves
+    if (piece->type == Piece::PAWN) {
+        if (dynamic_cast<Pawn *>(piece)->isValidCapture(move.to, board->board))
+            return true;
+        if (dynamic_cast<Pawn *>(piece)->canEnpassant(move.to,
+                                                      board->getMove1Before()))
+            return true;
+        if (dynamic_cast<Pawn *>(piece)->canPromote(move.to, board->board))
+            return true;
+    }
+
+    // Pseudo-validation
+    return piece->isValidMove(move.to, board->board);
 }
 
 bool BoardUtils::canMove(string color, string square, Board *board) {
     Pieces *pieces = board->getPieces(color);
-    for (int i = 0; i < pieces->pieces.size(); i++)    {
-        if(BoardUtils::canMove(pieces->pieces.at(i), Move{pieces->pieces.at(i)->currentSquare, square}, board)) return true;
+    for (int i = 0; i < pieces->pieces.size(); i++) {
+        Piece *piece = pieces->pieces.at(i);
+        Move move = {piece->currentSquare, square};
+
+        if(piece->type == Piece::PAWN){
+            Pawn *pawn = dynamic_cast<Pawn *>(piece);
+            string enpassant_square = BoardUtils::offsetSquare(square, (color == "white") ? 1 : -1, 0);
+            if(pawn->canEnpassant(enpassant_square, board->getMove1Before())){
+                return true;
+            }
+        }
+        if (BoardUtils::canMove(piece, move, board)) return true;
     }
     return false;
 }
