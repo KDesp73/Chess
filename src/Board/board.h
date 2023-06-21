@@ -32,6 +32,7 @@ class Board{
         bool isDrawDueToInsufficientMaterial();
         bool isFiftyMoveRule();
         bool isProtected(Piece *piece);
+        bool isProtected(string square, string color);
         bool isPinned(string to, Piece *piece);
 
         void resetMovesSinceCapture();
