@@ -241,11 +241,16 @@ bool Board::isProtected(string square, string color){
     Board::removePieceFreely(square, &temp);
     
     // Remove opponents pieces completely
+    Piece *king = temp.findPiece(Piece::KING, (color == Piece::WHITE) ? Piece::BLACK : Piece::WHITE);
     Pieces *pieces = (color == Piece::BLACK) ? temp.wp : temp.bp;
     pieces->pieces.clear();
+    pieces->pieces.push_back(king);
 
     for (size_t i = 0; i < 8; i++){
         for (size_t j = 0; j < 8; j++){
+            if(color == Piece::WHITE && temp.board[i][j] == 'K') continue;
+            if(color == Piece::BLACK && temp.board[i][j] == 'k') continue;
+
             if(color == Piece::WHITE && islower(temp.board[i][j])) temp.board[i][j] = ' ';
             if(color == Piece::BLACK && isupper(temp.board[i][j])) temp.board[i][j] = ' ';
         }
@@ -263,6 +268,10 @@ bool Board::isPinned(string to, Piece *piece){
     Pieces *pieces = this->getPieces(piece->color);
     King *king = dynamic_cast<King *>(this->findPiece(Piece::KING, piece->color));
 
+    if(king == NULL) {
+        cerr << "King not found" << endl;
+        return false;
+    }
     if(piece->type == Piece::KING) return false;
 
     vector<Piece *> piecesThatCheckTheKingBefore = king->isInCheck(this->board);

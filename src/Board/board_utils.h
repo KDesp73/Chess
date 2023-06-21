@@ -35,6 +35,5 @@ namespace BoardUtils{
     string translateSquare(Coords coords);
     vector<Piece*> squareIsAttacked(string square, Pieces *p, char board[][8]);
     Rook* getRookToCastle(int direction, string color, Board *board);
-
     string offsetSquare(string square, int offset_v, int offset_h);
 }

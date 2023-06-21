@@ -158,22 +158,16 @@ int BoardUtils::calcDirection(King *king, string square){
 bool BoardUtils::canKingCapturePiece(King *king, Move move, Board *board){
     Piece *pieceToCapture = NULL;
     // Search white for pieces
-    for (int i = 0; i < board->getPieces(Piece::WHITE)->pieces.size(); i++) {
-        if (move.to == board->getPieces(Piece::WHITE)->pieces.at(i)->currentSquare) {
-            pieceToCapture = board->getPieces(Piece::WHITE)->pieces.at(i);
-        }
-    }
+    pieceToCapture = board->findPiece(move.to);
 
-    // Search black for pieces
     if(pieceToCapture == NULL){
-        for (int i = 0; i < board->getPieces(Piece::BLACK)->pieces.size(); i++) {
-            if (move.to == board->getPieces(Piece::BLACK)->pieces.at(i)->currentSquare) {
-                pieceToCapture = board->getPieces(Piece::BLACK)->pieces.at(i);
-            }
-        }
+        return true;
     }
 
-    return !(pieceToCapture != NULL && board->isProtected(pieceToCapture->currentSquare, pieceToCapture->color));
+    if(pieceToCapture->color == king->color) return false;
+
+    return !(board->isProtected(pieceToCapture));
+
 }
 
 bool BoardUtils::canRookBeBlocked(Rook *rook, King *king, Board *board){
@@ -454,10 +448,10 @@ Rook* BoardUtils::getRookToCastle(int direction, string color, Board *board) {
 
 string BoardUtils::offsetSquare(string square, int offset_v, int offset_h){
     Coords coords = translateSquare(square);
-    
+
     coords.x += offset_v;
     coords.y += offset_h;
-    
+
     string ret = translateSquare(coords);
     return ret;
 }

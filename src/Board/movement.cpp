@@ -161,8 +161,9 @@ void Board::moveFreely(Move move, Board *board, char promoteTo) {
     }
 }
 
-bool BoardUtils::canMove(Piece *piece, Move move, Board *board,
-                         char promoteTo) {
+
+bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) {
+
     if (piece == NULL || piece == nullptr) return false;
 
     int direction = (piece->color == Piece::WHITE) ? 1 : -1;
@@ -172,6 +173,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board,
 
     if (king != NULL && !BoardUtils::canKingCapturePiece(king, move, board))
         return false;
+
 
     if (king == NULL && board->isPinned(move.to, piece)) return false;
 
