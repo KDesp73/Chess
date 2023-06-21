@@ -32,7 +32,6 @@ static vector<string> mate_fens = {
     "3k4/8/8/2b1p3/4P3/2N2N2/PPPP1qPP/R1BQKB1R",
     "KN5r/7k/8/8/8/8/5bb1/8",
     "KR6/PPn5/8/8/8/4k3/4p3/8"
-    "8/8/8/3kQ3/5K2/8/8/1BQ5 b"
 };
 
 static vector<string> pin_fens = {

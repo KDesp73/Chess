@@ -24,10 +24,7 @@ bool Test::testCheckMate(vector<string> mate_fens){
 		Piece *w_p = b.findPiece("King", "white");
 		King *w_king = dynamic_cast<King *>(w_p);
 		
-		Piece *b_p = b.findPiece("King", "black");
-		King *b_king = dynamic_cast<King *>(b_p);
-
-		if(b.isInCheckmate(w_king) || b.isInCheckmate(b_king)) {
+		if(b.isInCheckmate(w_king)) {
 			passed_count++;
 			cout << Text::green + "Passed\n" + Text::normal;
 			

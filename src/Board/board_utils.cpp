@@ -451,3 +451,13 @@ Rook* BoardUtils::getRookToCastle(int direction, string color, Board *board) {
 
     return dynamic_cast<Rook*>(wantedRook);
 }
+
+string BoardUtils::offsetSquare(string square, int offset_v, int offset_h){
+    Coords coords = translateSquare(square);
+    
+    coords.x += offset_v;
+    coords.y += offset_h;
+    
+    string ret = translateSquare(coords);
+    return ret;
+}
