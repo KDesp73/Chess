@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void Rendering::drawBoard(SDL_Color white, SDL_Color black, string playingAs, SDL_Renderer *renderer){
+void Rendering::drawBoard(SDL_Color white, SDL_Color black, SDL_Renderer *renderer){
     int rows = 8;
     int columns = 8;
     SDL_Color color;

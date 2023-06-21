@@ -12,7 +12,7 @@ struct Image {
 };
 
 namespace Rendering{
-    void drawBoard(SDL_Color white, SDL_Color black, string playingAs, SDL_Renderer *renderer);
+    void drawBoard(SDL_Color white, SDL_Color black, SDL_Renderer *renderer);
     Image renderImage(string path, int x, int y, SDL_Renderer *renderer);
     void colorSquares(vector<string> squares, string playingAs, SDL_Color red_w, SDL_Color red_b, SDL_Renderer *renderer);
 };

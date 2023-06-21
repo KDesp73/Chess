@@ -2,9 +2,12 @@
 
 #include "../chess_lib.h"
 
+#include <string>
+
 using namespace std;
 
 int GUI::size = 0;
+string GUI::pieceTheme = "wiki";
 
 std::string GUI::getBoardCoordinates(int x, int y, string playingAs) {
     int file = x / GUI::size;
@@ -32,8 +35,9 @@ Coords GUI::getBoardCoordinates(string square, string playingAs){
     }
 }
 
-void GUI::init(int size, Board* board) {
+void GUI::init(int size, string pieceTheme, Board* board) {
     GUI::size = size;
+    GUI::pieceTheme = pieceTheme;
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Color white = {236, 202, 165};
@@ -48,7 +52,7 @@ void GUI::init(int size, Board* board) {
         SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_RenderClear(renderer);
-    Rendering::drawBoard(white, black, board->playingAs, renderer);
+    Rendering::drawBoard(white, black, renderer);
     loadPosition(board, renderer);
     SDL_RenderPresent(renderer);
 
@@ -83,7 +87,7 @@ void GUI::init(int size, Board* board) {
 
                             if(board->findPiece(fromSquare) == NULL){
                                 SDL_RenderClear(renderer);
-                                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                Rendering::drawBoard(white, black, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
                                 isPieceSelected = false;
@@ -91,7 +95,7 @@ void GUI::init(int size, Board* board) {
 
                             if(Board::getValidMoves(board->findPiece(fromSquare), board).empty()){
                                 SDL_RenderClear(renderer);
-                                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                Rendering::drawBoard(white, black, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
                                 isPieceSelected = false;
@@ -102,7 +106,7 @@ void GUI::init(int size, Board* board) {
                             && playing == board->findPiece(fromSquare)->color) {
                                 isPieceSelected = true;
                                 SDL_RenderClear(renderer);
-                                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                Rendering::drawBoard(white, black, renderer);
                                 Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->playingAs, red_w, red_b, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
@@ -115,7 +119,7 @@ void GUI::init(int size, Board* board) {
 
                             if(board->findPiece(clickedSquare) == NULL){
                                 SDL_RenderClear(renderer);
-                                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                Rendering::drawBoard(white, black, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
                                 isPieceSelected = false;
@@ -123,7 +127,7 @@ void GUI::init(int size, Board* board) {
 
                             if(Board::getValidMoves(board->findPiece(clickedSquare), board).empty()){
                                 SDL_RenderClear(renderer);
-                                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                Rendering::drawBoard(white, black, renderer);
                                 loadPosition(board, renderer);
                                 SDL_RenderPresent(renderer);
                                 isPieceSelected = false;
@@ -137,7 +141,7 @@ void GUI::init(int size, Board* board) {
                                 && playing == board->findPiece(fromSquare)->color) {
                                     isPieceSelected = true;
                                     SDL_RenderClear(renderer);
-                                    Rendering::drawBoard(white, black, board->playingAs, renderer);
+                                    Rendering::drawBoard(white, black, renderer);
                                     Rendering::colorSquares(Board::getValidMoves(board->findPiece(fromSquare), board), board->playingAs, red_w, red_b, renderer);
                                     loadPosition(board, renderer);
                                     SDL_RenderPresent(renderer);
@@ -148,8 +152,7 @@ void GUI::init(int size, Board* board) {
 
                                 if (Board::movePiece(move, board)) {
                                     SDL_RenderClear(renderer);
-                                    Rendering::drawBoard(
-                                        white, black, board->playingAs, renderer);
+                                    Rendering::drawBoard(white, black, renderer);
                                     loadPosition(board, renderer);
                                     SDL_RenderPresent(renderer);
                                     (board->moveFor == "white")
@@ -166,7 +169,7 @@ void GUI::init(int size, Board* board) {
 
                 if (previousFEN == Board::exportFEN(board)) continue;
                 SDL_RenderClear(renderer);
-                Rendering::drawBoard(white, black, board->playingAs, renderer);
+                Rendering::drawBoard(white, black, renderer);
                 GUI::loadPosition(board, renderer);
                 SDL_RenderPresent(renderer);
             }
@@ -191,7 +194,7 @@ void GUI::runPGN(string pgn, Board *board, int size){
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_RenderClear(renderer);
-    Rendering::drawBoard(white, black, board->playingAs, renderer);
+    Rendering::drawBoard(white, black, renderer);
     loadPosition(board, renderer);
     SDL_RenderPresent(renderer);
 
@@ -226,7 +229,7 @@ void GUI::runPGN(string pgn, Board *board, int size){
         }
 
         if(previousFEN == Board::exportFEN(board)) continue;
-        Rendering::drawBoard(white, black, board->playingAs, renderer);
+        Rendering::drawBoard(white, black, renderer);
         GUI::loadPosition(board, renderer);
         SDL_RenderPresent(renderer);
     }

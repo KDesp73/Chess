@@ -3,34 +3,38 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <string>
+
+using namespace std;
+
 string getPath(char pieceChar){
     switch (pieceChar){
     case ' ':
         return "";
     case 'p':
-        return "pawn_b.png";
+        return "bP.png";
     case 'r':
-        return "rook_b.png";
+        return "bR.png";
     case 'n':
-        return "knight_b.png";
+        return "bN.png";
     case 'b':
-        return "bishop_b.png";
+        return "bB.png";
     case 'q':
-        return "queen_b.png";
-    case 'P':
-        return "pawn_w.png";
+        return "bQ.png";
     case 'k':
-        return "king_b.png";
+        return "bK.png";
+    case 'P':
+        return "wP.png";
     case 'R':
-        return "rook_w.png";
+        return "wR.png";
     case 'N':
-        return "knight_w.png";
+        return "wN.png";
     case 'B':
-        return "bishop_w.png";
+        return "wB.png";
     case 'Q':
-        return "queen_w.png";
+        return "wQ.png";
     case 'K':
-        return "king_w.png";
+        return "wK.png";
     default:
         break;
     }
@@ -40,6 +44,7 @@ string getPath(char pieceChar){
 
 void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
     int size = GUI::size;
+    string pieceTheme = GUI::pieceTheme;
 
     for (size_t i = 0; i < 8; i++){
         for (size_t j = 0; j < 8; j++){
@@ -59,6 +64,8 @@ void GUI::loadPosition(Board *board, SDL_Renderer *renderer){
             if(abs_path.find("build") != string::npos){
                 abs_path.replace(abs_path.find("build"), 5, "assets");
             } else abs_path += "assets/";
+
+            abs_path += pieceTheme + "/";
 
             image = Rendering::renderImage(abs_path + path, x * size, y * size, renderer);   
             

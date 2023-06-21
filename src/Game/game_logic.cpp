@@ -15,7 +15,7 @@ void Game::start(Board *board, string interface){
 		board->printBigBoard();
 		GameUtils::gameLoop(board);
 	} else if(interface == Board::GUI){
-		GUI::init(60, board);
+		GUI::init(100, "merida", board);
 	}
 }
 
