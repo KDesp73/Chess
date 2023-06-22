@@ -108,82 +108,108 @@ string Board::exportPGN(){
     return this->pgn;
 }
 
-std::vector<std::string> findChessCoords(const std::string& input)
-{
+
+
+string findChessCoords(std::string algebraicNotation){
     std::regex coordRegex("[a-h][1-8]");
-    std::vector<std::string> foundCoords;
     
-    auto words_begin = std::sregex_iterator(input.begin(), input.end(), coordRegex);
+    auto words_begin = std::sregex_iterator(algebraicNotation.begin(), algebraicNotation.end(), coordRegex);
     auto words_end = std::sregex_iterator();
     
-    for (std::sregex_iterator it = words_begin; it != words_end; ++it) {
-        foundCoords.push_back((*it).str());
-    }
-    
-    return foundCoords;
+    return (*words_begin).str();
 }
 
-int findPieceCharInMove(string algebraicNotation, string pieces){
+char pieceFromMove(string algebraicNotation){
+    string pieces = "NBRQK";
     for (size_t i = 0; i < algebraicNotation.size(); i++){
         for (size_t j = 0; j < pieces.size(); j++){
-            if(algebraicNotation.at(i) == pieces.at(j)) return i;
+            if(algebraicNotation.at(i) == pieces.at(j)) return algebraicNotation[i];
         }
     }
-    return -1;
+    return ' ';
 }
 
-Move Board::pgnMoveToMove(string algebraicNotation, int index, Board *board){
-    string pieces = "NBRQK";
-
-    string to = findChessCoords(algebraicNotation).at(0);
-
+Move Board::algebraicNotationToMove(string algebraicNotation, int index, Board board){
     string color = (index % 2 == 0) ? Piece::WHITE : Piece::BLACK;
 
-    Piece *pieceToMove = NULL;
-    switch (findPieceCharInMove(algebraicNotation, pieces)){
-    case -1:
-        break;
-    case 0:
-        pieceToMove = board->findPiece(Piece::KNIGHT, color);
-        break;
-    case 1:
-        pieceToMove = board->findPiece(Piece::BISHOP, color);
-        break;
-    case 2:
-        pieceToMove = board->findPiece(Piece::ROOK, color);
-        break;
-    case 3:
-        pieceToMove = board->findPiece(Piece::QUEEN, color);
-        break;
-    case 4:
-        pieceToMove = board->findPiece(Piece::KING, color);
-        break;
-    default:
-        break;
+    if(color == Piece::WHITE && algebraicNotation == "O-O") return Move{"e1", "g1"};
+    if(color == Piece::WHITE && algebraicNotation == "O-O-O") return Move{"e1", "c1"};
+    if(color == Piece::BLACK && algebraicNotation == "O-O") return Move{"e8", "g8"};
+    if(color == Piece::BLACK && algebraicNotation == "O-O-O") return Move{"e8", "c8"};
+    
+    string piece_type;
+    string to_square = findChessCoords(algebraicNotation);
+
+    
+    switch (pieceFromMove(algebraicNotation)){
+        case 'N':
+            piece_type = Piece::KNIGHT;
+            break;
+        case 'B':
+            piece_type = Piece::BISHOP;
+            break;
+        case 'R':
+            piece_type = Piece::ROOK;
+            break;
+        case 'Q':
+            piece_type = Piece::QUEEN;
+            break;
+        case 'K':
+            piece_type = Piece::KING;
+            break;
+        case ' ':
+            piece_type = Piece::PAWN;
+            break;
+        default:
+            break;
     }
 
 
+    Board temp_board{Board::exportFEN(&board)};
 
-    return Move{};
+    Piece *piece = temp_board.findPiece(piece_type, color);
+
+    if(piece == NULL){
+        cerr << "Invalid move" << endl;
+        return {};
+    }
+
+    while(!BoardUtils::canMove(piece, Move{piece->currentSquare, to_square}, &temp_board)){
+        //Remove the piece
+        temp_board.getPieces(color)->pieces.erase(std::remove(temp_board.getPieces(color)->pieces.begin(), temp_board.getPieces(color)->pieces.end(), piece), temp_board.getPieces(color)->pieces.end());
+        piece = temp_board.findPiece(piece_type, color);
+    }
+
+    return Move{piece->currentSquare, to_square};
 }
 
-std::vector<std::string> Board::pgnToMoves(std::string pgn)
-{
-    std::regex coordRegex("[NBRQK]*[a-h]x*[1-8][+#]*");
-    std::vector<std::string> foundCoords;
-    
-    std::regex numberRegex("\\d+\\.");
-    std::string modifiedInput = std::regex_replace(pgn, numberRegex, "");
-    
-    auto words_begin = std::sregex_iterator(modifiedInput.begin(), modifiedInput.end(), coordRegex);
-    auto words_end = std::sregex_iterator();
-    
-    for (std::sregex_iterator it = words_begin; it != words_end; ++it) {
-        foundCoords.push_back((*it).str());
+std::vector<std::string> Board::pgnToMoves(std::string pgn){
+    return {};
+}
+
+vector<string> Board::parsePGN(string pgn){
+    vector<string> moves;
+
+    std::regex pattern{R"((\d+)\.\s+([^\s]+)\s+([^\s]+)(:?\s+|$))"};
+    std::smatch matches{};
+    while (std::regex_search(pgn, matches, pattern)){
+        moves.push_back(matches[2]);
+        moves.push_back(matches[3]);
+        pgn = matches.suffix();
+    }
+
+    for (size_t i = 0; i < moves.size(); i++){
+        if(moves.at(i) == "1-0" || moves.at(i) == "0-1" || moves.at(i) == "1/2-1/2"){
+            moves.erase(moves.begin() + i);
+            i--;
+        }
     }
     
-    return foundCoords;
+
+    return moves;
 }
+
+
 
 void Board::importPGN(string pgn){
     cerr << "Not yet implemented" << endl;

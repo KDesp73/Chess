@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <regex>  // regex_search, smatch
 
 #include "chess_lib.h"
 #include "../tests/tests.h"
@@ -38,6 +39,15 @@ string getUserFEN(){
 	} while(!Board::isValidFEN(user_fen));
 
 	return user_fen;
+}
+
+string getUserPGN(){
+	string user_pgn;
+	cout << "Enter PGN: ";
+	getline(cin, user_pgn);
+	cout << endl;
+
+	return user_pgn;
 }
 
 string exportGamePGN(Board board){
@@ -202,9 +212,12 @@ void MenuHandles::handleMenuOptions(int option){
 			cin.get();
 			break;
 		case 2:
-			Menu::SettingsSubMenu();
+			GUI::runPGN(getUserPGN(), new Board(starting_fen), window_size);
 			break;
 		case 3:
+			Menu::SettingsSubMenu();
+			break;
+		case 4:
 			exit(0);
 		default:
 			break;
@@ -317,11 +330,30 @@ int main(int argc, char** argv) {
 
 		exit(0);
 	}
-	
-	//Test::testCheckMate(vector<string>{"8/8/8/3kQ3/5K2/8/8/1BQ5 b"});
-	//cin.get();
-	Menu::ChessMenu();
+/*
+	Board board{starting_fen};
+	GUI::runPGN("1. e4 e5 2. Nc3 d6 3. Nf3 Be6 4. Bb5+ Nc6 5. d3 a6 6. Bxc6+ bxc6 7. O-O c5 8. Bg5 Qb8 9. b3 a5 10. a4 Qb4 11. Nd5 Bxd5 12. exd5 h6 13. Bd2 Qb7 14. Nh4 Qxd5 15. f4 e4 16. dxe4 Qxe4 17. Re1 Qxe1+ 18. Qxe1+ Be7 19. Bc3 Nf6 20. Bxf6 gxf6 21. Nf5 O-O 22. Qxe7 Rae8 23. Nxh6+ Kg7 24. Qxc7 Re6 25. Nf5+ Kg6 26. Nh4+ Kh6 27. f5 Re4 28. Nf3 Rfe8 29. Qxf7 1-0", &board, 60);
+	return 0;
+*/
 
+	Menu::ChessMenu();
 	
+/*
+	// vector<string> moves = Board::parsePGN("1. e4 e5 2. Qh5 Nc6 3. Bc4 Nf6 4. Qxf7# 1-0");
+	vector<string> moves = Board::parsePGN(
+		"1. e4 e5 2. Nc3 d6 3. Nf3 Be6 4. Bb5+ Nc6 5. d3 a6 6. Bxc6+ bxc6 7. O-O c5 8. Bg5 Qb8 9. b3 a5 10. a4 Qb4 11. Nd5 Bxd5 12. exd5 h6 13. Bd2 Qb7 14. Nh4 Qxd5 15. f4 e4 16. dxe4 Qxe4 17. Re1 Qxe1+ 18. Qxe1+ Be7 19. Bc3 Nf6 20. Bxf6 gxf6 21. Nf5 O-O 22. Qxe7 Rae8 23. Nxh6+ Kg7 24. Qxc7 Re6 25. Nf5+ Kg6 26. Nh4+ Kh6 27. f5 Re4 28. Nf3 Rfe8 29. Qxf7 1-0"
+	);
+	for(int i = 0; i < moves.size(); i++){
+		cout << "Algebraic notation: " << moves.at(i) << endl;
+		Move move = Board::algebraicNotationToMove(moves.at(i), i, board);
+		cout << "From: " << move.from << ", To: " << move.to << endl;
+
+		Board::movePiece(move, &board);
+		board.moveFor = (board.moveFor == Piece::WHITE) ? Piece::BLACK : Piece::WHITE;
+		board.printBigBoard();
+		cin.get();
+	}
+*/
+
 	return 0;
 }

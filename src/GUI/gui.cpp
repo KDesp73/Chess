@@ -208,24 +208,26 @@ void GUI::runPGN(string pgn, Board *board, int size){
         }
         string previousFEN = Board::exportFEN(board);
 
-        string playing = board->moveFor;
-	
-        if(!GameUtils::isMate(board) && !GameUtils::isDraw(board)){
-            Board *prev_board = new Board(Board::exportFEN(board));
-            if(playing == "white"){
-                Move moveMade = GameUtils::turn(board->getPieces(Piece::WHITE), board);
-                if(moveMade.from != "" && moveMade.to != ""){
-                    playing = "black";
-                }
-            } else {
-                Move moveMade = GameUtils::turn(board->getPieces(Piece::BLACK), board);
-                if(moveMade.from != "" && moveMade.to != ""){
-                    playing = "white";
-                }
+        vector<string> moves = Board::parsePGN(pgn);
+        for(int i = 0; i < moves.size(); i++){
+            SDL_RenderClear(renderer);
+            Rendering::drawBoard(white, black, renderer);
+            loadPosition(board, renderer);
+            SDL_RenderPresent(renderer);
+            cin.get();
+            
+            cout << "Algebraic notation: " << moves.at(i) << endl;
+            Move move = Board::algebraicNotationToMove(moves.at(i), i, *board);
+            cout << "From: " << move.from << ", To: " << move.to << endl;
+
+            Board::movePiece(move, board);
+            board->moveFor = (board->moveFor == Piece::WHITE) ? Piece::BLACK : Piece::WHITE;
+
+            if(i == moves.size()-1){
+                cout << "Press enter to return to menu..." << endl;
+                cin.get();
+                quit = true;
             }
-            board->moveFor = playing;
-        } else {
-            return;
         }
 
         if(previousFEN == Board::exportFEN(board)) continue;

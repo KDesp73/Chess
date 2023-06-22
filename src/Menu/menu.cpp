@@ -5,7 +5,7 @@ using namespace AnsiTextLib;
 
 
 void Menu::ChessMenu(){
-	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Settings", "Exit"}, &MenuHandles::handleMenuOptions);
+	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Run PGN", "Settings", "Exit"}, &MenuHandles::handleMenuOptions);
 }
 
 void Menu::SettingsSubMenu(){
