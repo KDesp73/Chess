@@ -10,7 +10,7 @@ using namespace std;
 #include "board.h"
 
 namespace BoardUtils{
-    bool canMove(Piece *piece, Move move, Board *board, char promoteTo = '-');
+    bool canMove(Move move, Board *board);
     bool canMove(string color, string square, Board *board);
     bool contains(vector<string> moves, string move);
     bool canKingCapturePiece(King *king, Move move, Board *board);

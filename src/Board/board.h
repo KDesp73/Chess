@@ -64,7 +64,7 @@ class Board{
         int quantityOfPiece(string type, string color);
         
         static vector<string> parsePGN(string pgn);
-        static string moveToPGNMove(Move m, Board *board, char promoteTo = '-');
+        static string moveToPGNMove(Move m, Board *board);
         static Move algebraicNotationToMove(string algebraicNotation, int index, Board board);
         static vector<string> pgnToMoves(string pgn);
 
@@ -72,12 +72,12 @@ class Board{
         static void copyMove(Move *src, Move *dest);
         static vector<string> getValidMoves(Piece *piece, Board *board);
         static bool movePiece(Move move, Board *board);
-        static void moveFreely(Move move, Board *board, char promoteTo = '-');
+        static void moveFreely(Move move, Board *board);
         static bool removePiece(string square, Board *board);
         static bool removePieceFreely(string square, Board *board);
 
-        static bool promotePawn(string square, Pawn *pawn, Board *board, char promoteTo = '-');
-        static char promoteTo();
+        static bool promotePawn(Move move, Pawn *pawn, Board *board);
+        static string promoteTo();
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
         
@@ -114,7 +114,7 @@ class Board{
     private:
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
-        Move move_1_before{"a1", "a1"};
+        Move move_1_before{"a1", "a1", "-"};
         unordered_map<string, int> past_board_states;
         string outcome = "";
         int moves_since_capture = 0;

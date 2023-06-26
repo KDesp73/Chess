@@ -7,7 +7,7 @@
 
 using namespace BoardUtils;
 
-string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
+string Board::moveToPGNMove(Move move, Board *board){
     bool addPieceChar = true;
     bool isCheck = false;
     bool isCapture = false;
@@ -23,7 +23,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
 
     // Make the move to check if it's check or mate
     Board *temp_board = new Board(Board::exportFEN(board));
-    Board::moveFreely(move, temp_board, promoteTo);
+    Board::moveFreely(move, temp_board);
 
 
     if(piece->type == Piece::PAWN) addPieceChar = false;
@@ -50,7 +50,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
         bool canMoveToSquare1 = false, canMoveToSquare2 = false;
         if(piece1 != NULL){
             firstPieceCoords = translateSquare(piece1->currentSquare);
-            canMoveToSquare1 = BoardUtils::canMove(piece1, Move{piece1->currentSquare, move.to}, temp_board);
+            canMoveToSquare1 = BoardUtils::canMove(Move{piece1->currentSquare, move.to, "-"}, temp_board);
             Board::removePieceFreely(piece1->currentSquare, temp_board);
         }
         
@@ -58,7 +58,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
         Coords secondPieceCoords;
         if(piece2 != NULL){
             secondPieceCoords = translateSquare(temp_board->findPiece(piece->type, piece->color)->currentSquare);
-            canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(piece->type, piece->color), Move{piece2->currentSquare, move.to}, temp_board);
+            canMoveToSquare2 = BoardUtils::canMove(Move{piece2->currentSquare, move.to, "-"}, temp_board);
         }
 
         int piece1Row = firstPieceCoords.x, piece1Col = firstPieceCoords.y;
@@ -81,7 +81,15 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     
     algebraicNotation += move.to;
 
-    if(promoteTo != '-') algebraicNotation += "=" + string(1, toupper(promoteTo));
+    string piece_char;
+
+    if(piece->type == Piece::QUEEN) piece_char = "Q";
+    if(piece->type == Piece::ROOK) piece_char = "R";
+    if(piece->type == Piece::BISHOP) piece_char = "B";
+    if(piece->type == Piece::KNIGHT) piece_char = "N";
+    if(piece->type == Piece::KING) piece_char = "K";
+
+    if(move.promotion != "-") algebraicNotation += "=" + piece_char;
     if(isCheck && !isMate) algebraicNotation += "+";
     if(isMate) algebraicNotation += "#";
 
@@ -174,13 +182,39 @@ Move Board::algebraicNotationToMove(string algebraicNotation, int index, Board b
         return {};
     }
 
-    while(!BoardUtils::canMove(piece, Move{piece->currentSquare, to_square}, &temp_board)){
+    while(!BoardUtils::canMove(Move{piece->currentSquare, to_square}, &temp_board)){
         //Remove the piece
         temp_board.getPieces(color)->pieces.erase(std::remove(temp_board.getPieces(color)->pieces.begin(), temp_board.getPieces(color)->pieces.end(), piece), temp_board.getPieces(color)->pieces.end());
         piece = temp_board.findPiece(piece_type, color);
     }
 
-    return Move{piece->currentSquare, to_square};
+    Move move;
+    move.from = piece->currentSquare;
+    move.to = to_square;
+    move.promotion = "-";
+
+
+    size_t equals_found = algebraicNotation.find('=');
+    if(equals_found != string::npos){
+        switch (algebraicNotation.at(equals_found+1)){
+            case 'Q':
+                move.promotion = Piece::QUEEN;
+                break;
+            case 'R':
+                move.promotion = Piece::ROOK;
+                break;
+            case 'B':
+                move.promotion = Piece::BISHOP;
+                break;
+            case 'N':
+                move.promotion = Piece::KNIGHT;
+                break;
+            default:
+                break;
+        }
+    }
+
+    return move;
 }
 
 std::vector<std::string> Board::pgnToMoves(std::string pgn){

@@ -25,7 +25,7 @@ static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
 static string prompt_type = "oneline";
-static string interface = "gui";
+static string interface = "cli";
 static int window_size = 60;
 static string piece_theme = "wiki";
 

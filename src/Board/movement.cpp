@@ -28,23 +28,23 @@ bool Board::movePiece(Move move, Board *board) {
     Queen *queen = dynamic_cast<Queen *>(pieceToMove);
     King *king = dynamic_cast<King *>(pieceToMove);
 
-    char promoteTo = '-';
-
     if (pieceToMove->color != board->moveFor) return false;
 
     // Pawn Promotion
     if (pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        promoteTo = Board::promoteTo();
-        if (BoardUtils::canMove(pawn, move, board, promoteTo) &&
-            promoteTo != '-') {
+        if(move.promotion == "-" || move.promotion == ""){
+            move.promotion = Board::promoteTo();
+        }
+
+        if (BoardUtils::canMove(move, board) && move.promotion != "-" && move.promotion != "") {
             board->setMove1Before(move);
             board->pushBoardState(Board::exportFEN(board->board));
 
             string algebraic_notation =
-                Board::moveToPGNMove(move, new Board(current_fen), promoteTo);
+                Board::moveToPGNMove(move, new Board(current_fen));
             board->pgn_moves.push_back(algebraic_notation);
 
-            return Board::promotePawn(move.to, pawn, board, promoteTo);
+            return Board::promotePawn(move, pawn, board);
         }
         return false;
     }
@@ -74,9 +74,9 @@ bool Board::movePiece(Move move, Board *board) {
         return Board::castleKing(move.to, king, board);
     }
 
-    if (!canMove(pawn, move, board, promoteTo) && !canMove(rook, move, board) &&
-        !canMove(knight, move, board) && !canMove(bishop, move, board) &&
-        !canMove(queen, move, board) && !canMove(king, move, board))
+    if (!canMove(move, board) && !canMove(move, board) &&
+        !canMove(move, board) && !canMove(move, board) &&
+        !canMove(move, board) && !canMove(move, board))
         return false;
 
     // Capture the piece
@@ -111,7 +111,7 @@ bool Board::movePiece(Move move, Board *board) {
     return moveMade;
 }
 
-void Board::moveFreely(Move move, Board *board, char promoteTo) {
+void Board::moveFreely(Move move, Board *board) {
     string current_fen = Board::exportFEN(board);
     int moveIndex, captureIndex;
     Piece *pieceToMove = NULL;
@@ -131,7 +131,7 @@ void Board::moveFreely(Move move, Board *board, char promoteTo) {
 
     // Special piece functionality
     if (pawn != NULL && pawn->canPromote(move.to, board->board)) {
-        Board::promotePawn(move.to, pawn, board, promoteTo);
+        Board::promotePawn(move, pawn, board);
     }
 
     // Capture the piece
@@ -162,8 +162,8 @@ void Board::moveFreely(Move move, Board *board, char promoteTo) {
 }
 
 
-bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) {
-
+bool BoardUtils::canMove(Move move, Board *board) {
+    Piece *piece = board->findPiece(move.from);
     if (piece == NULL || piece == nullptr) return false;
 
     int direction = (piece->color == Piece::WHITE) ? 1 : -1;
@@ -188,7 +188,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
             if (piece->type == Piece::PAWN) {
                 if (dynamic_cast<Pawn *>(piece)->isValidCapture(
                         move.to, temp_board->board)) {
-                    Board::moveFreely(move, temp_board, promoteTo);
+                    Board::moveFreely(move, temp_board);
                     King *kingInCheckAfterMove = dynamic_cast<King *>(
                         temp_board->findPiece(Piece::KING, piece->color));
                     bool isKingInCheckAfter =
@@ -217,7 +217,7 @@ bool BoardUtils::canMove(Piece *piece, Move move, Board *board, char promoteTo) 
             }
 
             if (piece->isValidMove(move.to, temp_board->board))
-                Board::moveFreely(move, temp_board, promoteTo);
+                Board::moveFreely(move, temp_board);
 
             King *kingInCheckAfterMove = dynamic_cast<King *>(
                 temp_board->findPiece(Piece::KING, piece->color));
@@ -255,7 +255,7 @@ bool BoardUtils::canMove(string color, string square, Board *board) {
                 return true;
             }
         }
-        if (BoardUtils::canMove(piece, move, board)) return true;
+        if (BoardUtils::canMove(move, board)) return true;
     }
     return false;
 }
