@@ -455,3 +455,38 @@ string BoardUtils::offsetSquare(string square, int offset_v, int offset_h){
     string ret = translateSquare(coords);
     return ret;
 }
+
+bool BoardUtils::canAttack(Move move, Board *board){
+    if(board->findPiece(move.from)->type != Piece::PAWN){
+        return BoardUtils::canMove(move, board);
+    } else {
+        Pawn *pawn = dynamic_cast<Pawn *>(board->findPiece(move.from));
+
+        if(pawn == NULL) return false;
+
+        if(pawn->attacksSquare(move.to, board->board)) {
+            if(!board->isPinned(move.to, pawn)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool BoardUtils::canAttack(string color, string square, Board *board){
+    Pieces *pieces = board->getPieces(color);
+    for (int i = 0; i < pieces->pieces.size(); i++) {
+        Piece *piece = pieces->pieces.at(i);
+        Move move = {piece->currentSquare, square};
+
+        if(piece->type == Piece::PAWN){
+            Pawn *pawn = dynamic_cast<Pawn *>(piece);
+            string enpassant_square = BoardUtils::offsetSquare(square, (color == "white") ? 1 : -1, 0);
+            if(pawn->canEnpassant(enpassant_square, board->getMove1Before())){
+                return true;
+            }
+        }
+        if (BoardUtils::canAttack(move, board)) return true;
+    }
+    return false;
+}

@@ -145,6 +145,11 @@ Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Boar
     if(color == Piece::WHITE && algebraicNotation == "O-O-O") return Move{"e1", "c1"};
     if(color == Piece::BLACK && algebraicNotation == "O-O") return Move{"e8", "g8"};
     if(color == Piece::BLACK && algebraicNotation == "O-O-O") return Move{"e8", "c8"};
+
+    if(color == Piece::WHITE && algebraicNotation == "0-0") return Move{"e1", "g1"};
+    if(color == Piece::WHITE && algebraicNotation == "0-0-0") return Move{"e1", "c1"};
+    if(color == Piece::BLACK && algebraicNotation == "0-0") return Move{"e8", "g8"};
+    if(color == Piece::BLACK && algebraicNotation == "0-0-0") return Move{"e8", "c8"};
     
     string piece_type;
     string to_square = findChessCoords(algebraicNotation);
@@ -199,12 +204,12 @@ Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Boar
 
     Piece *piece = NULL;
 
-    if(to_index != 0 && to_index != 1 && algebraicNotation.at(to_index - 1) != pieceFromMove(algebraicNotation)){
+    if(to_index != 0 && to_index != 1 && algebraicNotation.at(to_index-1) != 'x' && algebraicNotation.at(to_index - 1) != pieceFromMove(algebraicNotation)){
         if(isalpha(algebraicNotation.at(to_index - 1))){
             for (size_t i = 0; i < 8; i++){
                 string square = string(1, algebraicNotation.at(to_index - 1)) + to_string(i+1);
                 piece = board.findPiece(square);
-                if(piece != NULL && piece->type == piece_type) break;
+                if(piece != NULL && piece->type == piece_type && piece->color == board.moveFor) break;
             }
         } else {
             string letters = "abcdefgh";

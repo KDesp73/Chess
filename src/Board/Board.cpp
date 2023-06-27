@@ -296,9 +296,9 @@ bool Board::isProtected(string square, string color){
         }
     }
     
+    
 
-
-    if(BoardUtils::canMove(color, square, &temp))
+    if(BoardUtils::canAttack(color, square, &temp))
         return true;
 
     return false;

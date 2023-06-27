@@ -25,6 +25,16 @@ string Board::promoteTo(){
 }
 
 bool Board::promotePawn(Move move, Pawn *pawn, Board *board){
+    if(
+        move.promotion != Piece::BISHOP &&
+        move.promotion != Piece::KNIGHT &&
+        move.promotion != Piece::ROOK &&
+        move.promotion != Piece::QUEEN
+    ){
+        cerr << "Invalid promotion" << endl;
+        return false;
+    }
+
     int promotionRank, direction;
     if (pawn->color == "white") {
         promotionRank = 7;

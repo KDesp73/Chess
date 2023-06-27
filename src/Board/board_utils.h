@@ -11,7 +11,9 @@ using namespace std;
 
 namespace BoardUtils{
     bool canMove(Move move, Board *board);
+    bool canAttack(Move move, Board *board);
     bool canMove(string color, string square, Board *board);
+    bool canAttack(string color, string square, Board *board);
     bool contains(vector<string> moves, string move);
     bool canKingCapturePiece(King *king, Move move, Board *board);
     bool canRookBeBlocked(Rook *rook, King *king, Board *board);
