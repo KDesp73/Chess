@@ -222,13 +222,16 @@ void GUI::runPGN(string pgn, Board *board, int size){
 
             Board::movePiece(move, board);
             board->moveFor = (board->moveFor == Piece::WHITE) ? Piece::BLACK : Piece::WHITE;
-
-            if(i == moves.size()-1){
-                cout << "Press enter to return to menu..." << endl;
-                cin.get();
-                quit = true;
-            }
         }
+
+        SDL_RenderClear(renderer);
+        Rendering::drawBoard(white, black, renderer);
+        loadPosition(board, renderer);
+        SDL_RenderPresent(renderer);
+
+        cout << "Press enter to return to menu..." << endl;
+        cin.get();
+        quit = true;
 
         if(previousFEN == board->exportFEN()) continue;
         Rendering::drawBoard(white, black, renderer);
