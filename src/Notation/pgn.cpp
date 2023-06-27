@@ -132,10 +132,8 @@ string findChessCoords(std::string algebraicNotation){
 
 char pieceFromMove(string algebraicNotation){
     string pieces = "NBRQK";
-    for (size_t i = 0; i < algebraicNotation.size(); i++){
-        for (size_t j = 0; j < pieces.size(); j++){
-            if(algebraicNotation.at(i) == pieces.at(j)) return algebraicNotation[i];
-        }
+    if(isupper(algebraicNotation.at(0))){
+        return algebraicNotation.at(0);
     }
     return ' ';
 }
@@ -150,7 +148,9 @@ Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Boar
     
     string piece_type;
     string to_square = findChessCoords(algebraicNotation);
+    string promote_to = "";
 
+    int to_index = algebraicNotation.find(to_square);
     
     switch (pieceFromMove(algebraicNotation)){
         case 'N':
@@ -175,10 +175,52 @@ Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Boar
             break;
     }
 
+    int equals_index = algebraicNotation.find("=");
+
+    if(equals_index != string::npos){
+        switch (algebraicNotation.at(equals_index+1)){
+            case 'N':
+                promote_to = Piece::KNIGHT;
+                break;
+            case 'B':
+                promote_to = Piece::BISHOP;
+                break;
+            case 'R':
+                promote_to = Piece::ROOK;
+                break;
+            case 'Q':
+                promote_to = Piece::QUEEN;
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    Piece *piece = NULL;
+
+    if(to_index != 0 && to_index != 1 && algebraicNotation.at(to_index - 1) != pieceFromMove(algebraicNotation)){
+        if(isalpha(algebraicNotation.at(to_index - 1))){
+            for (size_t i = 0; i < 8; i++){
+                string square = string(1, algebraicNotation.at(to_index - 1)) + to_string(i+1);
+                piece = board.findPiece(square);
+                if(piece != NULL && piece->type == piece_type) break;
+            }
+        } else {
+            string letters = "abcdefgh";
+            for (size_t i = 0; i < 8; i++){
+                string square = letters[i] + string(1, algebraicNotation.at(to_index - 1));
+                piece = board.findPiece(square);
+                if(piece != NULL && piece->type == piece_type) break;
+            }
+        }
+    }
+
+    if(piece != NULL && piece != nullptr) return Move{piece->currentSquare, to_square, promote_to};
 
     Board temp_board{board.exportFEN()};
 
-    Piece *piece = temp_board.findPiece(piece_type, color);
+    piece = temp_board.findPiece(piece_type, color);
 
     if(piece == NULL || piece == 0x0 || piece == nullptr){
         cerr << "Invalid move" << endl;
@@ -191,7 +233,7 @@ Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Boar
         piece = temp_board.findPiece(piece_type, color);
     }
 
-    return Move{piece->currentSquare, to_square};
+    return Move{piece->currentSquare, to_square, promote_to};
 }
 
 std::vector<Move> Notation::pgnToMoves(std::string pgn, Board *board){
