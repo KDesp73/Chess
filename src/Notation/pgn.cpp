@@ -1,5 +1,7 @@
-#include "board.h"
-#include "board_utils.h"
+#include "notation.h"
+
+#include "../Board/board.h"
+#include "../Board/board_utils.h"
 
 #include <regex>
 #include <vector>
@@ -7,7 +9,7 @@
 
 using namespace BoardUtils;
 
-string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
+string Notation::moveToPGNMove(Move move, Board *board){
     bool addPieceChar = true;
     bool isCheck = false;
     bool isCapture = false;
@@ -22,8 +24,8 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     char pieceToCaptureChar = board->board[translateSquare(move.to).x][translateSquare(move.to).y];
 
     // Make the move to check if it's check or mate
-    Board *temp_board = new Board(Board::exportFEN(board));
-    Board::moveFreely(move, temp_board, promoteTo);
+    Board *temp_board = new Board(board->exportFEN());
+    Board::moveFreely(move, temp_board);
 
 
     if(piece->type == Piece::PAWN) addPieceChar = false;
@@ -40,7 +42,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
 
     
     // Reset the board before the move
-    temp_board = new Board(Board::exportFEN(board));
+    temp_board = new Board(board->exportFEN());
 
 
     // Check if there is a need to specify the piece
@@ -50,7 +52,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
         bool canMoveToSquare1 = false, canMoveToSquare2 = false;
         if(piece1 != NULL){
             firstPieceCoords = translateSquare(piece1->currentSquare);
-            canMoveToSquare1 = BoardUtils::canMove(piece1, Move{piece1->currentSquare, move.to}, temp_board);
+            canMoveToSquare1 = BoardUtils::canMove(Move{piece1->currentSquare, move.to}, temp_board);
             Board::removePieceFreely(piece1->currentSquare, temp_board);
         }
         
@@ -58,7 +60,7 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
         Coords secondPieceCoords;
         if(piece2 != NULL){
             secondPieceCoords = translateSquare(temp_board->findPiece(piece->type, piece->color)->currentSquare);
-            canMoveToSquare2 = BoardUtils::canMove(temp_board->findPiece(piece->type, piece->color), Move{piece2->currentSquare, move.to}, temp_board);
+            canMoveToSquare2 = BoardUtils::canMove(Move{piece2->currentSquare, move.to}, temp_board);
         }
 
         int piece1Row = firstPieceCoords.x, piece1Col = firstPieceCoords.y;
@@ -81,7 +83,13 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     
     algebraicNotation += move.to;
 
-    if(promoteTo != '-') algebraicNotation += "=" + string(1, toupper(promoteTo));
+    char promoteTo;
+    if(move.promotion == Piece::QUEEN) promoteTo = 'q'; 
+    else if(move.promotion == Piece::ROOK) promoteTo = 'r'; 
+    else if(move.promotion == Piece::BISHOP) promoteTo = 'b'; 
+    else if(move.promotion == Piece::KNIGHT) promoteTo = 'n'; 
+
+    if(move.promotion != "" && move.promotion != "-") algebraicNotation += "=" + string(1, toupper(promoteTo));
     if(isCheck && !isMate) algebraicNotation += "+";
     if(isMate) algebraicNotation += "#";
 
@@ -91,21 +99,24 @@ string Board::moveToPGNMove(Move move, Board *board, char promoteTo){
     return algebraicNotation;
 }
 
-string Board::exportPGN(){
-    this->pgn = "";
+string Notation::exportPGN(Board *board){
+    string pgn;
+    vector<string> pgn_moves = board->getPGNMoves();
 
     if(pgn_moves.size() == 1) 
-        this->pgn +=  to_string(1) + ". " + pgn_moves[0] + " ";
+        pgn +=  to_string(1) + ". " + pgn_moves[0] + " ";
     else{
         for (int i = 0; i < pgn_moves.size(); i += 2){
-            this->pgn +=  to_string(i / 2 + 1) + ". " + pgn_moves[i] + " " + ((i+1 < pgn_moves.size()) ? pgn_moves[i + 1] : "") + " ";
+            pgn +=  to_string(i / 2 + 1) + ". " + pgn_moves[i] + " " + ((i+1 < pgn_moves.size()) ? pgn_moves[i + 1] : "") + " ";
         }
     }
     
     
-    this->pgn += outcome;
+    pgn += board->getOutcome();
 
-    return this->pgn;
+    board->setPGN(pgn);
+
+    return pgn;
 }
 
 
@@ -121,15 +132,13 @@ string findChessCoords(std::string algebraicNotation){
 
 char pieceFromMove(string algebraicNotation){
     string pieces = "NBRQK";
-    for (size_t i = 0; i < algebraicNotation.size(); i++){
-        for (size_t j = 0; j < pieces.size(); j++){
-            if(algebraicNotation.at(i) == pieces.at(j)) return algebraicNotation[i];
-        }
+    if(isupper(algebraicNotation.at(0))){
+        return algebraicNotation.at(0);
     }
     return ' ';
 }
 
-Move Board::algebraicNotationToMove(string algebraicNotation, int index, Board board){
+Move Notation::algebraicNotationToMove(string algebraicNotation, int index, Board board){
     string color = (index % 2 == 0) ? Piece::WHITE : Piece::BLACK;
 
     if(color == Piece::WHITE && algebraicNotation == "O-O") return Move{"e1", "g1"};
@@ -139,7 +148,9 @@ Move Board::algebraicNotationToMove(string algebraicNotation, int index, Board b
     
     string piece_type;
     string to_square = findChessCoords(algebraicNotation);
+    string promote_to = "";
 
+    int to_index = algebraicNotation.find(to_square);
     
     switch (pieceFromMove(algebraicNotation)){
         case 'N':
@@ -164,30 +175,79 @@ Move Board::algebraicNotationToMove(string algebraicNotation, int index, Board b
             break;
     }
 
+    int equals_index = algebraicNotation.find("=");
 
-    Board temp_board{Board::exportFEN(&board)};
+    if(equals_index != string::npos){
+        switch (algebraicNotation.at(equals_index+1)){
+            case 'N':
+                promote_to = Piece::KNIGHT;
+                break;
+            case 'B':
+                promote_to = Piece::BISHOP;
+                break;
+            case 'R':
+                promote_to = Piece::ROOK;
+                break;
+            case 'Q':
+                promote_to = Piece::QUEEN;
+                break;
+            default:
+                break;
+        }
+    }
 
-    Piece *piece = temp_board.findPiece(piece_type, color);
 
-    if(piece == NULL){
+    Piece *piece = NULL;
+
+    if(to_index != 0 && to_index != 1 && algebraicNotation.at(to_index - 1) != pieceFromMove(algebraicNotation)){
+        if(isalpha(algebraicNotation.at(to_index - 1))){
+            for (size_t i = 0; i < 8; i++){
+                string square = string(1, algebraicNotation.at(to_index - 1)) + to_string(i+1);
+                piece = board.findPiece(square);
+                if(piece != NULL && piece->type == piece_type) break;
+            }
+        } else {
+            string letters = "abcdefgh";
+            for (size_t i = 0; i < 8; i++){
+                string square = letters[i] + string(1, algebraicNotation.at(to_index - 1));
+                piece = board.findPiece(square);
+                if(piece != NULL && piece->type == piece_type) break;
+            }
+        }
+    }
+
+    if(piece != NULL && piece != nullptr) return Move{piece->currentSquare, to_square, promote_to};
+
+    Board temp_board{board.exportFEN()};
+
+    piece = temp_board.findPiece(piece_type, color);
+
+    if(piece == NULL || piece == 0x0 || piece == nullptr){
         cerr << "Invalid move" << endl;
         return {};
     }
 
-    while(!BoardUtils::canMove(piece, Move{piece->currentSquare, to_square}, &temp_board)){
+    while(!BoardUtils::canMove(Move{piece->currentSquare, to_square}, &temp_board)){
         //Remove the piece
         temp_board.getPieces(color)->pieces.erase(std::remove(temp_board.getPieces(color)->pieces.begin(), temp_board.getPieces(color)->pieces.end(), piece), temp_board.getPieces(color)->pieces.end());
         piece = temp_board.findPiece(piece_type, color);
     }
 
-    return Move{piece->currentSquare, to_square};
+    return Move{piece->currentSquare, to_square, promote_to};
 }
 
-std::vector<std::string> Board::pgnToMoves(std::string pgn){
-    return {};
+std::vector<Move> Notation::pgnToMoves(std::string pgn, Board *board){
+    vector<string> pgn_moves = parsePGN(pgn);
+    vector<Move> moves;
+
+    for (size_t i = 0; i < pgn_moves.size(); i++){
+        moves.push_back(algebraicNotationToMove(pgn_moves.at(i), i, *board));
+    }
+    
+    return moves;
 }
 
-vector<string> Board::parsePGN(string pgn){
+vector<string> Notation::parsePGN(string pgn){
     vector<string> moves;
 
     std::regex pattern{R"((\d+)\.\s+([^\s]+)\s+([^\s]+)(:?\s+|$))"};

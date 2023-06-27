@@ -8,6 +8,7 @@
 struct Move{
     std::string from;
     std::string to;
+    std::string promotion;
 };
 
 struct Coords{

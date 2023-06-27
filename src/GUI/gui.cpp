@@ -67,11 +67,11 @@ void GUI::init(int size, string pieceTheme, Board* board) {
             if (event.type == SDL_QUIT) {
                 quit = true;
             } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                previousFEN = Board::exportFEN(board);
+                previousFEN = board->exportFEN();
                 string playing = board->moveFor;
 
                 if (!GameUtils::isMate(board) && !GameUtils::isDraw(board)) {
-                    Board* prev_board = new Board(Board::exportFEN(board));
+                    Board* prev_board = new Board(board->exportFEN());
 
                     int x, y;
                     SDL_GetMouseState(&x, &y);
@@ -167,7 +167,7 @@ void GUI::init(int size, string pieceTheme, Board* board) {
                     quit = true;
                 }
 
-                if (previousFEN == Board::exportFEN(board)) continue;
+                if (previousFEN == board->exportFEN()) continue;
                 SDL_RenderClear(renderer);
                 Rendering::drawBoard(white, black, renderer);
                 GUI::loadPosition(board, renderer);
@@ -206,9 +206,9 @@ void GUI::runPGN(string pgn, Board *board, int size){
                 quit = true;
             }
         }
-        string previousFEN = Board::exportFEN(board);
+        string previousFEN = board->exportFEN();
 
-        vector<string> moves = Board::parsePGN(pgn);
+        vector<string> moves = Notation::parsePGN(pgn);
         for(int i = 0; i < moves.size(); i++){
             SDL_RenderClear(renderer);
             Rendering::drawBoard(white, black, renderer);
@@ -217,20 +217,23 @@ void GUI::runPGN(string pgn, Board *board, int size){
             cin.get();
             
             cout << "Algebraic notation: " << moves.at(i) << endl;
-            Move move = Board::algebraicNotationToMove(moves.at(i), i, *board);
+            Move move = Notation::algebraicNotationToMove(moves.at(i), i, *board);
             cout << "From: " << move.from << ", To: " << move.to << endl;
 
             Board::movePiece(move, board);
             board->moveFor = (board->moveFor == Piece::WHITE) ? Piece::BLACK : Piece::WHITE;
-
-            if(i == moves.size()-1){
-                cout << "Press enter to return to menu..." << endl;
-                cin.get();
-                quit = true;
-            }
         }
 
-        if(previousFEN == Board::exportFEN(board)) continue;
+        SDL_RenderClear(renderer);
+        Rendering::drawBoard(white, black, renderer);
+        loadPosition(board, renderer);
+        SDL_RenderPresent(renderer);
+
+        cout << "Press enter to return to menu..." << endl;
+        cin.get();
+        quit = true;
+
+        if(previousFEN == board->exportFEN()) continue;
         Rendering::drawBoard(white, black, renderer);
         GUI::loadPosition(board, renderer);
         SDL_RenderPresent(renderer);

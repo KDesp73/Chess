@@ -5,6 +5,7 @@
 #include "../Pieces/Pieces.h"
 #include "../Board/board.h"
 #include "../Board/board_utils.h"
+#include "../Notation/notation.h"
 
 
 
@@ -62,8 +63,8 @@ Move GameUtils::prompt(Pieces* p, Board *board, string type){
 		cin >> from;
 		
 		if(from == end_keycode){
-			cout << "\nFEN: " << Board::exportFEN(board) << endl;
-			cout << "PGN: " << board->exportPGN() << endl;
+			cout << "\nFEN: " << board->exportFEN() << endl;
+			cout << "PGN: " << Notation::exportPGN(board) << endl;
 			exit(0);
 		}
 		
@@ -71,8 +72,8 @@ Move GameUtils::prompt(Pieces* p, Board *board, string type){
 		cin >> to;
 
 		if(to == end_keycode){
-			cout << "\nFEN: " << Board::exportFEN(board) << endl;
-			cout << "PGN: " << board->exportPGN() << endl;
+			cout << "\nFEN: " << board->exportFEN() << endl;
+			cout << "PGN: " << Notation::exportPGN(board) << endl;
 			exit(0);
 		}
 	} else if(type == Board::ONELINE){
@@ -81,8 +82,8 @@ Move GameUtils::prompt(Pieces* p, Board *board, string type){
 		cin >> move;
 
 		if(move == end_keycode){
-			cout << "\nFEN: " << Board::exportFEN(board) << endl;
-			cout << "PGN: " << board->exportPGN() << endl;
+			cout << "\nFEN: " << board->exportFEN() << endl;
+			cout << "PGN: " << Notation::exportPGN(board) << endl;
 			exit(0);
 		}
 

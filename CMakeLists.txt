@@ -29,8 +29,6 @@ set(SOURCES
     src/Board/board_utils.h
     src/Board/Board.cpp
     src/Board/board.h
-    src/Board/fen.cpp
-    src/Board/pgn.cpp
     src/Board/special_piece_moves.cpp
     src/Board/king_checks.cpp
     src/Board/movement.cpp
@@ -39,8 +37,8 @@ set(SOURCES
     src/Game/game_logic.cpp
     src/Game/game_logic.h
     src/Game/game_utils.h
-
-
+    
+    
     src/Pieces/Bishop.cpp
     src/Pieces/King.cpp
     src/Pieces/Knight.cpp
@@ -50,12 +48,17 @@ set(SOURCES
     src/Pieces/Pieces.cpp
     src/Pieces/Queen.cpp
     src/Pieces/Rook.cpp
-
+    
     src/GUI/gui.cpp
     src/GUI/gui.h
     src/GUI/Board/board.cpp
     src/GUI/Rendering/rendering.h
     src/GUI/Rendering/rendering.cpp
+    
+    src/Notation/fen.cpp
+    src/Notation/pgn.cpp
+    src/Notation/notation.h
+
 
     src/Menu/menu.h
     src/Menu/menu.cpp

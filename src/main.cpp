@@ -36,7 +36,7 @@ string getUserFEN(){
 		cout << "Enter FEN: ";
 		getline(cin, user_fen);
 		cout << endl;
-	} while(!Board::isValidFEN(user_fen));
+	} while(!Notation::isValidFEN(user_fen));
 
 	return user_fen;
 }
@@ -61,8 +61,8 @@ string exportGamePGN(Board board){
 	if(choice == "n" || choice == "N") return "";
 	
 	if(choice == "y" || choice == "Y"){
-		cout << endl << board.exportPGN() << endl << endl;
-		return board.exportPGN();
+		cout << endl << Notation::exportPGN(&board) << endl << endl;
+		return Notation::exportPGN(&board);
 	}
 
 	return "";

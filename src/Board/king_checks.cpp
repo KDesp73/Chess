@@ -26,7 +26,7 @@ bool Board::isInCheckmate(King *king) {
     
     // Filter invalid moves once more checking protected pieces
     for (int i = 0; i < kingsValidMoves.size(); i++){
-        if(!BoardUtils::canMove(king, Move{king->currentSquare, kingsValidMoves.at(i)}, this)) {
+        if(!BoardUtils::canMove(Move{king->currentSquare, kingsValidMoves.at(i)}, this)) {
             kingsValidMoves.erase(kingsValidMoves.begin() + i);  // erase from vector
             i--;
         }
