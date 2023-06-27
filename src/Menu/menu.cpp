@@ -33,7 +33,7 @@ void Menu::PromptTypeSettingsSubMenu(){
 }
 
 void Menu::WindowSizeSettingsSubMenu(){
-    menu(Text::blue + "Window Size" + Text::normal, 4, vector<string>{"30", "40", "50", "60", "70", "80", "90", "100", "Return"}, &MenuHandles::handleSizeOptions);
+    menu(Text::blue + "Window Size" + Text::normal, 4, vector<string>{"240", "320", "400", "480", "560", "640", "720", "800", "Return"}, &MenuHandles::handleSizeOptions);
 }
 
 void Menu::PieceThemeSettingsSubMenu(){
