@@ -25,7 +25,7 @@ static bool showMaterial = true;
 static bool showMoves = true;
 static string playingAs = "white";
 static string prompt_type = "oneline";
-static string interface = "cli";
+static string interface = "gui";
 static int window_size = 60;
 static string piece_theme = "wiki";
 
@@ -36,7 +36,7 @@ string getUserFEN(){
 		cout << "Enter FEN: ";
 		getline(cin, user_fen);
 		cout << endl;
-	} while(!Board::isValidFEN(user_fen));
+	} while(!Notation::isValidFEN(user_fen));
 
 	return user_fen;
 }
@@ -61,8 +61,8 @@ string exportGamePGN(Board board){
 	if(choice == "n" || choice == "N") return "";
 	
 	if(choice == "y" || choice == "Y"){
-		cout << endl << board.exportPGN() << endl << endl;
-		return board.exportPGN();
+		cout << endl << Notation::exportPGN(&board) << endl << endl;
+		return Notation::exportPGN(&board);
 	}
 
 	return "";

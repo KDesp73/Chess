@@ -3,13 +3,14 @@
 #include <iostream>
 
 #include "../Pieces/Pieces.h"
+#include "../Notation/notation.h"
 #include "board_utils.h"
 #include "structs.h"
 
 using namespace BoardUtils;
 
 bool Board::movePiece(Move move, Board *board) {
-    string current_fen = Board::exportFEN(board);
+    string current_fen = board->exportFEN();
     int moveIndex, captureIndex;
     Piece *pieceToMove = nullptr;
     Piece *pieceToCapture = nullptr;
@@ -38,10 +39,10 @@ bool Board::movePiece(Move move, Board *board) {
 
         if (BoardUtils::canMove(move, board) && move.promotion != "-" && move.promotion != "") {
             board->setMove1Before(move);
-            board->pushBoardState(Board::exportFEN(board->board));
+            board->pushBoardState(board->exportFEN());
 
             string algebraic_notation =
-                Board::moveToPGNMove(move, new Board(current_fen));
+                Notation::moveToPGNMove(move, new Board(current_fen));
             board->pgn_moves.push_back(algebraic_notation);
 
             return Board::promotePawn(move, pawn, board);
@@ -53,10 +54,10 @@ bool Board::movePiece(Move move, Board *board) {
     if (pawn != NULL && pawn->canEnpassant(move.to, board->getMove1Before())) {
         board->setMove1Before(move);
 
-        board->pushBoardState(Board::exportFEN(board->board));
+        board->pushBoardState(board->exportFEN());
 
         string algebraic_notation =
-            Board::moveToPGNMove(move, new Board(current_fen));
+            Notation::moveToPGNMove(move, new Board(current_fen));
         board->pgn_moves.push_back(algebraic_notation);
         return Board::enpassantPawn(move.to, pawn, board);
     }
@@ -66,10 +67,10 @@ bool Board::movePiece(Move move, Board *board) {
         king->canCastle(move.to, board->board)) {
         board->setMove1Before(move);
 
-        board->pushBoardState(Board::exportFEN(board->board));
+        board->pushBoardState(board->exportFEN());
 
         string algebraic_notation =
-            Board::moveToPGNMove(move, new Board(current_fen));
+            Notation::moveToPGNMove(move, new Board(current_fen));
         board->pgn_moves.push_back(algebraic_notation);
         return Board::castleKing(move.to, king, board);
     }
@@ -90,10 +91,10 @@ bool Board::movePiece(Move move, Board *board) {
     if (moveMade) {
         board->setMove1Before(move);
 
-        board->pushBoardState(Board::exportFEN(board->board));
+        board->pushBoardState(board->exportFEN());
 
         string algebraic_notation =
-            Board::moveToPGNMove(move, new Board(current_fen));
+            Notation::moveToPGNMove(move, new Board(current_fen));
         board->pushMove(algebraic_notation);
 
         if (translateSquare(pieceToMove->currentSquare).y == 0 &&
@@ -112,7 +113,7 @@ bool Board::movePiece(Move move, Board *board) {
 }
 
 void Board::moveFreely(Move move, Board *board) {
-    string current_fen = Board::exportFEN(board);
+    string current_fen = board->exportFEN();
     int moveIndex, captureIndex;
     Piece *pieceToMove = NULL;
     Piece *pieceToCapture = NULL;
@@ -145,7 +146,7 @@ void Board::moveFreely(Move move, Board *board) {
     if (moveMade) {
         board->setMove1Before(move);
 
-        board->pushBoardState(Board::exportFEN(board->board));
+        board->pushBoardState(board->exportFEN());
 
         if (translateSquare(pieceToMove->currentSquare).y == 0 &&
             pieceToMove->type == "Rook")
@@ -183,7 +184,7 @@ bool BoardUtils::canMove(Move move, Board *board) {
             dynamic_cast<King *>(board->findPiece(Piece::KING, piece->color));
         bool isKingInCheck = !kingInCheck->isInCheck(board->board).empty();
         if (isKingInCheck) {
-            Board *temp_board = new Board(Board::exportFEN(board));
+            Board *temp_board = new Board(board->exportFEN());
 
             if (piece->type == Piece::PAWN) {
                 if (dynamic_cast<Pawn *>(piece)->isValidCapture(

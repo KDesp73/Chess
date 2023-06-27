@@ -7,6 +7,7 @@
 
 #include "./board_utils.h"
 #include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
+#include "../Notation/notation.h"
 
 using namespace std;
 using namespace BoardUtils;
@@ -24,6 +25,10 @@ string Board::getTheme(){
     return this->theme;
 }
 
+vector<string> Board::getPGNMoves(){
+    return this->pgn_moves;
+}
+
 string Board::getPlayingAs(){
     return this->playingAs;
 }
@@ -36,12 +41,20 @@ void Board::setTheme(string theme){
     this->theme = theme;
 } 
 
+void Board::setPGN(string pgn){
+    this->pgn = pgn;
+} 
+
 void Board::setSize(int size){
     this->window_size = size;
 }
 
 string Board::getPromptType(){
     return this->prompt_type;
+}
+
+string Board::getOutcome(){
+    return this->outcome;
 }
 
 Pieces* Board::getPieces(string color){
@@ -119,7 +132,7 @@ void Board::printBigBoard() {
     cout << endl;
 
     if(showMoves)
-        cout << exportPGN() << endl;
+        cout << Notation::exportPGN(this) << endl;
 
     if(showMaterial)
         cout << "Material Advantage: " << this->getPieces(Piece::WHITE)->calculateMaterial() - this->getPieces(Piece::BLACK)->calculateMaterial() << endl << endl;
@@ -262,7 +275,7 @@ bool Board::isProtected(string square, string color){
 
     Coords coords = BoardUtils::translateSquare(square);
 
-    Board temp = {Board::exportFEN(this)};
+    Board temp = {exportFEN()};
     temp.moveFor = this->moveFor;
 
     Board::removePieceFreely(square, &temp);
@@ -765,4 +778,60 @@ void Board::setMove1Before(Move move){
 
 Move Board::getMove1Before(){
     return this->move_1_before;
+}
+
+
+void Board::importFEN(string fen){
+	vector<string> fields = BoardUtils::splitString(fen, ' ');
+	
+	string move_for = "w";
+	string castling_rights = "KQkq";
+	string enpassant_square = "-";
+
+	fen = fields.at(0);
+
+	if(fields.size() > 1)
+		move_for = fields.at(1);
+	if(fields.size() > 2)
+		castling_rights = fields.at(2);
+	if(fields.size() > 3)
+		enpassant_square = fields.at(3);
+	
+
+	this->moveFor = (move_for == "w") ? Piece::WHITE : Piece::BLACK;
+	this->castling_rights = castling_rights;	
+
+	if(enpassant_square != "-"){
+		if(BoardUtils::isValidSquare(enpassant_square)){
+			char file = enpassant_square.at(0);
+			int rank = int(enpassant_square.at(1)) - 48;
+			int direction = (rank == 3) ? 1 : -1;
+
+			this->setMove1Before(Move{string(1, file) + to_string(rank - 1 * direction), string(1, file) + to_string(rank + 1 * direction)});
+		} else enpassant_square = "-";
+	}
+
+	string rows[8];
+	int count = 0;
+	string temp = "";
+	for(int i=0; i < fen.length(); i++){
+		if(fen[i] != '/'){
+			if(isdigit(fen[i])){
+				int num = fen[i] - 48;
+				fen = BoardUtils::addSpaces(i, num, fen);
+			}
+			
+			temp = temp + fen[i];
+		} else {
+			rows[count++] = temp;
+			temp = "";
+		}
+	}
+	rows[count++] = temp;
+	
+	for(int i=0; i<8; i++){
+		for(int j=0; j<rows[i].length(); j++){
+			this->board[7-i][j] = rows[i][j];
+		}
+	}
 }

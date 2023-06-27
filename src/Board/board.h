@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "../Pieces/Pieces.h"
+// #include "../Notation/notation.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ class Board{
         void resetMovesSinceCapture();
         Pieces* getPieces(string color);
         void setOutcome(string outcome);
+        string getOutcome();
         void setKingsCastlingRights(King *king);
         void increaceMovesSinceCapture();
         void setMove1Before(Move move);
@@ -45,10 +47,14 @@ class Board{
         void setSize(int size);
         string getPromptType();
         string getPlayingAs();
+        void setPGN(string pgn);
+        vector<string> getPGNMoves();
+
 
         void importFEN(string fen);
         void importPGN(string pgn);
-        string exportPGN();
+        string exportFEN();
+        string exportFEN(char board[][8]);
         
         void printBoard();
         void printBigBoard();
@@ -62,11 +68,6 @@ class Board{
         void pushBoardState(string fen);
         void pushMove(string move);
         int quantityOfPiece(string type, string color);
-        
-        static vector<string> parsePGN(string pgn);
-        static string moveToPGNMove(Move m, Board *board);
-        static Move algebraicNotationToMove(string algebraicNotation, int index, Board board);
-        static vector<string> pgnToMoves(string pgn);
 
         static void copyBoard(char src[8][8], char dest[8][8]);
         static void copyMove(Move *src, Move *dest);
@@ -81,9 +82,7 @@ class Board{
         static bool enpassantPawn(string square, Pawn *pawn, Board *board);
         static bool castleKing(string square, King *king, Board *board);
         
-        static bool isValidFEN(string fen);
-        static string exportFEN(Board *board);
-        static string exportFEN(char board[][8]);
+        
 
 
         ~Board(){}
@@ -106,15 +105,14 @@ class Board{
             past_board_states.insert({fen, 1});
         }
 
-        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE, int window_size = 60, string theme = Board::WIKI){
-            Board(Board::exportFEN(board), playingAs, showMaterial, showMoves, prompt_type, window_size, theme);
-        }
+        Board(char board[8][8], string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, string prompt_type = Board::SEPERATE, int window_size = 60, string theme = Board::WIKI)
+        : Board(exportFEN(board), playingAs, showMaterial, showMoves, prompt_type, window_size, theme){}
 
 
     private:
         Pieces *wp = new WhitePieces();
         Pieces *bp = new BlackPieces();
-        Move move_1_before{"a1", "a1", "-"};
+        Move move_1_before{"a1", "a1"};
         unordered_map<string, int> past_board_states;
         string outcome = "";
         int moves_since_capture = 0;
