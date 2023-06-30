@@ -25,6 +25,7 @@ Two player Chess written in C++ with CLI and GUI
 - Export PGN of game
 - GUI
 - Multiple piece sets
+- PGN Import
 
 ## Limitations
 
@@ -71,8 +72,8 @@ Game::start(board, Board::GUI);
 
 ## ToDo
 
-- [ ] PGN Import
 - [ ] Computer opponent (Evaluation based and ML model)
+- [x] PGN Import
 - [x] GUI
 - [x] Check if position is valid
 - [x] Better FEN strings (include movefor, castling rights, enpassant etc)
