@@ -601,9 +601,11 @@ vector<string> Board::getValidMoves(Piece *piece, Board *board){
         };
 
         // For castling
-        if(king->color == Piece::WHITE && king->currentSquare == "e1" || king->color == Piece::BLACK && king->currentSquare == "e8"){
-            movesToCheck.push_back(string(1, currentFile + 2) + to_string(currentRank));
-            movesToCheck.push_back(string(1, currentFile - 2) + to_string(currentRank));
+        if(king->color == Piece::WHITE && king->currentSquare == "e1" || king->color == Piece::BLACK && king->currentSquare == "e8" && !king->hasMoved){
+            if(!king->a_rook_moved)
+                movesToCheck.push_back(string(1, currentFile - 2) + to_string(currentRank));
+            if(!king->h_rook_moved)
+                movesToCheck.push_back(string(1, currentFile + 2) + to_string(currentRank));
         }
 
         // Filter invalid squares

@@ -30,6 +30,27 @@ static int window_size = 60;
 static string piece_theme = "wiki";
 
 
+string getMultilineInput(){
+	std::string input;
+    std::string multilineInput;
+
+    std::cout << "Enter PGN. Press Ctrl+D (Unix/Linux) or Ctrl+Z (Windows) on an empty line to finish." << std::endl;
+
+    while (std::getline(std::cin, input)) {
+        // Check if the input line is empty
+        if (input.empty()) {
+            break;  // Terminate the loop if an empty line is entered
+        }
+        multilineInput += input + "\n";  // Append the input line to the multiline input
+    }
+
+	std::replace(multilineInput.begin(), multilineInput.end(), '\n', ' ');
+
+	cout << "\n\n\n" << multilineInput << endl;
+
+    return multilineInput;
+}
+
 string getUserFEN(){
 	string user_fen;
 	do{
@@ -334,26 +355,16 @@ int main(int argc, char** argv) {
 	Board board{starting_fen};
 	GUI::runPGN("1. e4 e5 2. Nc3 d6 3. Nf3 Be6 4. Bb5+ Nc6 5. d3 a6 6. Bxc6+ bxc6 7. O-O c5 8. Bg5 Qb8 9. b3 a5 10. a4 Qb4 11. Nd5 Bxd5 12. exd5 h6 13. Bd2 Qb7 14. Nh4 Qxd5 15. f4 e4 16. dxe4 Qxe4 17. Re1 Qxe1+ 18. Qxe1+ Be7 19. Bc3 Nf6 20. Bxf6 gxf6 21. Nf5 O-O 22. Qxe7 Rae8 23. Nxh6+ Kg7 24. Qxc7 Re6 25. Nf5+ Kg6 26. Nh4+ Kh6 27. f5 Re4 28. Nf3 Rfe8 29. Qxf7 1-0", &board, 60);
 	return 0;
-*/
-
-	Menu::ChessMenu();
 	
-/*
-	// vector<string> moves = Board::parsePGN("1. e4 e5 2. Qh5 Nc6 3. Bc4 Nf6 4. Qxf7# 1-0");
-	vector<string> moves = Board::parsePGN(
-		"1. e4 e5 2. Nc3 d6 3. Nf3 Be6 4. Bb5+ Nc6 5. d3 a6 6. Bxc6+ bxc6 7. O-O c5 8. Bg5 Qb8 9. b3 a5 10. a4 Qb4 11. Nd5 Bxd5 12. exd5 h6 13. Bd2 Qb7 14. Nh4 Qxd5 15. f4 e4 16. dxe4 Qxe4 17. Re1 Qxe1+ 18. Qxe1+ Be7 19. Bc3 Nf6 20. Bxf6 gxf6 21. Nf5 O-O 22. Qxe7 Rae8 23. Nxh6+ Kg7 24. Qxc7 Re6 25. Nf5+ Kg6 26. Nh4+ Kh6 27. f5 Re4 28. Nf3 Rfe8 29. Qxf7 1-0"
-	);
-	for(int i = 0; i < moves.size(); i++){
-		cout << "Algebraic notation: " << moves.at(i) << endl;
-		Move move = Board::algebraicNotationToMove(moves.at(i), i, board);
-		cout << "From: " << move.from << ", To: " << move.to << endl;
+	Board *board = new Board("8/7k/3r1Kpp/P4n2/5P2/8/8/4r3");
+	King *king = dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::WHITE));
+	King *op_king = dynamic_cast<King *>(board->findPiece(Piece::KING, Piece::BLACK));
+	king->hasMoved = true;
+	op_king->hasMoved = true;
+	cout << board->isInCheckmate(king) << endl;
 
-		Board::movePiece(move, &board);
-		board.moveFor = (board.moveFor == Piece::WHITE) ? Piece::BLACK : Piece::WHITE;
-		board.printBigBoard();
-		cin.get();
-	}
 */
+	Menu::ChessMenu();
 
 	return 0;
 }
