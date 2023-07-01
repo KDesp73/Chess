@@ -31,45 +31,6 @@ Two player Chess written in C++ with CLI and GUI
 
 - No computer opponent
 
-## Basic API
-
-### Create a board
-
-```cpp
-// Constructor
-Board(std::string fen, std::string playingAs = Piece::WHITE, bool showMaterial = true, bool showMoves = true, std::string prompt_type = Board::SEPERATE, int window_size = 60, string theme = Board::WIKI);
-```
-
-### Make a move
-
-```cpp
-Board::movePiece(Move move, Board *board);
-```
-
-### Export FEN
-
-```cpp
-Board::exportFEN(Board *board);
-```
-
-### Export PGN
-
-```cpp
-board->exportPGN();
-```
-
-### Start CLI Game
-
-```cpp
-Game::start(board, Board::CLI);
-```
-
-### Start GUI Game
-
-```cpp
-Game::start(board, Board::GUI);
-```
-
 ## ToDo
 
 - [ ] Computer opponent (Evaluation based and ML model)
