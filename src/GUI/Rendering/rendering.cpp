@@ -1,5 +1,5 @@
 #include "rendering.h"
-#include "../gui.h"
+#include "gui.h"
 
 #include <iostream>
 #include <SDL2/SDL.h>

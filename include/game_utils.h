@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Pieces/Pieces.h"
-#include "../Board/board.h"
-#include "../Board/board_utils.h"
+#include "Pieces.h"
+#include "board.h"
+#include "board_utils.h"
 
 
 #include <string>

@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "../chess_lib.h"
+#include "../src/chess_lib.h"
 using namespace std;
 
 namespace Game{

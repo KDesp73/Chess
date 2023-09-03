@@ -2,10 +2,10 @@
 
 #include "game_logic.h"
 #include "game_utils.h"
-#include "../Pieces/Pieces.h"
-#include "../Board/board.h"
-#include "../Board/board_utils.h"
-#include "../Notation/notation.h"
+#include "Pieces.h"
+#include "board.h"
+#include "board_utils.h"
+#include "notation.h"
 
 
 

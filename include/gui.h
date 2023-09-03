@@ -4,8 +4,8 @@
 #include <string>
 #include <SDL2/SDL.h>
 
-#include "Rendering/rendering.h"
-#include "../chess_lib.h"
+#include "rendering.h"
+#include "../src/chess_lib.h"
 
 using namespace std;
 

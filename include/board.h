@@ -3,7 +3,7 @@
 #include <cstring>
 #include <string>
 #include <unordered_map>
-#include "../Pieces/Pieces.h"
+#include "Pieces.h"
 // #include "../Notation/notation.h"
 
 using namespace std;

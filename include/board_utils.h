@@ -6,7 +6,7 @@
 using namespace std;
 
 #include "structs.h"
-#include "../Pieces/Pieces.h"
+#include "Pieces.h"
 #include "board.h"
 
 namespace BoardUtils{

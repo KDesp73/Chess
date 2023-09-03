@@ -1,7 +1,7 @@
 # include "tests.h"
 
 #include "../src/chess_lib.h"
-#include "../src/Board/board_utils.h"
+#include "../include/board_utils.h"
 #include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
 
 #include <iostream>

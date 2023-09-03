@@ -1,13 +1,13 @@
-#include "./board.h"
+#include "board.h"
 
 #include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "./board_utils.h"
+#include "board_utils.h"
+#include "notation.h"
 #include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
-#include "../Notation/notation.h"
 
 using namespace std;
 using namespace BoardUtils;
@@ -270,6 +270,7 @@ bool Board::isProtected(Piece *piece) {
     return isProtected(piece->currentSquare, piece->color);
 }
 
+// Needs rewritting
 bool Board::isProtected(string square, string color){
     if(!BoardUtils::isValidSquare(square)) return false;
 

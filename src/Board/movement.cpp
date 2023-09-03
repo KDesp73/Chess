@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../Pieces/Pieces.h"
-#include "../Notation/notation.h"
+#include "Pieces.h"
+#include "notation.h"
 #include "board_utils.h"
 #include "structs.h"
 

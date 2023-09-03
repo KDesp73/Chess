@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <vector>
-#include "../Board/structs.h"
-#include "../GUI/Rendering/rendering.h"
+#include "structs.h"
+#include "rendering.h"
 
 using namespace std;
 
