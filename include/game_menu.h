@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Menu{
+namespace GameMenu{
     void ChessMenu();
     void SettingsSubMenu();
     void MaterialSettingsSubMenu();

@@ -7,11 +7,12 @@
 
 #include "board_utils.h"
 #include "notation.h"
-#include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
+#include "cli_kit.h"
+
 
 using namespace std;
 using namespace BoardUtils;
-using namespace AnsiTextLib;
+using namespace CliKit;
 
 const string Board::ONELINE = "oneline";
 const string Board::SEPERATE = "seperate";

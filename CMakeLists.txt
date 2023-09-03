@@ -4,8 +4,6 @@ project(Chess)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include("./Ansi-Text-Manipulation-Library/AnsiTextLibrary/CMakeLists.txt")
-
 # Add SDL
 # sudo apt install cmake libsdl2-dev g++
 # sudo apt install cmake libsdl2-image-dev
@@ -22,7 +20,10 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(include)
+include_directories(include Cli-Kit)
+add_subdirectory(Cli-Kit)
+
+
 
 # Add source files
 set(SOURCES
@@ -70,7 +71,7 @@ set(INCLUDE
     include/rendering.h
     include/notation.h
     include/game_utils.h
-    include/menu.h
+    include/game_menu.h
 
 )
 
@@ -82,6 +83,6 @@ set(TESTS
 
 add_executable(Chess ${SOURCES} ${TESTS} ${INCLUDE})
 
-target_link_libraries(Chess AnsiTextManipulationLibrary)
-target_link_libraries(Chess ${SDL2_LIBRARIES})
-target_link_libraries(Chess ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} CliKit)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
