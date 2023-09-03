@@ -1,16 +1,15 @@
 # include "tests.h"
 
 #include "../src/chess_lib.h"
-#include "../src/Board/board_utils.h"
-#include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
-
+#include "../include/board_utils.h"
+#include "cli_kit.h"
 #include <iostream>
 #include <vector>
 #include <string>
 
 using namespace std;
 using namespace BoardUtils;
-using namespace AnsiTextLib;
+using namespace CliKit;
 
 bool Test::testCheckMate(vector<string> mate_fens){
 	int passed_count = 0, failed_count = 0;

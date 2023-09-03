@@ -1,41 +1,41 @@
-#include "menu.h"
-#include "../../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
+#include "game_menu.h"
+#include "cli_kit.h"
 
-using namespace AnsiTextLib;
+using namespace CliKit;
 
 
-void Menu::ChessMenu(){
-	menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Run PGN", "Settings", "Exit"}, &MenuHandles::handleMenuOptions);
+void GameMenu::ChessMenu(){
+    CliKit::Menu::menu(Text::red + "Chess" + Text::normal, 1, vector<string>{"Play", "Play from FEN", "Run PGN", "Settings", "Exit"}, &MenuHandles::handleMenuOptions);
 }
 
-void Menu::SettingsSubMenu(){
-    menu(Text::blue + "Settings" + Text::normal, 4, vector<string>{"Interface", "Material", "Moves", "Perspective", "Input", "Window Size", "Themes", "Return"}, &MenuHandles::handleSettingsOptions);
+void GameMenu::SettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Settings" + Text::normal, 4, vector<string>{"Interface", "Material", "Moves", "Perspective", "Input", "Window Size", "Themes", "Return"}, &MenuHandles::handleSettingsOptions);
 }
 
-void Menu::InterfaceTypeSettingsSubMenu(){
-    menu(Text::blue + "Choose Interface" + Text::normal, 4, vector<string>{"CLI", "GUI", "Return"}, &MenuHandles::handleInterfaceOptions);
+void GameMenu::InterfaceTypeSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Choose Interface" + Text::normal, 4, vector<string>{"CLI", "GUI", "Return"}, &MenuHandles::handleInterfaceOptions);
 }
 
-void Menu::MaterialSettingsSubMenu(){
-    menu(Text::blue + "Show Material" + Text::normal, 4, vector<string>{"Yes", "No", "Return"}, &MenuHandles::handleMaterialOptions);
+void GameMenu::MaterialSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Show Material" + Text::normal, 4, vector<string>{"Yes", "No", "Return"}, &MenuHandles::handleMaterialOptions);
 }
 
-void Menu::MovesSettingsSubMenu(){
-    menu(Text::blue + "Show Moves" + Text::normal, 4, vector<string>{"Yes", "No", "Return"}, &MenuHandles::handleMovesOptions);
+void GameMenu::MovesSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Show Moves" + Text::normal, 4, vector<string>{"Yes", "No", "Return"}, &MenuHandles::handleMovesOptions);
 }
 
-void Menu::PlayingAsSettingsSubMenu(){
-    menu(Text::blue + "Play As" + Text::normal, 4, vector<string>{"White", "Black", "Return"}, &MenuHandles::handlePerspectiveOptions);
+void GameMenu::PlayingAsSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Play As" + Text::normal, 4, vector<string>{"White", "Black", "Return"}, &MenuHandles::handlePerspectiveOptions);
 }
 
-void Menu::PromptTypeSettingsSubMenu(){
-    menu(Text::blue + "Prompt Type" + Text::normal, 4, vector<string>{"Seperate lines", "One line", "Return"}, &MenuHandles::handleInputOptions);
+void GameMenu::PromptTypeSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Prompt Type" + Text::normal, 4, vector<string>{"Seperate lines", "One line", "Return"}, &MenuHandles::handleInputOptions);
 }
 
-void Menu::WindowSizeSettingsSubMenu(){
-    menu(Text::blue + "Window Size" + Text::normal, 4, vector<string>{"240", "320", "400", "480", "560", "640", "720", "800", "Return"}, &MenuHandles::handleSizeOptions);
+void GameMenu::WindowSizeSettingsSubMenu(){
+    CliKit::Menu::menu(Text::blue + "Window Size" + Text::normal, 4, vector<string>{"240", "320", "400", "480", "560", "640", "720", "800", "Return"}, &MenuHandles::handleSizeOptions);
 }
 
-void Menu::PieceThemeSettingsSubMenu(){
-    menu(Text::blue + "Piece Themes" + Text::normal, 4, vector<string>{"Wiki", "Staunty", "Merida", "Return"}, &MenuHandles::handleThemeOptions);
+void GameMenu::PieceThemeSettingsSubMenu(){
+    CliKit:: Menu::menu(Text::blue + "Piece Themes" + Text::normal, 4, vector<string>{"Wiki", "Staunty", "Merida", "Return"}, &MenuHandles::handleThemeOptions);
 }

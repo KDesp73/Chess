@@ -1,4 +1,4 @@
-#include "../gui.h"
+#include "gui.h"
 #include "../../chess_lib.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

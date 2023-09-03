@@ -1,5 +1,5 @@
 #include "Pieces.h"
-#include "../Board/board_utils.h"
+#include "board_utils.h"
 
 using namespace BoardUtils;
 

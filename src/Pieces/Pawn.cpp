@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "../Board/board_utils.h"
+#include "board_utils.h"
 #include "Pieces.h"
 
 using namespace BoardUtils;

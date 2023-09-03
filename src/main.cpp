@@ -5,11 +5,11 @@
 #include "chess_lib.h"
 #include "../tests/tests.h"
 #include "../tests/test_fens.h"
-#include "../Ansi-Text-Manipulation-Library/AnsiTextLibrary/src/ansi_lib.hpp"
+#include "cli_kit.h"
 
 #define TESTS false
 
-using namespace AnsiTextLib;
+using namespace CliKit;
 using namespace std;
 
 static string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
@@ -144,7 +144,7 @@ void MenuHandles::handleInputOptions(int option){
 		prompt_type = Board::ONELINE;
 		break;
 	case 2:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 	default:
 		break;
 	}
@@ -159,7 +159,7 @@ void MenuHandles::handlePerspectiveOptions(int option){
 		playingAs = Piece::BLACK;
 		break;
 	case 2:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 	default:
 		break;
 	}
@@ -174,7 +174,7 @@ void MenuHandles::handleMovesOptions(int option){
 		showMoves = false;
 		break;
 	case 2:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 		break;
 	default:
 		break;
@@ -190,7 +190,7 @@ void MenuHandles::handleMaterialOptions(int option){
 		showMaterial = false;
 		break;
 	case 2:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 		break;
 	default:
 		break;
@@ -206,7 +206,7 @@ void MenuHandles::handleInterfaceOptions(int option){
 		interface = Board::GUI;
 		break;
 	case 2:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 		break;
 	default:
 		break;
@@ -236,7 +236,7 @@ void MenuHandles::handleMenuOptions(int option){
 			GUI::runPGN(getUserPGN(), new Board(starting_fen), window_size);
 			break;
 		case 3:
-			Menu::SettingsSubMenu();
+			GameMenu::SettingsSubMenu();
 			break;
 		case 4:
 			exit(0);
@@ -244,7 +244,7 @@ void MenuHandles::handleMenuOptions(int option){
 			break;
 	}
 
-	Menu::ChessMenu();
+	GameMenu::ChessMenu();
 }
 
 void MenuHandles::handleSizeOptions(int option){
@@ -274,7 +274,7 @@ void MenuHandles::handleSizeOptions(int option){
 			window_size = 100;
 			break;
 		case 8:
-			Menu::SettingsSubMenu();
+			GameMenu::SettingsSubMenu();
 		default:
 			break;
 	}
@@ -292,7 +292,7 @@ void MenuHandles::handleThemeOptions(int option){
 		piece_theme = Board::MERIDA;
 		break;
 	case 3:
-		Menu::SettingsSubMenu();
+		GameMenu::SettingsSubMenu();
 	default:
 		break;
 	}
@@ -301,33 +301,33 @@ void MenuHandles::handleThemeOptions(int option){
 void MenuHandles::handleSettingsOptions(int option){
 	switch (option){
 	case 0:
-		Menu::InterfaceTypeSettingsSubMenu();
+		GameMenu::InterfaceTypeSettingsSubMenu();
 		break;
 	case 1:
-		Menu::MaterialSettingsSubMenu();
+		GameMenu::MaterialSettingsSubMenu();
 		break;
 	case 2:
-		Menu::MovesSettingsSubMenu();
+		GameMenu::MovesSettingsSubMenu();
 		break;
 	case 3:
-		Menu::PlayingAsSettingsSubMenu();
+		GameMenu::PlayingAsSettingsSubMenu();
 		break;
 	case 4:
-		Menu::PromptTypeSettingsSubMenu();
+		GameMenu::PromptTypeSettingsSubMenu();
 		break;
 	case 5:
-		Menu::WindowSizeSettingsSubMenu();
+		GameMenu::WindowSizeSettingsSubMenu();
 		break;
 	case 6:
-		Menu::PieceThemeSettingsSubMenu();
+		GameMenu::PieceThemeSettingsSubMenu();
 		break;
 	case 7:
-		Menu::ChessMenu();
+		GameMenu::ChessMenu();
 		break;
 	default:
 		break;
 	}
-	Menu::SettingsSubMenu();
+	GameMenu::SettingsSubMenu();
 }
 
 
@@ -364,7 +364,11 @@ int main(int argc, char** argv) {
 	cout << board->isInCheckmate(king) << endl;
 
 */
-	Menu::ChessMenu();
+	GameMenu::ChessMenu();
+
+	
+
+
 
 	return 0;
 }
